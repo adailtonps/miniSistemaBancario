@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="53b13346-74e5-4628-bcd7-37efaf84a585" name="Changes" comment="Nono commit Oficial - Versão Final - Adição de algumas exceções e correção de ‘bugs’">
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/auth/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/auth/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/controller/ClienteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/controller/ClienteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/controller/ContaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/controller/ContaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/controller/TransferenciaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/controller/TransferenciaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/dto/ApagarClienteDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/dto/ApagarClienteDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/dto/ClienteAtualizarDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/dto/ClienteAtualizarDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/dto/TransferenciaDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/dto/TransferenciaDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/security/JWTFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/security/JWTFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/CadastroService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/CadastroService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/ClienteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/ClienteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/ContaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/ContaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/TransacaoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/TransacaoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/UserDetailsServiceImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="AnnotationType" />
+        <option value="Enum" />
+        <option value="package-info" />
+        <option value="Interface" />
+        <option value="Record" />
+        <option value="Class" />
+        <option value="Exception" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/sistemaBancario" />
+    <option name="RESET_MODE" value="HARD" />
+    <option name="ROOT_SYNC" value="SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;adailtonps&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/adailtonps/sistemaBancario.git&quot;,
+    &quot;accountId&quot;: &quot;c25d45c5-abc3-4479-9e44-c10921d79fd9&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="38MkIwvxSPHd1DktGWnmSgg2H6r" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.SistemaBancarioApplication.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Adailton/Downloads/sistemaBancario",
+    "settings.editor.selected.configurable": "preferences.keymap"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.adps.sistemaBancario.domain" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.adps.sistemaBancario.config" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.adps.sistemaBancario" />
+      <recent name="com.adps" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="SistemaBancarioApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.adps.sistemaBancario.SistemaBancarioApplication" />
+      <module name="sistemaBancario" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adps.sistemaBancario.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SistemaBancarioApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="53b13346-74e5-4628-bcd7-37efaf84a585" name="Changes" comment="" />
+      <created>1768616751141</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1768616751141</updated>
+    </task>
+    <task id="LOCAL-00001" summary="primeiro commit">
+      <option name="closed" value="true" />
+      <created>1769133134404</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1769133134404</updated>
+    </task>
+    <task id="LOCAL-00002" summary="segundo commit">
+      <option name="closed" value="true" />
+      <created>1769301895632</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1769301895632</updated>
+    </task>
+    <task id="LOCAL-00003" summary="terceiro commit / Banco MySQL">
+      <option name="closed" value="true" />
+      <created>1769564209518</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1769564209518</updated>
+    </task>
+    <task id="LOCAL-00004" summary="quarto commit / Apagar clientes e contas do banco de dados, além de apagar transações também.">
+      <option name="closed" value="true" />
+      <created>1769651015817</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1769651015817</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Terceiro commit - Usando MySQL com banco, todas as funcionalidades estão funcionando, menos apagar">
+      <option name="closed" value="true" />
+      <created>1769732885746</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1769732885746</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Quarto commit - Apagar conta está disponível">
+      <option name="closed" value="true" />
+      <created>1769733368391</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1769733368391</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Quarto commit Oficial - Apagar conta está disponível">
+      <option name="closed" value="true" />
+      <created>1769739972765</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1769739972765</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Quinto commit Oficial - cadastro de contas com senhas criptografadas, login ainda não disponível">
+      <option name="closed" value="true" />
+      <created>1769905089376</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1769905089376</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Sexto commit Oficial - Back end estável, todas as funcionalidades disponíveis estão funcionando, inclusive a de esqueci senha e resetar senha.">
+      <option name="closed" value="true" />
+      <created>1770434881391</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1770434881391</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Sétimo commit Oficial - O sistema e suas funcionalidade estão completamente funcionais">
+      <option name="closed" value="true" />
+      <created>1772388673827</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1772388673827</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Sétimo commit Oficial - O sistema e suas funcionalidade estão completamente funcionais">
+      <option name="closed" value="true" />
+      <created>1772388685209</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1772388685209</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Setimo commit Oficial - Versão Final - O sistema e suas funcionalidade estão completamente funcionais">
+      <option name="closed" value="true" />
+      <created>1772426419272</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1772426419272</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Oivato commit Oficial - Versão Final - O sistema e suas funcionalidade estão completamente funcionais e funcionando corretamente">
+      <option name="closed" value="true" />
+      <created>1772766343885</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1772766343886</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Nono commit Oficial - Versão Final - Adição de algumas exceções e correção de ‘bugs’">
+      <option name="closed" value="true" />
+      <created>1775182477061</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1775182477061</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="54401307-6fd8-4b3e-aa5b-e49d9bb75971" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="54401307-6fd8-4b3e-aa5b-e49d9bb75971">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="primeiro commit" />
+    <MESSAGE value="segundo commit" />
+    <MESSAGE value="terceiro commit / Banco MySQL" />
+    <MESSAGE value="quarto commit / Apagar clientes e contas do banco de dados, além de apagar transações também." />
+    <MESSAGE value="Terceiro commit - Usando MySQL com banco, todas as funcionalidades estão funcionando, menos apagar" />
+    <MESSAGE value="Quarto commit - Apagar conta está disponível" />
+    <MESSAGE value="Quarto commit Oficial - Apagar conta está disponível" />
+    <MESSAGE value="Quinto commit Oficial - cadastro de contas com senhas criptografadas, login ainda não disponível" />
+    <MESSAGE value="Sexto commit Oficial - Back end estável, todas as funcionalidades disponíveis estão funcionando, inclusive a de esqueci senha e resetar senha." />
+    <MESSAGE value="Sétimo commit Oficial - O sistema e suas funcionalidade estão completamente funcionais" />
+    <MESSAGE value="Setimo commit Oficial - Versão Final - O sistema e suas funcionalidade estão completamente funcionais" />
+    <MESSAGE value="Oivato commit Oficial - Versão Final - O sistema e suas funcionalidade estão completamente funcionais e funcionando corretamente" />
+    <MESSAGE value="Nono commit Oficial - Versão Final - Adição de algumas exceções e correção de ‘bugs’" />
+    <option name="LAST_COMMIT_MESSAGE" value="Nono commit Oficial - Versão Final - Adição de algumas exceções e correção de ‘bugs’" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/ClienteService.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/dto/TransacaoResponseDTO.java</url>
+          <line>7</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/sistemaBancario/src/main/java/com/adps/sistemaBancario/service/ClienteService.java</url>
+          <line>59</line>
+          <properties class="com.adps.sistemaBancario.service.ClienteService" method="atualizarNome">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
