@@ -28,7 +28,7 @@ Acesse o Readme do backend para saber os endpoints disponíveis.
   (terminal)  
   git clone URL_DO_REPOSITORIO  
 2 - Acesse a pasta do backend:  
-  Entre na pasta onde está o repositório clonado  
+  Entre na pasta onde está o repositório clonado e digite:  
   cd miniSistemaBancario/backend/sistemaBancario/sistemaBancario  
 3 - Abra o arquivo "application.properties"  
 4 - Substitua as variáveis pelos seus dados MySQL:  
