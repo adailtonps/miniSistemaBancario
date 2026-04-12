@@ -22,21 +22,21 @@ Acesse o Readme do backend para saber os endpoints disponíveis.
 - Backend (API): Em breve
 
 ## Como executar o projeto localmente (opcional):
-- Você pode apenas acessar o frontend e utilizar o sistema
-- Caso deseje executar o projeto na sua máquina:
-1 - Clone o repositório:__
-  (terminal)__
-  git clone URL_DO_REPOSITORIO__
-2 - Acesse a pasta do backend:__
-  Entre na pasta onde está o repositório clonado__
-  cd miniSistemaBancario/backend/sistemaBancario/sistemaBancario__
-3 - Abra o arquivo "application.properties"__
-4 - Substitua as variáveis pelos seus dados MySQL:__
-  spring.datasource.username=SEU_USUARIO__
-  spring.datasource.password=SUA_SENHA__
-  jwt.secret=QUALQUER_CHAVE__
-5 - Crie um banco MySQL chamado:__
-  sistema_bancario__
-6 - Execute o projeto:__
-  ./mvnw spring-boot:run - Linux/Mac__
-  mvnw.cmd spring-boot:run - Windows__
+- Você pode apenas acessar o frontend e utilizar o sistema  
+- Caso deseje executar o projeto na sua máquina:  
+1 - Clone o repositório:  
+  (terminal)  
+  git clone URL_DO_REPOSITORIO  
+2 - Acesse a pasta do backend:  
+  Entre na pasta onde está o repositório clonado  
+  cd miniSistemaBancario/backend/sistemaBancario/sistemaBancario  
+3 - Abra o arquivo "application.properties"  
+4 - Substitua as variáveis pelos seus dados MySQL:  
+  spring.datasource.username=SEU_USUARIO  
+  spring.datasource.password=SUA_SENHA  
+  jwt.secret=QUALQUER_CHAVE  
+5 - Crie um banco MySQL chamado:  
+  sistema_bancario  
+6 - Execute o projeto:  
+  ./mvnw spring-boot:run - Linux/Mac  
+  mvnw.cmd spring-boot:run - Windows  
