@@ -16,7 +16,7 @@ Sistema em Java com Spring Boot que simula um mini sistema bancário, permitindo
 - Atualização de dados
 
 ## Link do projeto:
-O link do backend pode ser usado para testar as requisições via ferramentasa, como Postman ou Insomnia.
+O link do backend pode ser usado para testar as requisições via ferramentas, como Postman ou Insomnia.
 Acesse o Readme do backend para saber os endpoints disponíveis.
 - Frontend: Em breve
 - Backend (API): Em breve
@@ -24,18 +24,19 @@ Acesse o Readme do backend para saber os endpoints disponíveis.
 ## Como executar o projeto localmente (opcional):
 - Você pode apenas acessar o frontend e utilizar o sistema
 - Caso deseje executar o projeto na sua máquina:
-1 - Abra o arquivo "application.properties"
-2 - Substitua as variáveis pelos seus dados MySQL:
+1 - Clone o repositório:
+  (terminal)
+  git clone URL_DO_REPOSITORIO
+2 - Acesse a pasta do backend:
+  Entre na pasta onde está o repositório clonado
+  cd miniSistemaBancario/backend/sistemaBancario/sistemaBancario
+3 - Abra o arquivo "application.properties"
+4 - Substitua as variáveis pelos seus dados MySQL:
   spring.datasource.username=SEU_USUARIO
   spring.datasource.password=SUA_SENHA
   jwt.secret=QUALQUER_CHAVE
-3 - Crie um banco MySQL chamado:
+5 - Crie um banco MySQL chamado:
   sistema_bancario
-4 - Clone o repositório:
-  (terminal)
-  git clone URL_DO_REPOSITORIO
-5 - Acesse a pasta do backend:
-  cd backend/miniSistemaBancario/backend/sistemaBancario/sistemaBancario
 6 - Execute o projeto:
   ./mvnw spring-boot:run - Linux/Mac
   mvnw.cmd spring-boot:run - Windows
