@@ -1,16 +1,18 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+# Editor-based HTTP Client requests
 /httpRequests/
 
 # Build
 target/
+*.class
 
 # IDE
 .idea/
 *.iml
 .vscode/
 
-# Sistema
+#Sistema
 .DS_Store
 Thumbs.db
