@@ -1,0 +1,138 @@
+
+* {
+  margin: 0; /*remove margens padrao do navegador e padding tb */
+  padding: 0;
+  box-sizing: border-box; /*usar sempre no começo*/
+}
+
+body {
+  background-image: url(fundobanco.png);
+  font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+
+  min-height: 100vh;/*vai ter no minimo a altura da tela*/
+  display: flex; /*ativa o flexbox, e os outros codigos basicamente centraliza o card*/
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.card{
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+
+  padding: 5px 5px 0px 5px;
+  display: flex;
+  flex-direction: column;/*faz os itens ficarem em coluna, um embaixo do outro*/
+  align-items: center;
+  gap: 16px;
+}
+
+#tituloCadastro{
+  font-size:20px;
+  margin-top: 15px;
+  color:#1f3c88;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#tituloCadastro2{
+  font-size: 15px;
+  color:#555;
+  text-align: center;
+  white-space: nowrap;
+}
+
+section{
+  width: 90%;
+  max-width: 530px;
+  padding: 30px;
+}
+
+#msg{
+  margin-bottom: 20px;
+}
+
+.form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:12px;
+}
+
+input{
+  width: 80%;
+  height: 38px;
+  border-radius: 10px;
+  border:1px solid black;
+  padding: 0px 12px;
+  transition: 0.3s;
+}
+
+input:focus{
+  outline: none;
+  border-color: #1f3c88;
+  box-shadow: 0 0 5px rgba(31,60,136,0.4);
+}
+
+.botoes{
+  width: 80%;
+  display: flex;
+  gap:10px;
+  margin-top: 8px;
+}
+
+button{
+  flex:1;
+  height: 38px;
+  border-radius: 10px;
+  background-color: #1f3c88;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover{
+  color:rgb(154,122,122);
+}
+
+#img{
+  width: 180px;
+  margin-top: 15px;
+  border-radius: 20px;
+}
+
+footer{
+  margin-top: 12px;
+  font-style: italic;
+}
+
+/*parte mobile*/
+@media (max-width: 768px) {
+  section {
+    flex-direction: column; 
+    align-items: center;
+  }
+
+  #img {
+    width: 150px;
+    margin-left: 20px;
+  }
+
+@media (max-width: 1024px) {
+  section{
+    flex-direction: column;
+    align-items: center;
+  }
+  #img{
+    width: 150px;
+    margin-left: 20px;
+  }
+}
+}

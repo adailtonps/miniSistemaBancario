@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - APS Sistema Bancário</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <section class="card">
+        <h1 class="tituloLogin">Entre com o seu email e sua senha</h1>
+
+        <form id="formLogin" class="form">
+            <input type="email" name="email" id="email" placeholder="Digite o seu email de cadastro" required>
+            <input type="password" name="senha" id="senha" placeholder="Digite a senha cadastrada" required>
+
+            <div class="botoes">
+            <button type="submit" id="login">Entrar</button>
+            <button type="button" id="cadastroTela">Cadastrar</button>
+        </div>
+        </form>
+
+        <div class="esqueceuSenha">
+            <a href="esqueci-senha.html" class="esqueceuSenha">Esqueceu a senha?</a>
+        </div>
+
+        <img src="logoimg.png" alt="logo" class="img">
+
+        <div id="msg"></div>
+
+        
+
+    </section>
+
+    <footer>
+        &copy; AdailtonPereira
+    </footer>
+
+<script src="login.js"></script>
+</body>
+</html>
