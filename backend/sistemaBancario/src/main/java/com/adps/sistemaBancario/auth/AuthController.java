@@ -7,7 +7,10 @@ import com.adps.sistemaBancario.repository.ClienteRepository;
 import com.adps.sistemaBancario.service.AuthService;
 import com.adps.sistemaBancario.service.CadastroService;
 import com.adps.sistemaBancario.service.JWTService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -56,14 +59,36 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login (@RequestBody LoginDTO dto){
+    public ResponseEntity<LoginResponseDTO> login (@RequestBody LoginDTO dto, HttpServletResponse response) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getEmail(),
                         dto.getSenha())
         );
         String token = jwtService.gerarToken(dto.getEmail());
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        ResponseCookie responseCookie = ResponseCookie.from("token", token)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .maxAge(60 * 60)
+                .path("/")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+        return ResponseEntity.ok(new LoginResponseDTO("Login realizado com sucesso!"));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<LoginResponseDTO> logout(HttpServletResponse response) {
+        ResponseCookie responseCookie = ResponseCookie.from("token", "")
+                .httpOnly(true)
+                .maxAge(0)
+                .secure(true)
+                .sameSite("None")
+                .path("/")
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/esqueci-senha")
