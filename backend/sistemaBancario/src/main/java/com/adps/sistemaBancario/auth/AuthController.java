@@ -8,7 +8,6 @@ import com.adps.sistemaBancario.service.AuthService;
 import com.adps.sistemaBancario.service.CadastroService;
 import com.adps.sistemaBancario.service.JWTService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +36,6 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @Value("${frontend.url}")
-    private String frontendUrl;
 
     @PostMapping("/cadastro")
     public ResponseEntity<ClienteResponseDTO> cadastrar(
