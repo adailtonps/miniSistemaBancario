@@ -45,7 +45,7 @@ form.addEventListener("submit", async(event) =>{
             throw new Error(mensagem || "Erro ao realizar login!");
         }
 
-        localStorage.setItem("token",dados.token)
+        localStorage.setItem("token",resultado.token)
 
         msg.textContent = "Login realizado com sucesso!"
         msg.style.color="green";
