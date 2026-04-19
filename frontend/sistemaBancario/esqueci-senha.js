@@ -1,7 +1,7 @@
 async function enviarEmail() {
     const email = document.getElementById("email").value;
 
-    const response = await fetch ("http://localhost:8080/auth/esqueci-senha", {
+    const response = await fetch ("https://minisistemabancario.onrender.com/auth/esqueci-senha", {
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body: JSON.stringify({email: email})

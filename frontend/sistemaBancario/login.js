@@ -1,5 +1,5 @@
 document.getElementById("cadastroTela").addEventListener("click", () =>{
-    window.location.href="cadastro.html"
+    window.location.href="index.html"
 })
 
 const form = document.getElementById("formLogin");
@@ -25,7 +25,7 @@ form.addEventListener("submit", async(event) =>{
     };
 
     try{
-        const response = await apiFetch("http://localhost:8080/auth/login", {
+        const response = await apiFetch("https://minisistemabancario.onrender.com/auth/login", {
             method: "POST",
             credentials:"include",
             body: JSON.stringify(dados)

@@ -1,5 +1,5 @@
 //configs and endpoints
-const URL_API = "http://localhost:8080";
+const URL_API = "https://minisistemabancario.onrender.com";
 
 const endpoints = {
     minha_conta: URL_API + "/conta/minha-conta",

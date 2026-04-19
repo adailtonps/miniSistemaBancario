@@ -15,7 +15,7 @@ form.addEventListener("submit", async(event) => {
     };
 
     try{
-        const response = await fetch("http://localhost:8080/auth/cadastro", {
+        const response = await fetch("https://minisistemabancario.onrender.com/auth/cadastro", {
             method: "POST",
             headers: {
                 "Content-Type":"application/json"
