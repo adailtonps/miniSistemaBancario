@@ -19,9 +19,9 @@ const endpoints = {
 async function apiFetch(url, options = {}) {
     return fetch(url, {
         ...options,
-        credentials:"include",
         headers:{
             "Content-Type":"application/json",
+            ...(token?{"Authorization":"Bearer "+token}:{}),
             ...(options.headers || {})
         }
     })
@@ -302,6 +302,7 @@ document.getElementById("btnLogout").addEventListener("click", async () => {
     await apiFetch(endpoints.logout, {
         method:"POST"
     })
+    localStorage.removeItem("token")
     window.location.href = "login.html";
 });
 
