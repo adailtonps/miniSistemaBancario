@@ -63,29 +63,7 @@ public class AuthController {
                         dto.getSenha())
         );
         String token = jwtService.gerarToken(dto.getEmail());
-        ResponseCookie responseCookie = ResponseCookie.from("token", token)
-                .httpOnly(true)
-                .secure(true)
-                .sameSite("None")
-                .maxAge(60 * 60)
-                .path("/")
-                .build();
-        response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
-        return ResponseEntity.ok(new LoginResponseDTO("Login realizado com sucesso!"));
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<LoginResponseDTO> logout(HttpServletResponse response) {
-        ResponseCookie responseCookie = ResponseCookie.from("token", "")
-                .httpOnly(true)
-                .maxAge(0)
-                .secure(true)
-                .sameSite("None")
-                .path("/")
-                .build();
-
-        response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/esqueci-senha")
