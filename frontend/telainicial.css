@@ -55,7 +55,7 @@ button{
   border: none;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3 ease;
+  transition: all 0.3s ease;
   
 }
 
@@ -131,7 +131,7 @@ footer{
   .botoes{
     grid-template-columns: 1fr;
   }
-
+}
 @media (max-width: 1024px) {
   section{
     flex-direction: column;
@@ -141,5 +141,4 @@ footer{
     width: 150px;
     margin-left: 20px;
   }
-}
 }
