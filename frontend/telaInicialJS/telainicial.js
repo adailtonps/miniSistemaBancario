@@ -15,8 +15,10 @@ const endpoints = {
     logout: URL_API + "/auth/logout"
 };
 
+
 //authenticaton
 async function apiFetch(url, options = {}) {
+    const token = localStorage.getItem("token")
     return fetch(url, {
         ...options,
         headers:{
