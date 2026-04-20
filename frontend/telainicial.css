@@ -1,8 +1,8 @@
 
 * {
-  margin: 0; /*remove margens padrao do navegador e padding tb */
+  margin: 0; 
   padding: 0;
-  box-sizing: border-box; /*usar sempre no começo*/
+  box-sizing: border-box; 
 }
 
 body {
@@ -12,8 +12,8 @@ body {
   background-size: cover;
   background-position: center;
   flex-direction: column;
-  min-height: 100vh;/*vai ter no minimo a altura da tela*/
-  display: flex; /*ativa o flexbox, e os outros codigos basicamente centraliza o card*/
+  min-height: 100vh;
+  display: flex; 
   justify-content: center;
   align-items: center;
 
@@ -26,7 +26,7 @@ body {
   max-width: 750px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.35);
   display: flex;
-  flex-direction: column;/*faz os itens ficarem em coluna, um embaixo do outro*/
+  flex-direction: column;
   align-items: center;
   gap: 30px;
   padding:40px 30px;
@@ -89,7 +89,6 @@ input{
 
 input:focus{
   outline: none;
-  border-color: #1f3c88;
   box-shadow: 0 0 8px rgba(31,60,136,0.3);
 }
 
