@@ -56,14 +56,14 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login (@RequestBody LoginDTO dto, HttpServletResponse response) {
+    public ResponseEntity<LoginResponseDTO> login (@RequestBody LoginDTO dto) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getEmail(),
                         dto.getSenha())
         );
         String token = jwtService.gerarToken(dto.getEmail());
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(new LoginResponseDTO("Login realizado com sucesso!",token));
     }
 
     @PostMapping("/esqueci-senha")
