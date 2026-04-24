@@ -241,7 +241,8 @@ function formatarData(dataISO){
     const data = new Date(dataISO)
      return data.toLocaleString("pt-BR",{
         dateStyle: "short",
-        timeStyle:"medium"
+        timeStyle:"medium",
+        timeZone: "America/Sao_Paulo"
      })
 }
 
