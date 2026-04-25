@@ -90,7 +90,7 @@ async function minhaConta() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 4500);
+        }, 6000);
     }
 }
 
@@ -119,13 +119,13 @@ async function sacar() {
     const valor = parseFloat(document.getElementById("valorSaque").value);
 
     if (!valor || valor <= 0) {
-        msg.textContent = "Valor inválido!";
+        msg.textContent = "O valor da operação tem que ser maior que zero!";
         msg.style.color = "red";
         return;
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 4000);
+        }, 6000);
     }
 
     if (valor > saldoAtual) {
@@ -135,7 +135,7 @@ async function sacar() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 4000);
+        }, 6000);
     }
 
     try {
@@ -147,13 +147,14 @@ async function sacar() {
         );
 
         msg.textContent = "Valor sacado com sucesso!";
+        msg.style.color="green"
         document.getElementById("valorSaque").value = "";
 
         await carregarSaldo();
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 3000);
+        }, 6000);
 
     } catch (erro) {
         msg.textContent = erro.message;
@@ -164,6 +165,16 @@ async function sacar() {
 async function depositar() {
     const msg = document.getElementById("msgDeposito");
     const valor = parseFloat(document.getElementById("valorDeposito").value)
+
+    if (!valor || valor <= 0) {
+        msg.textContent = "O valor da operação tem que ser maior que zero!";
+        msg.style.color = "red";
+        return;
+
+        setTimeout(() => {
+            msg.textContent = "";
+        }, 6000);
+    }
 
     try {
         await handleResponse(
@@ -182,7 +193,7 @@ async function depositar() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 3000);
+        }, 6000);
 
     } catch (erro) {
         msg.textContent = erro.message;
@@ -203,7 +214,7 @@ async function transferencia() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 3000);
+        }, 6000);
 
         return;
     }
@@ -225,17 +236,17 @@ async function transferencia() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 3000);
+        }, 6000);
 
         await carregarSaldo();
 
     } catch (erro) {
-        msg.textContent = "Erro na transferência: " + erro.message;
+        msg.textContent =erro.message;
         msg.style.color = "red";
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 3000);
+        }, 6000);
     }
 }
 
@@ -269,9 +280,8 @@ async function carregarStatus() {
             <h3>Status da Conta</h3>
             <p><strong>Status:</strong> ${dados.StatusConta === "ATIVADA" ? "Ativada" : "Desativada"}</p>
             <button id="btnAtivar">Ativar</button>
-            <p id="msgAtivar"></p>
             <button id="btnDesativar">Desativar</button>
-            <p id="msgDesativar"></p>
+            <p id="msgAtivar"></p>
         `;
 
         document.getElementById("btnAtivar")
@@ -281,12 +291,12 @@ async function carregarStatus() {
             .addEventListener("click", () => alterarStatus(false));
 
     } catch (erro) {
-        msg.textContent = "Erro ao carregar status: " + erro.message;
+        msg.textContent = erro.message;
         msg.style.color = "red";
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 3000);
+        }, 6000);
     }
 }
 
@@ -303,17 +313,17 @@ async function alterarStatus(ativar) {
             ? "Conta ativada com sucesso!"
             : "Conta desativada com sucesso!";
 
-        msg.textContent = respota?.mensagem || textoPadrao;
+        msg.textContent = resposta?.mensagem || textoPadrao;
         msg.style.color = ativar ? "green" : "red";
 
         carregarStatus();
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 3000);
+        }, 6000);
 
     } catch (erro) {
-        msg.textContent = "Erro ao alterar status: " + erro.message;
+        msg.textContent = erro.message;
         msg.style.color = "red";
     }
 }
@@ -328,8 +338,8 @@ function mostrarFormularioAtualizacao() {
         <input type="text" id="novoNome" placeholder="Novo nome">
         <input type="email" id="novoEmail" placeholder="Novo email">
         <input type="password" id="senhaUser" placeholder="Digite sua senha">
-        <p id="msgAtualizar"></p>
         <button id="btnSalvarAtualizacao">Salvar</button>
+        <p id="msgAtualizar"></p>
         <p>
             ATENÇÃO: Caso atualize o email, você será redirecionado para a tela de login, entre com o email atualizado!<br>
             ⚠ Para alterar senha, use "Esqueci minha senha" na tela de login.
@@ -372,10 +382,10 @@ async function alterarDados() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 3000);
+        }, 6000);
 
     } catch (erro) {
-        msg.textContent = "Erro ao atualizar dados: " + erro.message;
+        msg.textContent = erro.message;
         msg.style.color = "red";
 
         setTimeout(() => {
@@ -424,12 +434,12 @@ async function historicoTransferencias() {
         document.getElementById("msg").innerHTML = html;
 
     } catch (erro) {
-        msg.textContent = "Erro ao carregar histórico: " + erro.message;
+        msg.textContent = erro.message;
         msg.style.color = "red";
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 3000);
+        }, 6000);
     }
 }
 
@@ -461,7 +471,7 @@ async function apagarConta() {
 
                 setTimeout(() => {
                     msgApagar.textContent = "";
-                }, 3000);
+                }, 6000);
             }
 
             try {
@@ -478,12 +488,12 @@ async function apagarConta() {
                 window.location.href = "login.html";
 
             } catch (erro) {
-                msgApagar.textContent = "Erro ao apagar conta: " + erro.message;
+                msgApagar.textContent = erro.message;
                 msgApagar.style.color = "red";
 
                 setTimeout(() => {
                     msg.textContent = "";
-                }, 3000);
+                }, 6000);
             }
         });
 }
