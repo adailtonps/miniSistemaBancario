@@ -49,8 +49,11 @@ public class ContaService {
 
     public void desativarConta(Cliente cliente) {
         Conta conta = contaRepository.findByCliente(cliente).orElseThrow(
-                () -> new NegocioException("Conta não encontrada!"
-                ));
+                () -> new NegocioException("Conta não encontrada!"));
+        if(conta.getStatusConta() == StatusConta.DESATIVADA ){
+            throw new NegocioException("Conta já desativada!");
+        }
+
         if (conta.getSaldo().compareTo(BigDecimal.ZERO) > 0) {
             throw new NegocioException("Conta com saldo positivo não pode ser desativada!"
             );

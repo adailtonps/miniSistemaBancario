@@ -9,10 +9,13 @@ public class LoginResponseDTO {
         this.mensagem = mensagem;
         this.token = token;
     }
+
     public String getToken() {
         return token;
     }
+
     public String getMensagem() {
         return mensagem;
     }
+
 }
