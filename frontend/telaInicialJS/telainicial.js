@@ -358,14 +358,16 @@ async function alterarDados() {
     const email = document.getElementById("novoEmail").value.trim();
     const senha = document.getElementById("senhaUser").value;
 
-    if (!nome && !email)
+    if (!nome && !email){
         msg.textContent = "Preencha pelo menos um campo!";
-    msg.style.color = "red";
-
-    if (!senha)
+        msg.style.color = "red";
+        return
+    }
+    if (!senha){
         msg.textContent = "Preencha a senha!";
-    msg.style.color = "red";
-
+        msg.style.color = "red";
+        return
+    }
     try {
         const resposta = await handleResponse(
             await apiFetch(endpoints.atualizar, {
