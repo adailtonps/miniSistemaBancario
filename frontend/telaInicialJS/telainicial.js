@@ -320,7 +320,9 @@ async function alterarStatus(ativar) {
             msg.textContent = "";
         }, 6000);
 
-        carregarStatus();
+        setTimeout(() =>{
+            carregarStatus();
+        }, 6000)
     } catch (erro) {
         msg.textContent = erro.message;
         msg.style.color = "red";
