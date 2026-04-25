@@ -90,7 +90,7 @@ async function minhaConta() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
     }
 }
 
@@ -125,7 +125,7 @@ async function sacar() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
     }
 
     if (valor > saldoAtual) {
@@ -135,7 +135,7 @@ async function sacar() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
     }
 
     try {
@@ -154,7 +154,7 @@ async function sacar() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
 
     } catch (erro) {
         msg.textContent = erro.message;
@@ -173,7 +173,7 @@ async function depositar() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
     }
 
     try {
@@ -193,7 +193,7 @@ async function depositar() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
 
     } catch (erro) {
         msg.textContent = erro.message;
@@ -214,7 +214,7 @@ async function transferencia() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
 
         return;
     }
@@ -236,7 +236,7 @@ async function transferencia() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
 
         await carregarSaldo();
 
@@ -246,7 +246,7 @@ async function transferencia() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
     }
 }
 
@@ -296,7 +296,7 @@ async function carregarStatus() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
     }
 }
 
@@ -314,15 +314,15 @@ async function alterarStatus(ativar) {
             : "Conta desativada com sucesso!";
 
         msg.textContent = resposta?.mensagem || textoPadrao;
-        msg.style.color = ativar ? "green" : "red"
+        msg.style.color = ativar ? "green" : "green"
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
 
         setTimeout(() =>{
             carregarStatus();
-        }, 6000)
+        }, 4500)
     } catch (erro) {
         msg.textContent = erro.message;
         msg.style.color = "red";
@@ -383,7 +383,7 @@ async function alterarDados() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
 
     } catch (erro) {
         msg.textContent = erro.message;
@@ -440,7 +440,7 @@ async function historicoTransferencias() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 6000);
+        }, 4500);
     }
 }
 
@@ -472,7 +472,7 @@ async function apagarConta() {
 
                 setTimeout(() => {
                     msgApagar.textContent = "";
-                }, 6000);
+                }, 4500);
             }
 
             try {
@@ -494,7 +494,7 @@ async function apagarConta() {
 
                 setTimeout(() => {
                     msg.textContent = "";
-                }, 6000);
+                }, 4500);
             }
         });
 }
