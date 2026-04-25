@@ -314,14 +314,13 @@ async function alterarStatus(ativar) {
             : "Conta desativada com sucesso!";
 
         msg.textContent = resposta?.mensagem || textoPadrao;
-        msg.style.color = ativar ? "green" : "red";
-
-        carregarStatus();
+        msg.style.color = ativar ? "green" : "red"
 
         setTimeout(() => {
             msg.textContent = "";
         }, 6000);
 
+        carregarStatus();
     } catch (erro) {
         msg.textContent = erro.message;
         msg.style.color = "red";
