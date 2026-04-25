@@ -8,7 +8,6 @@ const msg = document.getElementById("msg");
 async function apiFetch(url, options = {}) {
     return fetch(url, {
         ...options,
-        credentials:"include",
         headers:{
             "Content-Type":"application/json",
             ...(options.headers || {})
@@ -27,7 +26,6 @@ form.addEventListener("submit", async(event) =>{
     try{
         const response = await apiFetch("https://minisistemabancario.onrender.com/auth/login", {
             method: "POST",
-            credentials:"include",
             body: JSON.stringify(dados)
         });
 
@@ -46,6 +44,8 @@ form.addEventListener("submit", async(event) =>{
         if(!response.ok){
             throw new Error(mensagem || "Erro ao realizar login!");
         }
+
+        localStorage.setItem("token",resultado.token)
 
         msg.textContent = "Login realizado com sucesso!"
         msg.style.color="green";
