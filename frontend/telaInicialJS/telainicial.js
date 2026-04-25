@@ -163,11 +163,7 @@ async function sacar() {
 
 async function depositar() {
     const msg = document.getElementById("msgDeposito");
-    const valor = parseFloat(document.getElementById("valorDeposito").value);
-
-    if (!valor || valor <= 0) {
-        msg.textContent = "Valor inválido!";
-    }
+    const valor = parseFloat(document.getElementById("valorDeposito").value)
 
     try {
         await handleResponse(
