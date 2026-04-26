@@ -362,7 +362,7 @@ async function alterarDados() {
         msg.style.color = "red";
         setTimeout(()=>{
             msg.textContent=""
-        })
+        },4500)
         return
     }
     if (!senha){
@@ -370,7 +370,7 @@ async function alterarDados() {
         msg.style.color = "red";
         setTimeout(() =>{
             msg.textContent=""
-        })
+        },4500)
         return
     }
     try {
