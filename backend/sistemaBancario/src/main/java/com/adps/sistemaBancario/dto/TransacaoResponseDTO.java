@@ -13,7 +13,6 @@ public class TransacaoResponseDTO {
     private BigDecimal valor;
     private TransacaoTipo transacaoTipo;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "America/Sao_Paulo")
     private OffsetDateTime dataHoraTransacao;
 
     public TransacaoResponseDTO(Long id, TransacaoTipo transacaoTipo, OffsetDateTime dataHoraTransacao, BigDecimal valor) {
