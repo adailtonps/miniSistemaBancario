@@ -211,7 +211,6 @@ async function transferencia() {
     if (!destinoId || !valor || valor <= 0 || !senha) {
         msg.textContent = "Preencha os campos corretamente";
         msg.style.color = "red";
-
         setTimeout(() => {
             msg.textContent = "";
         }, 4500);
@@ -361,11 +360,17 @@ async function alterarDados() {
     if (!nome && !email){
         msg.textContent = "Preencha pelo menos um campo!";
         msg.style.color = "red";
+        setTimeout(()=>{
+            msg.textContent=""
+        })
         return
     }
     if (!senha){
         msg.textContent = "Preencha a senha!";
         msg.style.color = "red";
+        setTimeout(() =>{
+            msg.textContent=""
+        })
         return
     }
     try {
