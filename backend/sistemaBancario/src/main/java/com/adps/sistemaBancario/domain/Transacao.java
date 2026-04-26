@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name="transacao")
@@ -30,7 +31,7 @@ public class Transacao {
 
     public Transacao(Conta conta, BigDecimal valor, TransacaoTipo transacaoTipo) {
         this.conta = conta;
-        this.dataHoraTransacao = LocalDateTime.now();
+        this.dataHoraTransacao = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
         this.valor = valor;
         this.transacaoTipo = transacaoTipo;
     }

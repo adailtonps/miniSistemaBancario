@@ -9,7 +9,6 @@ public class TransacaoResponseDTO {
     private Long id;
     private BigDecimal valor;
     private TransacaoTipo transacaoTipo;
-
     private LocalDateTime dataHoraTransacao;
 
     public TransacaoResponseDTO(Long id, TransacaoTipo transacaoTipo, LocalDateTime dataHoraTransacao, BigDecimal valor) {
