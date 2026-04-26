@@ -39,7 +39,7 @@ body {
 
 
 .botoes{
-  width: 90%;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 140px));
   gap:12px;
@@ -47,7 +47,7 @@ body {
 
 button{
   height: 42px;
-  width: 200px;
+  width: 140px;
   border-radius: 12px;
   padding: 10px;
   background-color: #1f3c88;
