@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class TransacaoResponseDTO {
     private Long id;
@@ -12,9 +13,9 @@ public class TransacaoResponseDTO {
     private TransacaoTipo transacaoTipo;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "America/Sao_Paulo")
-    private LocalDateTime dataHoraTransacao;
+    private OffsetDateTime dataHoraTransacao;
 
-    public TransacaoResponseDTO(Long id, TransacaoTipo transacaoTipo, LocalDateTime dataHoraTransacao, BigDecimal valor) {
+    public TransacaoResponseDTO(Long id, TransacaoTipo transacaoTipo, OffsetDateTime dataHoraTransacao, BigDecimal valor) {
         this.id = id;
         this.transacaoTipo = transacaoTipo;
         this.dataHoraTransacao = dataHoraTransacao;
@@ -46,11 +47,12 @@ public class TransacaoResponseDTO {
         this.transacaoTipo = transacaoTipo;
     }
 
-    public LocalDateTime getDataHoraTransacao() {
+    public OffsetDateTime getDataHoraTransacao() {
         return dataHoraTransacao;
     }
 
-    public void setDataHoraTransacao(LocalDateTime dataHoraTransacao) {
+    public void setDataHoraTransacao(OffsetDateTime dataHoraTransacao) {
         this.dataHoraTransacao = dataHoraTransacao;
     }
+
 }
