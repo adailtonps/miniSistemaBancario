@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 
 @Entity
 @Table(name="transacao")
@@ -26,14 +24,13 @@ public class Transacao {
     @Column(name="tipo",nullable = false)
     private TransacaoTipo transacaoTipo;
 
-    @Column(nullable = false)
-    private OffsetDateTime dataHoraTransacao;
+    private LocalDateTime dataHoraTransacao;
 
     public Transacao() {}
 
     public Transacao(Conta conta, BigDecimal valor, TransacaoTipo transacaoTipo) {
         this.conta = conta;
-        this.dataHoraTransacao = OffsetDateTime.now(ZoneId.of("America/Sao_Paulo"));
+        this.dataHoraTransacao = LocalDateTime.now();
         this.valor = valor;
         this.transacaoTipo = transacaoTipo;
     }
@@ -46,7 +43,7 @@ public class Transacao {
         return conta;
     }
 
-    public OffsetDateTime getDataHoraTransacao() {
+    public LocalDateTime getDataHoraTransacao() {
         return dataHoraTransacao;
     }
 
