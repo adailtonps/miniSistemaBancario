@@ -66,7 +66,7 @@ public class ContaService {
         Conta conta = contaRepository.findByCliente(cliente).orElseThrow(
                 () -> new NegocioException("Conta não encontrada!"));
         if(conta.getStatusConta() == StatusConta.ATIVADA){
-            throw new NegocioException("Conta já ativada");
+            throw new NegocioException("Conta já ativada!");
         }
         conta.setStatusConta(StatusConta.ATIVADA);
         contaRepository.save(conta);
