@@ -1,6 +1,7 @@
 package com.adps.sistemaBancario.dto;
 
 import com.adps.sistemaBancario.domain.TransacaoTipo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,6 +10,8 @@ public class TransacaoResponseDTO {
     private Long id;
     private BigDecimal valor;
     private TransacaoTipo transacaoTipo;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "America/Sao_Paulo")
     private LocalDateTime dataHoraTransacao;
 
     public TransacaoResponseDTO(Long id, TransacaoTipo transacaoTipo, LocalDateTime dataHoraTransacao, BigDecimal valor) {
