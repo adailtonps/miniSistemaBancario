@@ -121,21 +121,19 @@ async function sacar() {
     if (!valor || valor <= 0) {
         msg.textContent = "O valor da operação tem que ser maior que zero!";
         msg.style.color = "red";
-        return;
-
         setTimeout(() => {
             msg.textContent = "";
         }, 4500);
+        return
     }
 
     if (valor > saldoAtual) {
         msg.textContent = "Saldo insuficiente!";
         msg.style.color = "red";
-        return;
-
         setTimeout(() => {
             msg.textContent = "";
         }, 4500);
+        return
     }
 
     try {
@@ -159,6 +157,9 @@ async function sacar() {
     } catch (erro) {
         msg.textContent = erro.message;
         msg.style.color = "red";
+        setTimeout(() => {
+            msg.textContent = "";
+        }, 4500);
     }
 }
 
@@ -198,6 +199,9 @@ async function depositar() {
     } catch (erro) {
         msg.textContent = erro.message;
         msg.style.color = "red";
+        setTimeout(() => {
+            msg.textContent = "";
+        }, 4500);
     }
 }
 
@@ -325,6 +329,9 @@ async function alterarStatus(ativar) {
     } catch (erro) {
         msg.textContent = erro.message;
         msg.style.color = "red";
+        setTimeout(() => {
+            msg.textContent = "";
+        }, 4500);
     }
 }
 
@@ -398,7 +405,7 @@ async function alterarDados() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 3000);
+        }, 4500);
     }
 }
 
