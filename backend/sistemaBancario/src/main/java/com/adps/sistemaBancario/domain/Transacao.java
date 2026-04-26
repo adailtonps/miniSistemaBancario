@@ -26,6 +26,7 @@ public class Transacao {
     @Column(name="tipo",nullable = false)
     private TransacaoTipo transacaoTipo;
 
+    @Column(nullable = false)
     private OffsetDateTime dataHoraTransacao;
 
     public Transacao() {}
