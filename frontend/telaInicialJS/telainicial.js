@@ -412,11 +412,9 @@ async function alterarDados() {
 // HISTORY
 
 function formatarData(dataISO) {
-    if (!dataISO) return "Data inválida";
+    if (!dataISO) return "Ainda não realizado!";
 
     const data = new Date(dataISO);
-
-    if (isNaN(data)) return "Data inválida";
 
     return data.toLocaleString("pt-BR", {
         dateStyle: "short",
@@ -424,6 +422,7 @@ function formatarData(dataISO) {
         timeZone: "America/Sao_Paulo"
     });
 }
+
 async function historicoTransferencias() {
     try {
         const dados = await handleResponse(
@@ -445,6 +444,7 @@ async function historicoTransferencias() {
                     <p><strong>Data e Hora:</strong> ${formatarData(transferencia.dataHoraTransacao)}</p>
                     <p><strong>Valor:</strong> R$ ${Number(transferencia.valor).toFixed(2)}</p>
                 </div>`;
+                console.log(transferencia);
         });
 
         document.getElementById("msg").innerHTML = html;
