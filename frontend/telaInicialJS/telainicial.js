@@ -412,14 +412,13 @@ async function alterarDados() {
 // HISTORY
 
 function formatarData(dataISO) {
-    if (!dataISO) return "Ainda não realizado!";
+    if (!dataISO) return "Data inválida";
 
-    const data = new Date(dataISO);
+    const data = new Date(dataISO + "-03:00");
 
     return data.toLocaleString("pt-BR", {
         dateStyle: "short",
-        timeStyle: "medium",
-        timeZone: "America/Sao_Paulo"
+        timeStyle: "medium"
     });
 }
 
