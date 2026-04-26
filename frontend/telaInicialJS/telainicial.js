@@ -170,11 +170,10 @@ async function depositar() {
     if (!valor || valor <= 0) {
         msg.textContent = "O valor da operação tem que ser maior que zero!";
         msg.style.color = "red";
-        return;
-
         setTimeout(() => {
             msg.textContent = "";
         }, 4500);
+        return
     }
 
     try {
@@ -213,7 +212,7 @@ async function transferencia() {
     const senha = document.getElementById("senhaTransferir").value;
 
     if (!destinoId || !valor || valor <= 0 || !senha) {
-        msg.textContent = "Preencha os campos corretamente";
+        msg.textContent = "Preencha os campos corretamente!";
         msg.style.color = "red";
         setTimeout(() => {
             msg.textContent = "";
@@ -483,11 +482,12 @@ async function apagarConta() {
             if (!email || !senha) {
                 msgApagar.textContent = "Preencha todos os campos!";
                 msgApagar.style.color = "red";
-
                 setTimeout(() => {
                     msgApagar.textContent = "";
                 }, 4500);
+                return
             }
+
 
             try {
                 await handleResponse(
@@ -505,7 +505,6 @@ async function apagarConta() {
             } catch (erro) {
                 msgApagar.textContent = erro.message;
                 msgApagar.style.color = "red";
-
                 setTimeout(() => {
                     msg.textContent = "";
                 }, 4500);
