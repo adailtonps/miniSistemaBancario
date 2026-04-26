@@ -15,7 +15,6 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  flex-direction: column;
 }
 
 /* CARD */
@@ -28,31 +27,30 @@ body {
 
   display: flex;
   flex-direction: column;
-  align-items: center;
 
-  gap: 25px; /* 🔥 mais equilibrado */
-  padding: 35px 25px;
+  gap: 20px;
+  padding: 30px;
 }
 
 #card > h1{
   color: #1f3c88;
   font-size: 28px;
-  text-align: center;
 }
 
 /* BOTÕES */
 .botoes{
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 15px; /* 🔥 mais espaçamento */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 140px)); /* 🔥 tamanho fixo */
+  gap: 10px;
+  justify-content: start; /* 🔥 alinhado à esquerda */
 }
 
 button{
-  width: 100%; /* 🔥 todos com mesmo tamanho */
-  height: 45px; /* 🔥 padronizado */
-  border-radius: 12px;
-  padding: 10px;
+  width: 140px; /* 🔥 todos iguais */
+  height: 40px;
+  border-radius: 10px;
+  padding: 8px;
 
   background-color: #1f3c88;
   color: white;
@@ -61,10 +59,6 @@ button{
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s ease;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 button:hover{
@@ -77,53 +71,50 @@ button:hover{
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 
-  gap: 18px; /* 🔥 melhor espaçamento entre inputs/botões */
+  gap: 12px; /* 🔥 espaçamento mais organizado */
   background: #f5f7fb;
-  padding: 20px;
+  padding: 15px;
   border-radius: 15px;
 }
 
 /* INPUTS */
 input{
   width: 100%;
-  max-width: 350px;
-  height: 45px; /* 🔥 igual aos botões */
-  border-radius: 10px;
+  max-width: 320px;
+  height: 40px;
+  border-radius: 8px;
   border:1px solid #ccc;
 
-  padding: 0 12px;
+  padding: 0 10px;
   font-size: 14px;
-
-  transition: 0.3s;
 }
 
 input:focus{
   outline: none;
-  box-shadow: 0 0 8px rgba(31,60,136,0.3);
+  box-shadow: 0 0 6px rgba(31,60,136,0.3);
 }
 
 /* HISTÓRICO */
 .item-historico{
   width: 100%;
   background: #ffffff;
-  padding: 15px;
+  padding: 12px;
   border-radius: 10px;
 
   box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .item-historico p{
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 /* TEXTO */
 p{
-  font-size: 18px; /* 🔥 menos pesado visualmente */
+  font-size: 16px;
   font-weight: bold;
-  text-align: center;
+  text-align: left; /* 🔥 alinhado à esquerda */
 }
 
 /* IMAGEM */
@@ -136,29 +127,20 @@ img{
 footer{
   font-style: italic;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* 🔥 esquerda */
 }
 
 /* MOBILE */
 @media (max-width: 600px) {
   #card {
-    padding: 25px 15px;
+    padding: 20px;
   }
 
   .botoes{
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 1024px) {
-  section{
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 120px));
   }
 
-  #img{
-    width: 150px;
-    margin-left: 20px;
+  button{
+    width: 120px;
   }
 }
