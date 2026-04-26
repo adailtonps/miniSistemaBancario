@@ -414,13 +414,12 @@ async function alterarDados() {
 function formatarData(dataISO) {
     if (!dataISO) return "Data inválida";
 
-    const data = new Date(dataISO);
+    const [data, hora] = dataISO.split("T");
 
-    return data.toLocaleString("pt-BR", {
-        dateStyle: "short",
-        timeStyle: "medium",
-        timeZone: "America/Sao_Paulo"
-    });
+    const [ano, mes, dia] = data.split("-");
+    const [h, m, s] = hora.split(":");
+
+    return `${dia}/${mes}/${ano}, ${h}:${m}:${s}`;
 }
 
 async function historicoTransferencias() {
