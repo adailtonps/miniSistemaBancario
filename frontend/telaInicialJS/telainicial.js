@@ -467,8 +467,8 @@ async function apagarConta() {
         <h4>⚠️ Só pode apagar se o status estiver desativado e saldo zerado!</h4>
         <input type="email" id="email" placeholder="Email"><br>
         <input type="password" id="senha" placeholder="Senha"><br>
-        <p id="msgApagar"></p>
         <button id="confirmarDelete">Apagar</button>
+        <p id="msgApagar"></p>
     `;
 
     const msgApagar = document.getElementById("msgApagar");
