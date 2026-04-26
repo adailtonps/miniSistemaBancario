@@ -329,9 +329,9 @@ async function alterarStatus(ativar) {
     } catch (erro) {
         msg.textContent = erro.message;
         msg.style.color = "red";
-        setTimeout(() => {
-            msg.textContent = "";
-        }, 4500);
+        setTimeout(() =>{
+            msg.textContent=""
+        },4500)
     }
 }
 
@@ -405,21 +405,22 @@ async function alterarDados() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 4500);
+        }, 3000);
     }
 }
 
 // HISTORY
 
 function formatarData(dataISO) {
-    if (!dataISO) return "Data inválida";
+    if (!dataISO) return "Ainda não realizado!";
 
-    const [data, hora] = dataISO.split("T");
+    const data = new Date(dataISO);
 
-    const [ano, mes, dia] = data.split("-");
-    const [h, m, s] = hora.split(":");
-
-    return `${dia}/${mes}/${ano}, ${h}:${m}:${s}`;
+    return data.toLocaleString("pt-BR", {
+        dateStyle: "short",
+        timeStyle: "medium",
+        timeZone: "America/Sao_Paulo"
+    });
 }
 
 async function historicoTransferencias() {
