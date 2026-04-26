@@ -39,7 +39,7 @@ body {
 
 
 .botoes{
-  width: 100%;
+  width: 90%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 140px));
   gap:12px;
