@@ -414,11 +414,12 @@ async function alterarDados() {
 function formatarData(dataISO) {
     if (!dataISO) return "Data inválida";
 
-    const data = new Date(dataISO + "-03:00");
+    const data = new Date(dataISO);
 
     return data.toLocaleString("pt-BR", {
         dateStyle: "short",
-        timeStyle: "medium"
+        timeStyle: "medium",
+        timeZone: "America/Sao_Paulo"
     });
 }
 
