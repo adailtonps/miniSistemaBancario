@@ -444,7 +444,6 @@ async function historicoTransferencias() {
                     <p><strong>Data e Hora:</strong> ${formatarData(transferencia.dataHoraTransacao)}</p>
                     <p><strong>Valor:</strong> R$ ${Number(transferencia.valor).toFixed(2)}</p>
                 </div>`;
-                console.log(transferencia);
         });
 
         document.getElementById("msg").innerHTML = html;
