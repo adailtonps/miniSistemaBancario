@@ -258,7 +258,7 @@ async function gerenciarConta() {
     div.innerHTML = `
         <button id="btnStatusConta">Status da Conta</button>
         <button id="btnAtualizar">Atualizar Dados</button>
-        <button id="btnHistorico">Histórico de Transferências</button>
+        <button id="btnHistorico">Histórico</button>
         <button id="btnDeletar">Apagar Conta</button>
     `;
 
