@@ -412,9 +412,11 @@ async function alterarDados() {
 // HISTORY
 
 function formatarData(dataISO) {
-    if (!dataISO) return "Ainda não realizado!";
+    if (!dataISO) return "Data inválida";
 
     const data = new Date(dataISO);
+
+    if (isNaN(data)) return "Data inválida";
 
     return data.toLocaleString("pt-BR", {
         dateStyle: "short",
@@ -422,7 +424,6 @@ function formatarData(dataISO) {
         timeZone: "America/Sao_Paulo"
     });
 }
-
 async function historicoTransferencias() {
     try {
         const dados = await handleResponse(
