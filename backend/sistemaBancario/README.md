@@ -32,11 +32,59 @@ Responsável por fazer login
     "mensagem": "Login realizado com sucesso!"  
 }
 ## Como usar o token
-Para acessar endpoints protegidas, copie e cole o token gerado no Authorization:  
+Para acessar endpoints protegidos, copie o token gerado dento das aspas e cole no Authorization:  
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.exemplo.token.jwt  
 
 
 ## Minha Conta  
+GET /conta/minha-conta  
+Responsável por mostrar os dados da conta
+## Não é necessário enviar infos no body nesse endpoint
+## Resposta
+{  
+    "id": 3,  
+    "StatusConta": "ATIVADA",  
+    "Saldo": 0.00,  
+    "emailCliente": "usuario@gmail.com",  
+    "nomeCliente": "Usuario"  
+}
+
+
+# Saldo
+GET /conta/me/saldo
+Responsável por mostrar o saldo da conta
+## Não é necessário enviar infos no body nesse endpoint
+## Resposta
+{  
+    "saldo": 0.00  
+}
+
+
+## Depósito
+POST /conta/me/deposito
+Responsável por fazer depósitos na conta
+## Body
+{  
+  "valor":200  
+}  
+## Resposta
+{  
+    "id": 3,  
+    "valor": 200,  
+    "transacaoTipo": "DEPOSITO",  
+    "dataHoraTransacao": "2026-04-30T00:06:40.373371432"  
+}
+
+
+## Saque
+POST /conta/me/saque
+Responsável por fazer saques na conta
+## Body
+{  
+  "valor":100  
+}  
+## Resposta
+
 
 
 
