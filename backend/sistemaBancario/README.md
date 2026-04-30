@@ -19,7 +19,7 @@ Responsável por criar uma nova conta
 
 
 ## Login
-POST /auth/login
+POST /auth/login  
 Responsável por fazer login
 ## Body
 {   
