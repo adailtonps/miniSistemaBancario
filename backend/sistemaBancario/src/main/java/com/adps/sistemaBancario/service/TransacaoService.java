@@ -43,7 +43,7 @@ public class TransacaoService {
         Transacao saqueFeito = transacaoRepository.save(transacao);
 
         return new TransacaoResponseDTO(
-                saqueFeito.getId(),
+                saqueFeito.getIdTransacao(),
                 saqueFeito.getTransacaoTipo(),
                 saqueFeito.getDataHoraTransacao(),
                 saqueFeito.getValor()
@@ -67,7 +67,7 @@ public class TransacaoService {
         Transacao transacaoFeita = transacaoRepository.save(transacao);
 
         return new TransacaoResponseDTO(
-                transacaoFeita.getId(),
+                transacaoFeita.getIdTransacao(),
                 transacaoFeita.getTransacaoTipo(),
                 transacaoFeita.getDataHoraTransacao(),
                 transacaoFeita.getValor()
@@ -83,7 +83,7 @@ public class TransacaoService {
 
         return transacaoHistorico.stream()
                 .map(t -> new TransacaoResponseDTO(
-                        t.getId(),
+                        t.getIdTransacao(),
                         t.getTransacaoTipo(),
                         t.getDataHoraTransacao(),
                         t.getValor()

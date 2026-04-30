@@ -12,7 +12,8 @@ import java.time.ZoneId;
 public class Transacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idTransacao;
+
 
     @ManyToOne
     @JsonIgnore
@@ -36,8 +37,8 @@ public class Transacao {
         this.transacaoTipo = transacaoTipo;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdTransacao() {
+        return idTransacao;
     }
 
     public Conta getConta() {
