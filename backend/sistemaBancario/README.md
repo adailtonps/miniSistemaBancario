@@ -69,7 +69,7 @@ Responsável por fazer depósitos na conta
 }  
 ## Resposta
 {  
-    "id": 3,  
+    "idTransacao": 1,  
     "valor": 200,  
     "transacaoTipo": "DEPOSITO",  
     "dataHoraTransacao": "2026-04-30T00:06:40.373371432"  
@@ -84,6 +84,32 @@ Responsável por fazer saques na conta
   "valor":100  
 }  
 ## Resposta
+{  
+    "idTransacao": 2,  
+    "valor": 100,  
+    "transacaoTipo": "SAQUE",  
+    "dataHoraTransacao": "2026-04-30T00:08:25.781652"
+}
+
+
+## Histórico
+GET /conta/me/historico
+Responsável por mostrar todo o histórico de saques, depósitos e transferências da conta  
+## Não é necessário enviar infos no body
+## Resposta
+    {
+        "idTransacao": 2,
+        "valor": 100.00,
+        "transacaoTipo": "SAQUE",
+        "dataHoraTransacao": "2026-04-30T00:08:25.781652"
+    },
+    {
+        "idTransacao": 1,
+        "valor": 200.00,
+        "transacaoTipo": "DEPOSITO",
+        "dataHoraTransacao": "2026-04-30T00:06:40.373371"
+    }
+
 
 
 
