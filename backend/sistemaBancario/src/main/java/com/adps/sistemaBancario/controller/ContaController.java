@@ -85,7 +85,7 @@ public class ContaController {
     }
 
 
-    @DeleteMapping("/me")
+    @DeleteMapping("/me/delete")
     public ResponseEntity<Map<String, String>> apagar(
             @AuthenticationPrincipal Cliente cliente,
             @RequestBody ApagarClienteDTO apagarClienteDTO)
