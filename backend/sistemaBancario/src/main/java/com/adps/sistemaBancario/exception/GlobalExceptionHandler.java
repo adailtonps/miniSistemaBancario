@@ -52,11 +52,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErroResponse> handleGeral(Exception ex) {
+
+        ex.printStackTrace();
+
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErroResponse(
                         500,
-                        "Erro interno do servidor"
+                        ex.getMessage()
                 ));
     }
 }
