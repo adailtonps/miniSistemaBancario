@@ -15,6 +15,7 @@ import java.util.List;
 public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
     List<Transacao> findByContaOrderByDataHoraTransacaoDesc(Conta conta);
     @Modifying
-    @Query("DELETE * FROM transacao t where t.conta = :conta")
+    @Transactional
+    @Query("DELETE FROM transacao t where t.conta = :conta")
     void deleteByConta(@Param("conta")Conta conta);
 }
