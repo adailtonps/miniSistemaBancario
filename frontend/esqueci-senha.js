@@ -13,7 +13,7 @@ async function enviarEmail() {
         alert(mensagem)
         return;
     }
-    const resposta = prompt("Clique em 'ok' e você será transferido para a tela de redefinir a senha:")
+    const resposta = alert("Clique em 'ok' e você será transferido para a tela de redefinir a senha:")
 
     if(resposta !== null){
         window.location.href=mensagem;
