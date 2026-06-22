@@ -4,6 +4,8 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 
+backend/sistemaBancario/src/main/resources/application-local.properties
+
 # Build
 target/
 *.class
