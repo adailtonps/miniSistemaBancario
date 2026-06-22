@@ -1,72 +1,72 @@
-# sistemaBancario
-## Endpoints disponíveis:
-## URL = https://minisistemabancario.onrender.com
-## Criar um conta:
-POST /auth/cadastro  
-Responsável por criar uma nova conta
-## Body:
+# sistemaBancario  
+## Endpoints disponíveis:  
+## URL = https://minisistemabancario.onrender.com  
+## Criar um conta  
+POST /auth/cadastro   
+Responsável por criar uma nova conta  
+## Body  
 {   
-  "email": "usuario@gmail.com",  
+  "email": "usuario@gmail.com",   
   "nome": "Usuario",  
   "senha": "usuario123A@"  
-}
-## Resposta
+}  
+## Resposta  
 {  
     "id": 3,  
     "nome": "Usuario",  
     "email": "usuario@gmail.com"  
-}
+}  
 
 
-## Login
+## Login  
 POST /auth/login  
-Responsável por fazer login
-## Body
+Responsável por fazer login  
+## Body  
 {   
   "email": "usuario@gmail.com",  
   "senha": "usuario123A@"  
-}
-## Resposta
+}  
+## Resposta  
 {  
     "token": "eyJhbGciOiJIUzI1NiJ9.exemplo.token.jwt",  
     "mensagem": "Login realizado com sucesso!"  
 }
-## Como usar o token
-Para acessar endpoints protegidos, copie o token gerado dento das aspas e cole no Authorization:  
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.exemplo.token.jwt  
+## Como usar o token  
+Para acessar endpoints protegidos, copie o token gerado dento das aspas e cole no Authorization:    
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.exemplo.token.jwt   
 
 
 ## Minha Conta  
 GET /conta/minha-conta  
-Responsável por mostrar os dados da conta
-## Não é necessário enviar infos no body nesse endpoint
-## Resposta
-{  
+Responsável por mostrar os dados da conta  
+## Não é necessário enviar infos no body nesse endpoint  
+## Resposta  
+{   
     "id": 3,  
     "StatusConta": "ATIVADA",  
     "Saldo": 0.00,  
     "emailCliente": "usuario@gmail.com",  
     "nomeCliente": "Usuario"  
-}
-
-
-# Saldo
-GET /conta/me/saldo
-Responsável por mostrar o saldo da conta
-## Não é necessário enviar infos no body nesse endpoint
-## Resposta
-{  
-    "saldo": 0.00  
-}
-
-
-## Depósito
-POST /conta/me/deposito
-Responsável por fazer depósitos na conta
-## Body
-{  
-  "valor":200  
 }  
+
+
+# Saldo  
+GET /conta/me/saldo  
+Responsável por mostrar o saldo da conta   
+## Não é necessário enviar infos no body nesse endpoint  
+## Resposta   
+{   
+    "saldo": 0.00   
+}
+
+
+## Depósito  
+POST /conta/me/deposito  
+Responsável por fazer depósitos na conta  
+## Body
+{   
+  "valor":200    
+}   
 ## Resposta
 {  
     "idTransacao": 1,  
@@ -76,47 +76,47 @@ Responsável por fazer depósitos na conta
 }
 
 
-## Saque
-POST /conta/me/saque
-Responsável por fazer saques na conta
-## Body
+## Saque  
+POST /conta/me/saque  
+Responsável por fazer saques na conta  
+## Body  
 {  
-  "valor":100  
-}  
+  "valor":100   
+}   
 ## Resposta
 {  
     "idTransacao": 2,  
     "valor": 100,  
     "transacaoTipo": "SAQUE",  
-    "dataHoraTransacao": "2026-04-30T00:08:25.781652"
-}
+    "dataHoraTransacao": "2026-04-30T00:08:25.781652"  
+}  
 
 
-## Histórico
-GET /conta/me/historico
-Responsável por mostrar todo o histórico de saques, depósitos e transferências da conta  
-## Não é necessário enviar infos no body
-## Resposta
-    {
-        "idTransacao": 2,
-        "valor": 100.00,
-        "transacaoTipo": "SAQUE",
-        "dataHoraTransacao": "2026-04-30T00:08:25.781652"
-    },
-    {
-        "idTransacao": 1,
-        "valor": 200.00,
-        "transacaoTipo": "DEPOSITO",
-        "dataHoraTransacao": "2026-04-30T00:06:40.373371"
-    }
+## Histórico  
+GET /conta/me/historico  
+Responsável por mostrar todo o histórico de saques, depósitos e transferências da conta   
+## Não é necessário enviar infos no body  
+## Resposta  
+    {  
+        "idTransacao": 2,  
+        "valor": 100.00,  
+        "transacaoTipo": "SAQUE",  
+        "dataHoraTransacao": "2026-04-30T00:08:25.781652"  
+    },  
+    {  
+        "idTransacao": 1,  
+        "valor": 200.00,  
+        "transacaoTipo": "DEPOSITO",  
+        "dataHoraTransacao": "2026-04-30T00:06:40.373371"  
+    }  
 
 
 
-## Atualizar dados (nome ou email)
+## Atualizar dados (nome ou email)  
 PATCH /clientes/me  
 Responsável por atualizar os dados do cliente  
 ## Body (somente o dado que deseja atualizar: email ou nome, se quiser pode atualizar os dois)  
-## SE ATUALIZAR O EMAIL, É NECESSÁRIO FAZER LOGIN NOVAMENTE COM O NOVO EMAIL ->  POST /auth/login
+## SE ATUALIZAR O EMAIL, É NECESSÁRIO FAZER LOGIN NOVAMENTE COM O NOVO EMAIL ->  POST /auth/login  
 {  
     "email":"user@gmail.com",  
     "nome":"user",  
@@ -130,50 +130,66 @@ Responsável por atualizar os dados do cliente
 }
 
 
-## Transferências
-POST /transacoes/transferencia
+## Transferências  
+POST /transacoes/transferencia  
 Responsável por realizar transferências para outra conta  
-É necessário ter outra conta criada no sistema
-## Body
+É necessário ter outra conta criada no sistema  
+## Body  
 {  
     "destinoId":2,  
     "valor":20,  
     "senha":"usuario123A@"  
 }
-## Resposta  
-Transferência realizada com sucesso!
+## Resposta   
+Transferência realizada com sucesso!  
 
 
 ## Desativar a conta
-PUT /conta/me/desativar
-Responsável por desativar a conta
-É necessário ter o saldo zerado para conseguir desativar
-## Não é necessário infos no body para esse endpoint
+PUT /conta/me/desativar  
+Responsável por desativar a conta  
+É necessário ter o saldo zerado para conseguir desativar  
+## Não é necessário infos no body para esse endpoint  
 ## Resposta  
-{
-    "mensagem": "Conta Desativada com sucesso!"  
+{  
+    "mensagem": "Conta Desativada com sucesso!"    
 }
 
 
 # Ativar a conta
-PUT /conta/me/ativar
-Responsável por ativar a conta
-## Não é necessário infos no body para esse endpoint
-## Resposta  
-{
-    "mensagem": "Conta Ativada com sucesso!"
+PUT /conta/me/ativar  
+Responsável por ativar a conta  
+## Não é necessário infos no body para esse endpoint  
+## Resposta   
+{  
+    "mensagem": "Conta Ativada com sucesso!"  
 }
 
 
-## Apagar a conta
-DELETE /conta/me
-Responsável por apagar a conta
-É necessário ter a conta desativada e saldo zerado para apagar a conta
-## Body
-{
+## Reset da senha
+POST /auth/esqueci-senha  
+Responsável por gerar o link de reset da senha  
+Um link será gerado após a requisição, copie o link e cole no navegador, e insira a nova senha    
+Você será redirecionado para a tela de login do sistema, entre com a nova senha, ou pode continuar fazendo as requisições no postman ou no insomnia, mas agora usando a nova senha.  
+## Body  
+{   
+  "email":"user@gmail.com"  
+}  
+## Resposta   
+https://mini-sistema-bancario.vercel.app//reset-senha.html?exemplo.com  
 
 
-
-
+## Apagar a conta  
+DELETE /conta/me  
+Responsável por apagar a conta  
+É necessário ter a conta desativada e saldo zerado para apagar a conta  
+## Body  
+{   
+    "email":"user@gmail.com",  
+    "senha":"adailton123A@"  
+}
+## Resposta  
+{   
+    "mensagem": "Cliente apagado com sucesso!"  
+}
 
 
