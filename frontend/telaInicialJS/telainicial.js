@@ -445,7 +445,7 @@ async function historicoTransferencias() {
                 </div>`;
         });
 
-        console.log(transferencia.id)
+        console.log(html)
         document.getElementById("msg").innerHTML = html;
 
     } catch (erro) {
