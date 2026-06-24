@@ -438,7 +438,7 @@ async function historicoTransferencias() {
         dados.forEach(transferencia => {
             html += `
                 <div class="item-historico">
-                    <p><strong>ID Transação:</strong> ${transferencia.id}</p>
+                    <p><strong>ID Transação:</strong> ${transferencia.idTransacao}</p>
                     <p><strong>Tipo:</strong> ${transferencia.transacaoTipo}</p>
                     <p><strong>Data e Hora:</strong> ${formatarData(transferencia.dataHoraTransacao)}</p>
                     <p><strong>Valor:</strong> R$ ${Number(transferencia.valor).toFixed(2)}</p>
