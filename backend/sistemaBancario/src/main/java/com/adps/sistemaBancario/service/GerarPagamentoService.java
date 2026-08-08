@@ -18,6 +18,7 @@ public class GerarPagamentoService {
 
     public PagamentoResponseDTO criarPagamento(CriarPagamentoDTO criarPagamentoDTO){
         Pagamento pagamento = new Pagamento();
+        System.out.println(">>> PASSOU PELO SERVICE");
         LocalDateTime dataHoraPagamento =  LocalDateTime.now();
         pagamento.setIdPedido(criarPagamentoDTO.getIdPedido());
         pagamento.setValorTotal(criarPagamentoDTO.getValorTotal());

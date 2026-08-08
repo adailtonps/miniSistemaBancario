@@ -23,6 +23,7 @@ public class PagamentoController {
     @PostMapping("/gerar")
     public ResponseEntity<PagamentoResponseDTO> gerar(
             @RequestBody CriarPagamentoDTO dto){
+        System.out.println(">>> CHEGOU NO PAGAMENTO/GERAR");
         return ResponseEntity.ok(gerarPagamentoService.criarPagamento(dto));
     }
 
