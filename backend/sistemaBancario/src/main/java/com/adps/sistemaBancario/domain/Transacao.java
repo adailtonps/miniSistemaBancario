@@ -5,15 +5,13 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 @Entity
 @Table(name="transacao")
 public class Transacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idTransacao;
-
+    private Long id;
 
     @ManyToOne
     @JsonIgnore
@@ -32,13 +30,13 @@ public class Transacao {
 
     public Transacao(Conta conta, BigDecimal valor, TransacaoTipo transacaoTipo) {
         this.conta = conta;
-        this.dataHoraTransacao = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
+        this.dataHoraTransacao = LocalDateTime.now();
         this.valor = valor;
         this.transacaoTipo = transacaoTipo;
     }
 
-    public Long getIdTransacao() {
-        return idTransacao;
+    public Long getId() {
+        return id;
     }
 
     public Conta getConta() {

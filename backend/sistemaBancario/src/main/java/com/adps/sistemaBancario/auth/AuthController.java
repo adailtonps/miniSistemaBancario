@@ -7,9 +7,7 @@ import com.adps.sistemaBancario.repository.ClienteRepository;
 import com.adps.sistemaBancario.service.AuthService;
 import com.adps.sistemaBancario.service.CadastroService;
 import com.adps.sistemaBancario.service.JWTService;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,6 +34,8 @@ public class AuthController {
         this.authService = authService;
     }
 
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
     @PostMapping("/cadastro")
     public ResponseEntity<ClienteResponseDTO> cadastrar(
@@ -56,14 +56,14 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login (@RequestBody LoginDTO dto) {
+    public ResponseEntity<LoginResponseDTO> login (@RequestBody LoginDTO dto){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getEmail(),
                         dto.getSenha())
         );
         String token = jwtService.gerarToken(dto.getEmail());
-        return ResponseEntity.ok(new LoginResponseDTO("Login realizado com sucesso!",token));
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/esqueci-senha")

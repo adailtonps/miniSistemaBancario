@@ -45,6 +45,10 @@ public class Conta {
         this.saldo = this.saldo.subtract(valor);
     }
 
+    public void setSaldo(BigDecimal saldo) {
+        this.saldo = saldo;
+    }
+
     public StatusConta getStatusConta() {
         return statusConta;
     }

@@ -12,11 +12,4 @@ public class ApagarClienteDTO {
         return email;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

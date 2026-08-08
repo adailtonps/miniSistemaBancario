@@ -1,6 +1,7 @@
 package com.adps.sistemaBancario.service;
 
 import com.adps.sistemaBancario.domain.*;
+import com.adps.sistemaBancario.dto.PagamentoResponseDTO;
 import com.adps.sistemaBancario.dto.TransacaoResponseDTO;
 import com.adps.sistemaBancario.exception.*;
 import com.adps.sistemaBancario.repository.ContaRepository;
@@ -43,7 +44,7 @@ public class TransacaoService {
         Transacao saqueFeito = transacaoRepository.save(transacao);
 
         return new TransacaoResponseDTO(
-                saqueFeito.getIdTransacao(),
+                saqueFeito.getId(),
                 saqueFeito.getTransacaoTipo(),
                 saqueFeito.getDataHoraTransacao(),
                 saqueFeito.getValor()
@@ -67,12 +68,13 @@ public class TransacaoService {
         Transacao transacaoFeita = transacaoRepository.save(transacao);
 
         return new TransacaoResponseDTO(
-                transacaoFeita.getIdTransacao(),
+                transacaoFeita.getId(),
                 transacaoFeita.getTransacaoTipo(),
                 transacaoFeita.getDataHoraTransacao(),
                 transacaoFeita.getValor()
         );
     }
+
 
     @Transactional(readOnly = true)
     public List<TransacaoResponseDTO> historico(Cliente cliente){
@@ -83,7 +85,7 @@ public class TransacaoService {
 
         return transacaoHistorico.stream()
                 .map(t -> new TransacaoResponseDTO(
-                        t.getIdTransacao(),
+                        t.getId(),
                         t.getTransacaoTipo(),
                         t.getDataHoraTransacao(),
                         t.getValor()

@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface ContaRepository extends JpaRepository<Conta, Long> {
     boolean existsByClienteAndStatusConta(Cliente cliente, StatusConta statusConta);
     Optional<Conta> findByCliente(Cliente cliente);
+
 }
 

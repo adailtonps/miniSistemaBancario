@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -35,35 +34,29 @@ public class JWTFilter extends OncePerRequestFilter {
 
         SecurityContextHolder.clearContext();
 
-        String token = null;
+        String header = request.getHeader("Authorization");
 
-        String authHeader = request.getHeader("Authorization");
-        if(authHeader != null && authHeader.startsWith("Bearer ")){
-            token = authHeader.substring(7);
-        }
+        if(header != null && header.startsWith("Bearer ")){
+            String token = header.replace("Bearer ", "");
 
-        if(token != null){
-            try{
+            String email = jwtService.validarToken(token);
 
-            var claims = jwtService.getClaims(token);
-            String email = claims.getSubject();
+            if (email != null){
+                Cliente cliente = clienteRepository.findByEmail(email).orElse(null);
 
-            if(email != null) {
-                Cliente cliente = clienteRepository
-                        .findByEmail(email)
-                        .orElse(null);
+                if(cliente != null){
+                    UsernamePasswordAuthenticationToken auth=
+                            new UsernamePasswordAuthenticationToken(
+                                    cliente,
+                                    null,
+                                    List.of(() -> "ROLE_CLIENTE")
+                            );
+                          SecurityContextHolder.getContext().setAuthentication(auth);
 
-                if (cliente != null) {
-                    var authentication = new UsernamePasswordAuthenticationToken(
-                            cliente,
-                            null,
-                            List.of()
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
-        } catch(Exception ex){
-                System.out.println("Token inválido!");}
         }
-    filterChain.doFilter(request, response);}
+        filterChain.doFilter(request, response);
+    }
+
 }

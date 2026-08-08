@@ -7,7 +7,6 @@ import com.adps.sistemaBancario.dto.ClienteAtualizarDto;
 import com.adps.sistemaBancario.exception.NegocioException;
 import com.adps.sistemaBancario.repository.ClienteRepository;
 import com.adps.sistemaBancario.repository.ContaRepository;
-import com.adps.sistemaBancario.repository.ResetSenhaTokenRepository;
 import com.adps.sistemaBancario.repository.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,18 +22,16 @@ public class ClienteService {
     private final TransacaoRepository transacaoRepository;
     private final ClienteRepository clienteRepository;
     private final JWTService jwtService;
-    private final ResetSenhaTokenRepository resetSenhaTokenRepository;
 
     @Autowired
     private final PasswordEncoder encoder;
 
-    public ClienteService(ContaRepository contaRepository, TransacaoRepository transacaoRepository, ClienteRepository clienteRepository, PasswordEncoder encoder, JWTService jwtService,  ResetSenhaTokenRepository resetSenhaTokenRepository) {
+    public ClienteService(ContaRepository contaRepository, TransacaoRepository transacaoRepository, ClienteRepository clienteRepository, PasswordEncoder encoder, JWTService jwtService) {
         this.contaRepository = contaRepository;
         this.transacaoRepository = transacaoRepository;
         this.clienteRepository = clienteRepository;
         this.encoder = encoder;
         this.jwtService = jwtService;
-        this.resetSenhaTokenRepository = resetSenhaTokenRepository;
     }
 
     public Cliente criarCliente(String nomeCliente, String emailCliente, String senhaCliente) {
@@ -48,17 +45,6 @@ public class ClienteService {
 
     }
 
-    public Cliente salvar(Cliente cliente) {
-        return clienteRepository.save(cliente);
-    }
-
-    public Cliente findById(Long id) {
-        return clienteRepository.findById(id).orElseThrow(() -> new NegocioException("Nenhum cliente encontrado!"));
-    }
-
-    public Cliente findByEmail(String email) {
-        return clienteRepository.findByEmail(email).orElseThrow(() -> new NegocioException("Nenhum cliente encontrado!"));
-    }
 
     public void atualizarNome(Cliente cliente, String novoNome) {
         if (novoNome == null || novoNome.isBlank()) {
@@ -119,7 +105,6 @@ public class ClienteService {
         if (conta.getStatusConta() == StatusConta.ATIVADA) {
             throw new NegocioException("Cliente possui conta ativa!");
         }
-        resetSenhaTokenRepository.deleteByCliente(clienteLogado);
         transacaoRepository.deleteByConta(conta);
         contaRepository.delete(conta);
         clienteRepository.delete(clienteLogado);

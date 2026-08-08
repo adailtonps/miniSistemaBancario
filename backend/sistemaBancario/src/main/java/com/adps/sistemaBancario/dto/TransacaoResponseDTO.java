@@ -6,25 +6,25 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class TransacaoResponseDTO {
-    private Long idTransacao;
+    private Long id;
     private BigDecimal valor;
     private TransacaoTipo transacaoTipo;
     private LocalDateTime dataHoraTransacao;
 
-    public TransacaoResponseDTO(Long idTransacao, TransacaoTipo transacaoTipo, LocalDateTime dataHoraTransacao, BigDecimal valor) {
-        this.idTransacao = idTransacao;
+    public TransacaoResponseDTO(Long id, TransacaoTipo transacaoTipo, LocalDateTime dataHoraTransacao, BigDecimal valor) {
+        this.id = id;
         this.transacaoTipo = transacaoTipo;
         this.dataHoraTransacao = dataHoraTransacao;
         this.valor = valor;
     }
 
 
-    public Long getIdTransacao() {
-        return idTransacao;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdTransacao(Long idTransacao) {
-        this.idTransacao = idTransacao;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public BigDecimal getValor() {

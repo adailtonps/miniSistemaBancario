@@ -1,11 +1,9 @@
 package com.adps.sistemaBancario.service;
 
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -25,7 +23,7 @@ public class JWTService {
         this.expiracao = expiracao;
     }
 
-    public String gerarToken(String email) {
+    public String gerarToken(String email){
         Date agora = new Date();
         Date validade = new  Date(agora.getTime() + expiracao);
 
@@ -37,11 +35,16 @@ public class JWTService {
                 .compact();
     }
 
-    public Claims getClaims(String token){
-        return Jwts.parserBuilder()
-                .setSigningKey(chaveSecreta)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    public String validarToken(String token){
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(chaveSecreta)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
