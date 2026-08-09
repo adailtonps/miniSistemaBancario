@@ -28,15 +28,28 @@ public class PagamentoController {
     }
 
     @PostMapping("/realizar")
-    public ResponseEntity<Void> pagar(@RequestBody PagamentoResponseDTO dto,
-                                      Authentication authentication){
-        System.out.println("Chegou no controller");
+    public ResponseEntity<Void> pagar(
+            @RequestBody PagamentoResponseDTO dto,
+            Authentication authentication) {
 
-        Cliente cliente = (Cliente) authentication.getPrincipal();
+        System.out.println("1 - Chegou no controller");
 
-        System.out.println("Cliente autenticado: " + cliente.getEmail());
+        System.out.println("2 - Authentication: " + authentication);
+
+        Object principal = authentication.getPrincipal();
+
+        System.out.println("3 - Principal: " + principal);
+
+        Cliente cliente = (Cliente) principal;
+
+        System.out.println("4 - Cliente convertido: " + cliente);
+
+        System.out.println("5 - Chamando service");
 
         pagamentoService.Pagar(cliente, dto);
+
+        System.out.println("6 - Voltou do service");
+
         return ResponseEntity.ok().build();
     }
 }
