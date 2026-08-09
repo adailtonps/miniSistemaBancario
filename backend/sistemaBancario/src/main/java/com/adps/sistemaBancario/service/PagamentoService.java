@@ -27,14 +27,18 @@ public class PagamentoService {
         Cliente existClient = clienteRepository.findByEmail(cliente.getEmail())
                 .orElseThrow(() -> new UserNaoEncontrado("Cliente não encontrado!"));
 
+
         if(conta.getStatusConta()==StatusConta.DESATIVADA){
             throw new OperacaoInvalidaException("A conta está desativada!");
         }
+
+        System.out.println("chegou no erro do codigo");
         if(!pagamentoResponseDTO.getCodigoPagamento().startsWith("PAY-") ||
             pagamentoResponseDTO.getCodigoPagamento().length() != 18){
             throw new OperacaoInvalidaException("Código de pagamento inválido!");
         }
 
+        System.out.println("chegou no codigo invalido");
         Pagamento pagamento = pagamentoRepository.findByCodigoPagamento(
                 pagamentoResponseDTO.getCodigoPagamento()).orElseThrow(()
                 -> new OperacaoInvalidaException("Código de pagamento inválido!"));

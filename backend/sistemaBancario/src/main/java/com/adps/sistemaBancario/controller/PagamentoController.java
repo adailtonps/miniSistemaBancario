@@ -30,6 +30,7 @@ public class PagamentoController {
     @PostMapping("/realizar")
     public ResponseEntity<Void> pagar(@RequestBody PagamentoResponseDTO dto,
                                       Authentication authentication){
+        System.out.println("Chegou no controller");
         Cliente cliente = (Cliente) authentication.getPrincipal();
         pagamentoService.Pagar(cliente, dto);
         return ResponseEntity.ok().build();
