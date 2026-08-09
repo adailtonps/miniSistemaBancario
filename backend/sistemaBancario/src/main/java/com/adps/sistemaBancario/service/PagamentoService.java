@@ -24,13 +24,22 @@ public class PagamentoService {
     private ContaRepository contaRepository;
 
     public void Pagar(Cliente cliente,PagamentoResponseDTO pagamentoResponseDTO) {
+        System.out.println("1 - Entrou no Pagar");
+
         Cliente existClient = clienteRepository.findByEmail(cliente.getEmail())
                 .orElseThrow(() -> new UserNaoEncontrado("Cliente não encontrado!"));
 
 
+        System.out.println("2 - Cliente encontrado");
+
         if(conta.getStatusConta()==StatusConta.DESATIVADA){
             throw new OperacaoInvalidaException("A conta está desativada!");
         }
+
+        System.out.println("3 - Conta está ativa");
+
+        System.out.println("Código recebido: " +
+                pagamentoResponseDTO.getCodigoPagamento());
 
         System.out.println("chegou no erro do codigo");
         if(!pagamentoResponseDTO.getCodigoPagamento().startsWith("PAY-") ||

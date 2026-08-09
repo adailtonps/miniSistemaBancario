@@ -31,7 +31,11 @@ public class PagamentoController {
     public ResponseEntity<Void> pagar(@RequestBody PagamentoResponseDTO dto,
                                       Authentication authentication){
         System.out.println("Chegou no controller");
+
         Cliente cliente = (Cliente) authentication.getPrincipal();
+
+        System.out.println("Cliente autenticado: " + cliente.getEmail());
+
         pagamentoService.Pagar(cliente, dto);
         return ResponseEntity.ok().build();
     }
