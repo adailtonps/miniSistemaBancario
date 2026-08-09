@@ -38,6 +38,14 @@ public class GerarPagamentoService {
         pagamento.gerarCodigoPagamento();
 
         System.out.println(">>> 4 - CÓDIGO GERADO");
+        try{
+            System.out.println("antes do save");
+            pagamentoRepository.save(pagamento);
+            System.out.println("depois do save");
+        } catch (Exception e){
+            System.out.println("Erro no save");
+            e.printStackTrace();
+        }
 
         pagamentoRepository.save(pagamento);
 
