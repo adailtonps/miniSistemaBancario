@@ -47,8 +47,6 @@ public class GerarPagamentoService {
             e.printStackTrace();
         }
 
-        pagamentoRepository.save(pagamento);
-
         System.out.println(">>> 5 - PAGAMENTO SALVO");
 
         PagamentoResponseDTO response = new PagamentoResponseDTO();
