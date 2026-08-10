@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class GerarPagamentoService {
-    private PagamentoRepository pagamentoRepository;
+    private final PagamentoRepository pagamentoRepository;
 
     public PagamentoResponseDTO criarPagamento(CriarPagamentoDTO criarPagamentoDTO) {
 
