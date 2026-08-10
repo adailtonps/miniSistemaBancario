@@ -3,7 +3,6 @@ package com.adps.sistemaBancario.service;
 import com.adps.sistemaBancario.domain.*;
 import com.adps.sistemaBancario.dto.AtualizarStatusPagamentoDTO;
 import com.adps.sistemaBancario.dto.PagamentoResponseDTO;
-import com.adps.sistemaBancario.dto.PagamentosPendentesDTO;
 import com.adps.sistemaBancario.exception.OperacaoInvalidaException;
 import com.adps.sistemaBancario.exception.UserNaoEncontrado;
 import com.adps.sistemaBancario.repository.ClienteRepository;
@@ -11,7 +10,6 @@ import com.adps.sistemaBancario.repository.ContaRepository;
 import com.adps.sistemaBancario.repository.PagamentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cglib.core.Local;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,6 @@ import java.util.List;
 @SpringBootApplication
 public class PagamentoService {
     private final ClienteRepository clienteRepository;
-    private final Conta conta;
     private final PagamentoRepository pagamentoRepository;
     private final ContaRepository contaRepository;
 
@@ -36,10 +33,12 @@ public class PagamentoService {
         Cliente existClient = clienteRepository.findByEmail(cliente.getEmail())
                 .orElseThrow(() -> new UserNaoEncontrado("Cliente não encontrado!"));
 
+        Conta contaExist = contaRepository.findById(existClient.getConta().getId_conta())
+                        .orElseThrow(() -> new UserNaoEncontrado("Conta inexistente!"));
 
         System.out.println("2 - Cliente encontrado");
 
-        if(conta.getStatusConta()==StatusConta.DESATIVADA){
+        if(contaExist.getStatusConta()==StatusConta.DESATIVADA){
             throw new OperacaoInvalidaException("A conta está desativada!");
         }
 
@@ -68,16 +67,16 @@ public class PagamentoService {
             throw new OperacaoInvalidaException("Código expirado, pagamento cancelado!");
         }
 
-        if(conta.getSaldo().compareTo(pagamento.getValorTotal()) < 0){
+        if(contaExist.getSaldo().compareTo(pagamento.getValorTotal()) < 0){
             throw new OperacaoInvalidaException("Saldo insuficiente!");
         }
 
-        conta.setSaldo(conta.getSaldo().subtract(pagamento.getValorTotal()));
+        contaExist.setSaldo(contaExist.getSaldo().subtract(pagamento.getValorTotal()));
         pagamento.setStatusPagamento(StatusPagamento.PAGO);
         pagamento.setDataPagamento(LocalDateTime.now());
         pagamentoRepository.save(pagamento);
 
-        contaRepository.save(conta);
+        contaRepository.save(contaExist);
 
         RestTemplate restTemplate = new RestTemplate();
         AtualizarStatusPagamentoDTO dto = new AtualizarStatusPagamentoDTO();
