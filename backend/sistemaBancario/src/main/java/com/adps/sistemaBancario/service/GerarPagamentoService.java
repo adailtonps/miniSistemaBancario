@@ -18,8 +18,6 @@ public class GerarPagamentoService {
 
     public PagamentoResponseDTO criarPagamento(CriarPagamentoDTO criarPagamentoDTO) {
 
-        System.out.println(">>> 1 - ENTROU NO SERVICE");
-
         Pagamento pagamento = new Pagamento();
 
         LocalDateTime dataHoraPagamento = LocalDateTime.now();
@@ -27,17 +25,13 @@ public class GerarPagamentoService {
         pagamento.setIdPedido(criarPagamentoDTO.getIdPedido());
         pagamento.setValorTotal(criarPagamentoDTO.getValorTotal());
 
-        System.out.println(">>> 2 - DADOS DO PAGAMENTO DEFINIDOS");
-
         pagamento.setStatusPagamento(StatusPagamento.PENDENTE_PAGAMENTO);
         pagamento.setDataCriacao(dataHoraPagamento);
         pagamento.setDataExpiracao(dataHoraPagamento.plusMinutes(30));
 
-        System.out.println(">>> 3 - ANTES DE GERAR CÓDIGO");
 
         pagamento.gerarCodigoPagamento();
 
-        System.out.println(">>> 4 - CÓDIGO GERADO");
         try{
             System.out.println("antes do save");
             pagamentoRepository.save(pagamento);
@@ -47,13 +41,9 @@ public class GerarPagamentoService {
             e.printStackTrace();
         }
 
-        System.out.println(">>> 5 - PAGAMENTO SALVO");
-
         PagamentoResponseDTO response = new PagamentoResponseDTO();
 
         response.setCodigoPagamento(pagamento.getCodigoPagamento());
-
-        System.out.println(">>> 6 - RESPONSE CRIADO");
 
         return response;
     }
