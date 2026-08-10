@@ -25,10 +25,10 @@ import java.util.List;
 @EnableScheduling
 @SpringBootApplication
 public class PagamentoService {
-    private ClienteRepository clienteRepository;
-    private Conta conta;
-    private PagamentoRepository pagamentoRepository;
-    private ContaRepository contaRepository;
+    private final ClienteRepository clienteRepository;
+    private final Conta conta;
+    private final PagamentoRepository pagamentoRepository;
+    private final ContaRepository contaRepository;
 
     public void Pagar(Cliente cliente,PagamentoResponseDTO pagamentoResponseDTO) {
         System.out.println("1 - Entrou no Pagar");
