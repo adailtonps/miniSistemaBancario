@@ -32,14 +32,7 @@ public class GerarPagamentoService {
 
         pagamento.gerarCodigoPagamento();
 
-        try{
-            System.out.println("antes do save");
-            pagamentoRepository.save(pagamento);
-            System.out.println("depois do save");
-        } catch (Exception e){
-            System.out.println("Erro no save");
-            e.printStackTrace();
-        }
+        pagamentoRepository.save(pagamento);
 
         PagamentoResponseDTO response = new PagamentoResponseDTO();
 
