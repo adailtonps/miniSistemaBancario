@@ -25,7 +25,6 @@ public class PagamentoService {
     private final ContaRepository contaRepository;
 
     public void Pagar(Cliente cliente,PagamentoResponseDTO pagamentoResponseDTO) {
-        System.out.println("1 - Entrou no Pagar");
 
         Cliente existClient = clienteRepository.findByEmail(cliente.getEmail())
                 .orElseThrow(() -> new UserNaoEncontrado("Cliente não encontrado!"));
@@ -33,24 +32,15 @@ public class PagamentoService {
         Conta contaExist = contaRepository.findById(existClient.getConta().getId_conta())
                         .orElseThrow(() -> new UserNaoEncontrado("Conta inexistente!"));
 
-        System.out.println("2 - Cliente encontrado");
-
         if(contaExist.getStatusConta()==StatusConta.DESATIVADA){
             throw new OperacaoInvalidaException("A conta está desativada!");
         }
 
-        System.out.println("3 - Conta está ativa");
-
-        System.out.println("Código recebido: " +
-                pagamentoResponseDTO.getCodigoPagamento());
-
-        System.out.println("chegou no erro do codigo");
         if(!pagamentoResponseDTO.getCodigoPagamento().startsWith("PAY-") ||
             pagamentoResponseDTO.getCodigoPagamento().length() != 18){
             throw new OperacaoInvalidaException("Código de pagamento inválido!");
         }
 
-        System.out.println("chegou no codigo invalido");
         Pagamento pagamento = pagamentoRepository.findByCodigoPagamento(
                 pagamentoResponseDTO.getCodigoPagamento()).orElseThrow(()
                 -> new OperacaoInvalidaException("Código de pagamento inválido!"));
@@ -79,14 +69,17 @@ public class PagamentoService {
         AtualizarStatusPagamentoDTO dto = new AtualizarStatusPagamentoDTO();
         String url = "http://localhost:8080/pedidos/pagamento-confirmado";
 
-        dto.setStatusPagamento(StatusPagamento.PAGO);
         dto.setIdPedido(pagamento.getIdPedido());
+        dto.setStatusPagamento(StatusPagamento.PAGO);
 
-        restTemplate.postForEntity(
+        try{restTemplate.postForEntity(
                 url,
                 dto,
                 Void.class
         );
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Scheduled(fixedRate = 60000)
