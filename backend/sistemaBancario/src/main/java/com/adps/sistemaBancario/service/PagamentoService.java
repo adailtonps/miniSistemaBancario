@@ -64,6 +64,12 @@ public class PagamentoService {
             throw new OperacaoInvalidaException("Saldo insuficiente!");
         }
 
+        contaExist.setSaldo(contaExist.getSaldo().subtract(pagamento.getValorTotal()));
+        pagamento.setStatusPagamento(StatusPagamento.PAGO);
+        pagamento.setDataPagamento(LocalDateTime.now());
+        pagamentoRepository.save(pagamento);
+
+        contaRepository.save(contaExist);
 
         RestTemplate restTemplate = new RestTemplate();
         AtualizarStatusPagamentoDTO dto = new AtualizarStatusPagamentoDTO();
@@ -85,13 +91,6 @@ public class PagamentoService {
                 entity,
                 Void.class
         );
-
-        contaExist.setSaldo(contaExist.getSaldo().subtract(pagamento.getValorTotal()));
-        pagamento.setStatusPagamento(StatusPagamento.PAGO);
-        pagamento.setDataPagamento(LocalDateTime.now());
-        pagamentoRepository.save(pagamento);
-
-        contaRepository.save(contaExist);
     }
 
     @Scheduled(fixedRate = 60000)
