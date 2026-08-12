@@ -6,6 +6,7 @@ import com.adps.sistemaBancario.dto.PagamentoResponseDTO;
 import com.adps.sistemaBancario.repository.PagamentoRepository;
 import com.adps.sistemaBancario.service.GerarPagamentoService;
 import com.adps.sistemaBancario.service.PagamentoService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +30,14 @@ public class PagamentoController {
     @PostMapping("/realizar")
     public ResponseEntity<Void> pagar(
             @RequestBody PagamentoResponseDTO dto,
-            Authentication authentication) {
+            Authentication authentication,
+            HttpServletRequest request) {
 
         Object principal = authentication.getPrincipal();
 
         Cliente cliente = (Cliente) principal;
 
-        pagamentoService.Pagar(cliente, dto);
+        pagamentoService.Pagar(cliente, dto, request);
 
         return ResponseEntity.ok().build();
     }

@@ -8,12 +8,16 @@ import com.adps.sistemaBancario.exception.UserNaoEncontrado;
 import com.adps.sistemaBancario.repository.ClienteRepository;
 import com.adps.sistemaBancario.repository.ContaRepository;
 import com.adps.sistemaBancario.repository.PagamentoRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
 
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +28,9 @@ public class PagamentoService {
     private final PagamentoRepository pagamentoRepository;
     private final ContaRepository contaRepository;
 
-    public void Pagar(Cliente cliente,PagamentoResponseDTO pagamentoResponseDTO) {
+    public void Pagar(Cliente cliente,
+                      PagamentoResponseDTO pagamentoResponseDTO,
+                      HttpServletRequest request) {
 
         Cliente existClient = clienteRepository.findByEmail(cliente.getEmail())
                 .orElseThrow(() -> new UserNaoEncontrado("Cliente não encontrado!"));
@@ -58,12 +64,6 @@ public class PagamentoService {
             throw new OperacaoInvalidaException("Saldo insuficiente!");
         }
 
-        contaExist.setSaldo(contaExist.getSaldo().subtract(pagamento.getValorTotal()));
-        pagamento.setStatusPagamento(StatusPagamento.PAGO);
-        pagamento.setDataPagamento(LocalDateTime.now());
-        pagamentoRepository.save(pagamento);
-
-        contaRepository.save(contaExist);
 
         RestTemplate restTemplate = new RestTemplate();
         AtualizarStatusPagamentoDTO dto = new AtualizarStatusPagamentoDTO();
@@ -72,14 +72,26 @@ public class PagamentoService {
         dto.setIdPedido(pagamento.getIdPedido());
         dto.setStatusPagamento(StatusPagamento.PAGO);
 
-        try{restTemplate.postForEntity(
+        String authorization = request.getHeader("Authorization");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization",authorization);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<AtualizarStatusPagamentoDTO> entity = new HttpEntity<>(dto,headers);
+
+        restTemplate.postForEntity(
                 url,
-                dto,
+                entity,
                 Void.class
         );
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+
+        contaExist.setSaldo(contaExist.getSaldo().subtract(pagamento.getValorTotal()));
+        pagamento.setStatusPagamento(StatusPagamento.PAGO);
+        pagamento.setDataPagamento(LocalDateTime.now());
+        pagamentoRepository.save(pagamento);
+
+        contaRepository.save(contaExist);
     }
 
     @Scheduled(fixedRate = 60000)
