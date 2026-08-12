@@ -57,12 +57,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login (@RequestBody LoginDTO dto){
-        authenticationManager.authenticate(
+        var authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getEmail(),
                         dto.getSenha())
         );
-        String token = jwtService.gerarToken(dto.getEmail());
+        String token = jwtService.gerarToken(authentication);
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
