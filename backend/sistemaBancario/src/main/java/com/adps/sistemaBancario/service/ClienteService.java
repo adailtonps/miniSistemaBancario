@@ -3,6 +3,7 @@ package com.adps.sistemaBancario.service;
 import com.adps.sistemaBancario.domain.Cliente;
 import com.adps.sistemaBancario.domain.Conta;
 import com.adps.sistemaBancario.domain.StatusConta;
+import com.adps.sistemaBancario.domain.UserRole;
 import com.adps.sistemaBancario.dto.ClienteAtualizarDto;
 import com.adps.sistemaBancario.exception.NegocioException;
 import com.adps.sistemaBancario.repository.ClienteRepository;
@@ -41,6 +42,7 @@ public class ClienteService {
         cliente.setSenhaCliente(senhaCriptografada);
         cliente.setNome(nomeCliente);
         cliente.setEmail(emailCliente);
+        cliente.setUserRole(UserRole.USER);
         return clienteRepository.save(cliente);
 
     }

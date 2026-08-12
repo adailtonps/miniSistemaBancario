@@ -27,6 +27,9 @@ public class Cliente {
         @JsonIgnore
         private String senhaCliente;
 
+        @Enumerated(EnumType.STRING)
+        private UserRole userRole;
+
 
     public Cliente(){};
 
@@ -59,4 +62,7 @@ public class Cliente {
         this.email = email;
     }
 
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
 }

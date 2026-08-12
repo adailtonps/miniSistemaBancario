@@ -1,13 +1,14 @@
 package com.adps.sistemaBancario.service;
 
-import org.springframework.beans.factory.annotation.Value;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.Date;
+import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
-
-import javax.crypto.SecretKey;
-import java.util.Date;
 
 @Service
 public class JWTService {
@@ -23,28 +24,29 @@ public class JWTService {
         this.expiracao = expiracao;
     }
 
-    public String gerarToken(String email){
+    public String gerarToken(Authentication authentication){
         Date agora = new Date();
         Date validade = new  Date(agora.getTime() + expiracao);
 
+        String role = authentication
+                .getAuthorities()
+                .iterator()
+                .next()
+                .getAuthority();
+
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(authentication.getName())
+                .claim("role", role)
                 .setIssuedAt(agora)
                 .setExpiration(validade)
                 .signWith(chaveSecreta,  SignatureAlgorithm.HS256)
                 .compact();
     }
-
-    public String validarToken(String token){
-        try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(chaveSecreta)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
-        } catch (Exception e) {
-            return null;
-        }
+    public Claims getClaim(String token){
+        return Jwts.parserBuilder()
+                .setSigningKey(chaveSecreta)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
