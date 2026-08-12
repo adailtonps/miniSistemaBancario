@@ -79,12 +79,16 @@ public class PagamentoService {
         dto.setStatusPagamento(StatusPagamento.PAGO);
 
         String authorization = request.getHeader("Authorization");
+        System.out.println("token que vai pro ecommerce: " + authorization);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization",authorization);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<AtualizarStatusPagamentoDTO> entity = new HttpEntity<>(dto,headers);
+        System.out.println("ENVIANDO PARA: " + url);
+        System.out.println("AUTH HEADER: " + headers.getFirst("Authorization"));
+
 
         restTemplate.postForEntity(
                 url,
