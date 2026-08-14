@@ -73,7 +73,7 @@ public class PagamentoService {
 
         RestTemplate restTemplate = new RestTemplate();
         AtualizarStatusPagamentoDTO dto = new AtualizarStatusPagamentoDTO();
-        String url = "http://localhost:8080/pedidos/pagamento-confirmado";
+        String url = "https://ecommerce-lbv4.onrender.com/pagamento-confirmado";
 
         dto.setIdPedido(pagamento.getIdPedido());
         dto.setStatusPagamento(StatusPagamento.PAGO);
@@ -108,7 +108,7 @@ public class PagamentoService {
                 pagamentoRepository.save(pagamento);
                 RestTemplate restTemplate = new RestTemplate();
                 AtualizarStatusPagamentoDTO dto = new AtualizarStatusPagamentoDTO();
-                String url = "http://localhost:8080/pedidos/pagamento-confirmado";
+                String url = "https://ecommerce-lbv4.onrender.com/pagamento-confirmado";
                 dto.setIdPedido(pagamento.getIdPedido());
                 dto.setStatusPagamento(StatusPagamento.CANCELADO);
                 restTemplate.postForEntity(
