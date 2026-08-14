@@ -79,7 +79,15 @@ public class PagamentoService {
         dto.setStatusPagamento(StatusPagamento.PAGO);
 
         String authorization = request.getHeader("Authorization");
-        System.out.println("token que vai pro ecommerce: " + authorization);
+
+        if(authorization == null || authorization.isBlank()){
+            throw new OperacaoInvalidaException("Autenticação não foi enviada para o Sistema Bancário!");
+        }
+
+        System.out.println("=================================");
+        System.out.println("PAGAR EXECUTADO");
+        System.out.println("AUTH RECEBIDO: " + authorization);
+        System.out.println("=================================");
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization",authorization);
