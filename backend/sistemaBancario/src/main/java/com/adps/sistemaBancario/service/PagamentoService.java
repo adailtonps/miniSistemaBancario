@@ -42,6 +42,13 @@ public class PagamentoService {
             throw new OperacaoInvalidaException("A conta está desativada!");
         }
 
+        System.out.println("====================================");
+        System.out.println(">>> MÉTODO PAGAR EXECUTADO");
+        System.out.println(">>> AUTH: " + request.getHeader("Authorization"));
+        System.out.println(">>> CLIENTE: " + cliente.getEmail());
+        System.out.println(">>> CODIGO: " + pagamentoResponseDTO.getCodigoPagamento());
+        System.out.println("====================================");
+
         if(!pagamentoResponseDTO.getCodigoPagamento().startsWith("PAY-") ||
             pagamentoResponseDTO.getCodigoPagamento().length() != 18){
             throw new OperacaoInvalidaException("Código de pagamento inválido!");
