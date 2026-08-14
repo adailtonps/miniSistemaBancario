@@ -73,7 +73,7 @@ public class PagamentoService {
 
         RestTemplate restTemplate = new RestTemplate();
         AtualizarStatusPagamentoDTO dto = new AtualizarStatusPagamentoDTO();
-        String url = "https://ecommerce-lbv4.onrender.com/pagamento-confirmado";
+        String url = "https://ecommerce-lbv4.onrender.com/pedidos/pagamento-confirmado";
 
         dto.setIdPedido(pagamento.getIdPedido());
         dto.setStatusPagamento(StatusPagamento.PAGO);
@@ -102,13 +102,14 @@ public class PagamentoService {
         List<Pagamento> pagamentoPendentes = pagamentoRepository.findByStatusPagamento(StatusPagamento.PENDENTE_PAGAMENTO);
         LocalDateTime horarioAgora = LocalDateTime.now();
 
+
         for(Pagamento pagamento : pagamentoPendentes){
             if (horarioAgora.isAfter(pagamento.getDataExpiracao())) {
                 pagamento.setStatusPagamento(StatusPagamento.CANCELADO);
                 pagamentoRepository.save(pagamento);
                 RestTemplate restTemplate = new RestTemplate();
                 AtualizarStatusPagamentoDTO dto = new AtualizarStatusPagamentoDTO();
-                String url = "https://ecommerce-lbv4.onrender.com/pagamento-confirmado";
+                String url = "https://ecommerce-lbv4.onrender.com/pedidos/pagamento-confirmado";
                 dto.setIdPedido(pagamento.getIdPedido());
                 dto.setStatusPagamento(StatusPagamento.CANCELADO);
                 restTemplate.postForEntity(
