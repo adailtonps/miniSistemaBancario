@@ -8,6 +8,7 @@ import com.adps.sistemaBancario.exception.NegocioException;
 import com.adps.sistemaBancario.repository.PagamentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,9 +16,11 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class GerarPagamentoService {
+
     private final PagamentoRepository pagamentoRepository;
 
     public PagamentoResponseDTO criarPagamento(CriarPagamentoDTO criarPagamentoDTO) {
+        System.out.println("entrou no criar pagamento");
 
         Pagamento pagamento = new Pagamento();
 

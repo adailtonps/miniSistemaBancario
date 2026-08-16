@@ -8,8 +8,8 @@ import com.adps.sistemaBancario.exception.UserNaoEncontrado;
 import com.adps.sistemaBancario.repository.ClienteRepository;
 import com.adps.sistemaBancario.repository.ContaRepository;
 import com.adps.sistemaBancario.repository.PagamentoRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,14 +23,18 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+
+
 public class PagamentoService {
+    @Value("${ECOMMERCE_API_KEY}")
+    private String ecommerceApiKey;
+
     private final ClienteRepository clienteRepository;
     private final PagamentoRepository pagamentoRepository;
     private final ContaRepository contaRepository;
 
     public void Pagar(Cliente cliente,
-                      PagamentoResponseDTO pagamentoResponseDTO,
-                      HttpServletRequest request) {
+                      PagamentoResponseDTO pagamentoResponseDTO) {
 
         Cliente existClient = clienteRepository.findByEmail(cliente.getEmail())
                 .orElseThrow(() -> new UserNaoEncontrado("Cliente não encontrado!"));
@@ -42,12 +46,6 @@ public class PagamentoService {
             throw new OperacaoInvalidaException("A conta está desativada!");
         }
 
-        System.out.println("====================================");
-        System.out.println(">>> MÉTODO PAGAR EXECUTADO");
-        System.out.println(">>> AUTH: " + request.getHeader("Authorization"));
-        System.out.println(">>> CLIENTE: " + cliente.getEmail());
-        System.out.println(">>> CODIGO: " + pagamentoResponseDTO.getCodigoPagamento());
-        System.out.println("====================================");
 
         if(!pagamentoResponseDTO.getCodigoPagamento().startsWith("PAY-") ||
             pagamentoResponseDTO.getCodigoPagamento().length() != 18){
@@ -80,30 +78,20 @@ public class PagamentoService {
 
         RestTemplate restTemplate = new RestTemplate();
         AtualizarStatusPagamentoDTO dto = new AtualizarStatusPagamentoDTO();
-        String url = "https://ecommerce-lbv4.onrender.com/pedidos/pagamento-confirmado";
 
         dto.setIdPedido(pagamento.getIdPedido());
         dto.setStatusPagamento(StatusPagamento.PAGO);
 
-        String authorization = request.getHeader("Authorization");
-
-        if(authorization == null || authorization.isBlank()){
-            throw new OperacaoInvalidaException("Autenticação não foi enviada para o Sistema Bancário!");
-        }
-
-        System.out.println("=================================");
-        System.out.println("PAGAR EXECUTADO");
-        System.out.println("AUTH RECEBIDO: " + authorization);
-        System.out.println("=================================");
+        String apiKey = ecommerceApiKey;
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization",authorization);
+        headers.set("X-Service-Key", apiKey);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<AtualizarStatusPagamentoDTO> entity = new HttpEntity<>(dto,headers);
-        System.out.println("ENVIANDO PARA: " + url);
-        System.out.println("AUTH HEADER: " + headers.getFirst("Authorization"));
+        String url = "https://ecommerce-lbv4.onrender.com/pedidos/pagamento-confirmado";
 
+
+        HttpEntity<AtualizarStatusPagamentoDTO> entity = new HttpEntity<>(dto,headers);
 
         restTemplate.postForEntity(
                 url,
@@ -122,14 +110,27 @@ public class PagamentoService {
             if (horarioAgora.isAfter(pagamento.getDataExpiracao())) {
                 pagamento.setStatusPagamento(StatusPagamento.CANCELADO);
                 pagamentoRepository.save(pagamento);
-                RestTemplate restTemplate = new RestTemplate();
+
                 AtualizarStatusPagamentoDTO dto = new AtualizarStatusPagamentoDTO();
+
+                String apiKey = ecommerceApiKey;
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.set("X-Service-Key", apiKey);
+                headers.setContentType(MediaType.APPLICATION_JSON);
+
+                HttpEntity<AtualizarStatusPagamentoDTO> entity = new HttpEntity<>(dto, headers);
+
+                RestTemplate restTemplate = new RestTemplate();
+
                 String url = "https://ecommerce-lbv4.onrender.com/pedidos/pagamento-confirmado";
+
                 dto.setIdPedido(pagamento.getIdPedido());
                 dto.setStatusPagamento(StatusPagamento.CANCELADO);
+
                 restTemplate.postForEntity(
                         url,
-                        dto,
+                        entity,
                         Void.class
                 );
             }

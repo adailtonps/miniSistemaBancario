@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +24,9 @@ public class JWTFilter extends OncePerRequestFilter {
     @Autowired
     private JWTService jwtService;
 
+    @Value("${BANCO_API_KEY}")
+    private String bancoApiKey;
+
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -32,6 +36,13 @@ public class JWTFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
 
         throws ServletException, IOException {
+
+        String serviceKey = request.getHeader("X-Service-Key");
+
+        if(serviceKey == null || !serviceKey.equals(bancoApiKey)){
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
 
         SecurityContextHolder.clearContext();
         System.out.println("JWT FILTER EXECUTOU");

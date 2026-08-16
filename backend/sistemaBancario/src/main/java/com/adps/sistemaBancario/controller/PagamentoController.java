@@ -37,7 +37,7 @@ public class PagamentoController {
 
         Cliente cliente = (Cliente) principal;
 
-        pagamentoService.Pagar(cliente, dto, request);
+        pagamentoService.Pagar(cliente, dto);
 
         return ResponseEntity.ok().build();
     }
