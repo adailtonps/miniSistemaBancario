@@ -23,13 +23,13 @@ public class ApiKeyFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
+        String path = request.getRequestURI();
         if (path.equals("/pagamento/gerar")) {
             String apiKey = request.getHeader("X-Service-Key");
             if (apiKey == null || !apiKey.equals(bancoApiKey)) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
-            filterChain.doFilter(request, response);
-        }
+        } filterChain.doFilter(request, response);
     }
 }
