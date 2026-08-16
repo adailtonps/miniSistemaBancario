@@ -65,17 +65,9 @@ public class AuthController {
                 )
         );
 
-        System.out.println("AUTENTICAÇÃO: " + authentication);
-        System.out.println("NOME: " + authentication.getName());
-
         String token = jwtService.gerarToken(authentication);
 
-        System.out.println("TOKEN GERADO: " + token);
-
         LoginResponseDTO response = new LoginResponseDTO(token);
-
-        System.out.println("TOKEN NO DTO: " + response.getToken());
-
         return ResponseEntity.ok(response);
     }
 
