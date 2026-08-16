@@ -56,14 +56,27 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login (@RequestBody LoginDTO dto){
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO dto) {
+
         var authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getEmail(),
-                        dto.getSenha())
+                        dto.getSenha()
+                )
         );
+
+        System.out.println("AUTENTICAÇÃO: " + authentication);
+        System.out.println("NOME: " + authentication.getName());
+
         String token = jwtService.gerarToken(authentication);
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+
+        System.out.println("TOKEN GERADO: " + token);
+
+        LoginResponseDTO response = new LoginResponseDTO(token);
+
+        System.out.println("TOKEN NO DTO: " + response.getToken());
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/esqueci-senha")
