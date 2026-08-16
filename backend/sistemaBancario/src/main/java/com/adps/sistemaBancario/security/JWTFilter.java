@@ -24,9 +24,6 @@ public class JWTFilter extends OncePerRequestFilter {
     @Autowired
     private JWTService jwtService;
 
-    @Value("${BANCO_API_KEY}")
-    private String bancoApiKey;
-
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -37,12 +34,6 @@ public class JWTFilter extends OncePerRequestFilter {
 
         throws ServletException, IOException {
 
-        String serviceKey = request.getHeader("X-Service-Key");
-
-        if(serviceKey == null || !serviceKey.equals(bancoApiKey)){
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return;
-        }
 
         SecurityContextHolder.clearContext();
         System.out.println("JWT FILTER EXECUTOU");
