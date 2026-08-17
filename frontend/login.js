@@ -15,6 +15,11 @@ async function apiFetch(url, options = {}) {
     })
 }
 
+form.addEventListener("submit", async(evento) => {
+    event.preventDefault();
+    mensagem.textContent="Carregando..."
+})
+
 form.addEventListener("submit", async(event) =>{
     event.preventDefault();
     

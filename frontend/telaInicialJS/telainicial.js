@@ -13,6 +13,7 @@ const endpoints = {
     saque: URL_API + "/conta/me/saque",
     deposito: URL_API + "/conta/me/deposito",
     transferencia: URL_API + "/transacoes/transferencia",
+    pagamento: URL_API + "/pagamento/realizar",
     logout: URL_API + "/auth/logout"
 };
 
@@ -248,6 +249,49 @@ async function transferencia() {
 
         setTimeout(() => {
             msg.textContent = "";
+        }, 4500);
+    }
+}
+
+async function pagar() {
+    const msg = document.getElementById("msgPagar");
+    const codigoPagamento = document.getElementById("idCodigo");
+
+    if(codigoPagamento == null || codigoPagamento.trim().length === 0){
+        msg.textContent = "Código inválido.";
+        msg.style.color="red";
+
+        setTimeout(() => {
+            msg.textContent="";
+        }, 4500);
+
+        return;
+    }
+
+    try{
+        await handleResponse(
+            await apiFetch(endpoints.pagar, {
+                method: "POST",
+                body: JSON.stringify({codigoPagamento})
+            })
+        );
+
+        msg.textContent="Pagamento realizado com sucesso!";
+        msg.style.color="green";
+
+        setTimeout(() => {
+            msg.textContent="";
+        }, 4500);
+
+        return;
+
+        await carregarSaldo();
+    } catch(erro){
+        msg.textContent=erro.message;
+        msg.style.color="red";
+
+        setTimeout(() => {
+            msg.textContent="";
         }, 4500);
     }
 }
