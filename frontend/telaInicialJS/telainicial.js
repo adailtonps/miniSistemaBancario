@@ -244,7 +244,7 @@ async function transferencia() {
         await carregarSaldo();
 
     } catch (erro) {
-        msg.textContent =erro.message;
+        msg.textContent=erro.message;
         msg.style.color = "red";
 
         setTimeout(() => {
@@ -604,6 +604,9 @@ document.getElementById("confirmarDeposito")
 
 document.getElementById("confirmarSaque")
     .addEventListener("click", sacar);
+
+document.getElementById("confirmarPagamento")
+    .addEventListener("click",pagar);
 
 document.getElementById("confirmarTransferencia")
     .addEventListener("click", transferencia);
