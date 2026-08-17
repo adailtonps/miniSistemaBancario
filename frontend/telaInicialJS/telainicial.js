@@ -590,6 +590,9 @@ document.getElementById("btntransferencia")
 document.getElementById("btndeposito")
     .addEventListener("click", () => mostrarSecao("deposito"));
 
+document.getElementById("btnPagar")
+    .addEventListener("click", () => mostrarSecao("pagar"))
+
 document.getElementById("btngerenciarConta")
     .addEventListener("click", () => {
         mostrarSecao("gerenciarConta");
