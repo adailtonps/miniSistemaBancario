@@ -244,6 +244,7 @@ async function transferencia() {
 
         msg.textContent = "Transferência realizada com sucesso!";
         msg.style.color = "green";
+    
 
         setTimeout(() => {
             msg.textContent = "";
@@ -286,6 +287,7 @@ async function pagar() {
 
         msg.textContent="Pagamento realizado com sucesso!";
         msg.style.color="green";
+        codigoPagamento.value=""
 
         setTimeout(() => {
             msg.textContent="";
