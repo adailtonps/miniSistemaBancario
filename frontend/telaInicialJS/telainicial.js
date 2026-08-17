@@ -257,7 +257,7 @@ async function pagar() {
     const msg = document.getElementById("msgPagar");
     const codigoPagamento = document.getElementById("idCodigo");
 
-    if(codigoPagamento == null || codigoPagamento.trim().length === 0){
+    if(!codigoPagamento){
         msg.textContent = "Código inválido.";
         msg.style.color="red";
 
