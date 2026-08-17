@@ -30,8 +30,7 @@ public class PagamentoController {
     @PostMapping("/realizar")
     public ResponseEntity<Void> pagar(
             @RequestBody PagamentoResponseDTO dto,
-            Authentication authentication,
-            HttpServletRequest request) {
+            Authentication authentication) {
 
         Object principal = authentication.getPrincipal();
 
