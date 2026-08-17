@@ -43,20 +43,28 @@ async function handleResponse(response) {
         throw new Error("Sessão expirada. Faça login novamente!");
     }
 
+    const texto = await response.text();
+
     if (!response.ok) {
         let mensagemErro;
 
         try {
-            const erroJson = await response.json();
+            const erroJson = JSON.parse(texto);
             mensagemErro = erroJson.mensagem;
         } catch {
-            mensagemErro = await response.text();
+            mensagemErro = texto;
         }
 
         throw new Error(mensagemErro || "Erro desconhecido!");
     }
-
-    return response.json().catch(() => null);
+    if(!texto){
+        return null;
+    }
+    try{
+        return JSON.parse(texto);
+    } catch{
+        return texto;
+    }
 }
 
 // STATE
@@ -255,9 +263,9 @@ async function transferencia() {
 
 async function pagar() {
     const msg = document.getElementById("msgPagar");
-    const codigoPagamento = document.getElementById("idCodigo");
+    const codigoPagamento = document.getElementById("idCodigo").value;
 
-    if(!codigoPagamento){
+    if(!codigoPagamento.trim()){
         msg.textContent = "Código inválido.";
         msg.style.color="red";
 
