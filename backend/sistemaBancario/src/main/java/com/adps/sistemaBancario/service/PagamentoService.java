@@ -72,6 +72,7 @@ public class PagamentoService {
         contaExist.setSaldo(contaExist.getSaldo().subtract(pagamento.getValorTotal()));
         pagamento.setStatusPagamento(StatusPagamento.PAGO);
         pagamento.setDataPagamento(LocalDateTime.now());
+        pagamento.setCliente(cliente);
         pagamentoRepository.save(pagamento);
 
         contaRepository.save(contaExist);
