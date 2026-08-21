@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,7 +100,7 @@ public class TransacaoService {
                         t.getValor(),
                         t.getTransacaoTipo().toString(),
                         null
-                )).toList();
+                )).collect(Collectors.toList());
 
         pagamentos.forEach(
                 p ->
@@ -111,6 +112,10 @@ public class TransacaoService {
                                         p.getCodigoPagamento()
                                 )
                         ));
+
+                historico.sort(
+                        Comparator.comparing(HistoricoDTO::data).reversed()
+                );
         return historico;
     }
 
