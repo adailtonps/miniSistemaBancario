@@ -489,13 +489,18 @@ async function historicoTransferencias() {
 
         let html = "<h3>Histórico de Transações</h3>";
 
-        dados.forEach(transferencia => {
+        dados.forEach(historico => {
             html += `
                 <div class="item-historico">
-                    <p><strong>ID Transação:</strong> ${transferencia.id}</p>
-                    <p><strong>Tipo:</strong> ${transferencia.transacaoTipo}</p>
-                    <p><strong>Data e Hora:</strong> ${formatarData(transferencia.dataHoraTransacao)}</p>
-                    <p><strong>Valor:</strong> R$ ${Number(transferencia.valor).toFixed(2)}</p>
+                    <p><strong>ID Transação:</strong> ${historico.id}</p>
+                    <p><strong>Tipo:</strong> ${historico.tipo}</p>
+                    <p><strong>Data e Hora:</strong> ${formatarData(historico.data)}</p>
+                    <p><strong>Valor:</strong> R$ ${Number(historico.valor).toFixed(2)}</p>
+                    ${
+                        historico.tipo === "PAGAMENTO"
+                            ? `<p><strong>Código do pagamento:</strong> ${historico.codigoPagamento}</p>`
+                            : ""
+                    }
                 </div>`;
         });
 
