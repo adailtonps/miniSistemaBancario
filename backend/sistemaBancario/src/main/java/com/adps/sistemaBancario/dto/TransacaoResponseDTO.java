@@ -21,12 +21,12 @@ public class TransacaoResponseDTO {
     }
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public StatusPagamento getStatus() {
+        return status;
     }
 
     public BigDecimal getValor() {
@@ -51,5 +51,9 @@ public class TransacaoResponseDTO {
 
     public void setDataHoraTransacao(LocalDateTime dataHoraTransacao) {
         this.dataHoraTransacao = dataHoraTransacao;
+    }
+
+    public void setStatus(StatusPagamento status) {
+        this.status = status;
     }
 }
