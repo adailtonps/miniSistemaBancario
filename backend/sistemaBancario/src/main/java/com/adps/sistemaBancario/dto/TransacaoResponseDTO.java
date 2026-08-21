@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class TransacaoResponseDTO {
-    private Long id;
+    private String id;
     private BigDecimal valor;
     private TransacaoTipo transacaoTipo;
     private LocalDateTime dataHoraTransacao;
