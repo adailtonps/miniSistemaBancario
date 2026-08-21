@@ -1,5 +1,6 @@
 package com.adps.sistemaBancario.repository;
 
+import com.adps.sistemaBancario.domain.Cliente;
 import com.adps.sistemaBancario.domain.Pagamento;
 import com.adps.sistemaBancario.domain.StatusPagamento;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,5 @@ import java.util.Optional;
 public interface PagamentoRepository extends JpaRepository<Pagamento, String> {
     Optional<Pagamento> findByCodigoPagamento(String codigoPagamento);
     List<Pagamento> findByStatusPagamento(StatusPagamento statusPagamento);
+    List<Pagamento> findByClienteOrderByDataPagamentoDesc(Cliente cliente);
 }

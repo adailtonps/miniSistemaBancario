@@ -30,6 +30,9 @@ public class Pagamento {
 
         }
     }
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
 
     private String idPedido;
 

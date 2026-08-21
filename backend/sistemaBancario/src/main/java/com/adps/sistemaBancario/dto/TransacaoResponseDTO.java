@@ -1,5 +1,6 @@
 package com.adps.sistemaBancario.dto;
 
+import com.adps.sistemaBancario.domain.StatusPagamento;
 import com.adps.sistemaBancario.domain.TransacaoTipo;
 
 import java.math.BigDecimal;
@@ -10,8 +11,9 @@ public class TransacaoResponseDTO {
     private BigDecimal valor;
     private TransacaoTipo transacaoTipo;
     private LocalDateTime dataHoraTransacao;
+    private StatusPagamento status;
 
-    public TransacaoResponseDTO(Long id, TransacaoTipo transacaoTipo, LocalDateTime dataHoraTransacao, BigDecimal valor) {
+    public TransacaoResponseDTO(String id, TransacaoTipo transacaoTipo, LocalDateTime dataHoraTransacao, BigDecimal valor) {
         this.id = id;
         this.transacaoTipo = transacaoTipo;
         this.dataHoraTransacao = dataHoraTransacao;

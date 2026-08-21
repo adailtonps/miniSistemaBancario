@@ -5,13 +5,23 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name="transacao")
 public class Transacao {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
+
+    @PrePersist
+    public void gerarId(){
+        if(this.id == null){
+            this.id = UUID.randomUUID().toString()
+                    .replace("-","")
+                    .toUpperCase()
+                    .substring(0,8);
+        }
+    }
 
     @ManyToOne
     @JsonIgnore
@@ -35,7 +45,7 @@ public class Transacao {
         this.transacaoTipo = transacaoTipo;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

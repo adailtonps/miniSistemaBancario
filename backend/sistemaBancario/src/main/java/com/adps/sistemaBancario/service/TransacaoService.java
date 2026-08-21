@@ -1,41 +1,47 @@
 package com.adps.sistemaBancario.service;
 
 import com.adps.sistemaBancario.domain.*;
-import com.adps.sistemaBancario.dto.PagamentoResponseDTO;
+import com.adps.sistemaBancario.dto.HistoricoDTO;
 import com.adps.sistemaBancario.dto.TransacaoResponseDTO;
+import com.adps.sistemaBancario.dto.PagamentoHistoricoDYO;
 import com.adps.sistemaBancario.exception.*;
 import com.adps.sistemaBancario.repository.ContaRepository;
+import com.adps.sistemaBancario.repository.PagamentoRepository;
 import com.adps.sistemaBancario.repository.TransacaoRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransacaoService {
     private final TransacaoRepository transacaoRepository;
     private final ContaRepository contaRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PagamentoRepository pagamentoRepository;
 
-    public TransacaoService(TransacaoRepository transacaoRepository,  ContaRepository contaRepository, PasswordEncoder passwordEncoder) {
+    public TransacaoService(TransacaoRepository transacaoRepository, ContaRepository contaRepository, PasswordEncoder passwordEncoder, PagamentoRepository pagamentoRepository) {
         this.transacaoRepository = transacaoRepository;
         this.contaRepository = contaRepository;
         this.passwordEncoder = passwordEncoder;
+        this.pagamentoRepository = pagamentoRepository;
     }
 
     @Transactional
-    public TransacaoResponseDTO sacar(Cliente cliente, BigDecimal valor){
+    public TransacaoResponseDTO sacar(Cliente cliente, BigDecimal valor) {
         Conta conta = contaRepository.findByCliente(cliente).orElseThrow(() ->
                 new RecursoNaoEncontradoException("Conta"));
-        if(conta.getStatusConta() == StatusConta.DESATIVADA){
+        if (conta.getStatusConta() == StatusConta.DESATIVADA) {
             throw new ContaInativaException();
         }
-        if(valor.compareTo(BigDecimal.ZERO) <= 0){
+        if (valor.compareTo(BigDecimal.ZERO) <= 0) {
             throw new ValorInvalidoException();
         }
-        if(conta.getSaldo().compareTo(valor) < 0){
+        if (conta.getSaldo().compareTo(valor) < 0) {
             throw new SaldoInsuficienteException();
         }
         conta.debitar(valor);
@@ -52,13 +58,13 @@ public class TransacaoService {
     }
 
     @Transactional
-    public TransacaoResponseDTO depositar(Cliente cliente, BigDecimal valor){
+    public TransacaoResponseDTO depositar(Cliente cliente, BigDecimal valor) {
         Conta conta = contaRepository.findByCliente(cliente).orElseThrow(() ->
                 new RecursoNaoEncontradoException("Conta"));
-        if(conta.getStatusConta() == StatusConta.DESATIVADA){
+        if (conta.getStatusConta() == StatusConta.DESATIVADA) {
             throw new ContaInativaException();
         }
-        if(valor == null || valor.compareTo(BigDecimal.ZERO)<= 0){
+        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0) {
             throw new ValorInvalidoException();
         }
 
@@ -72,25 +78,40 @@ public class TransacaoService {
                 transacaoFeita.getTransacaoTipo(),
                 transacaoFeita.getDataHoraTransacao(),
                 transacaoFeita.getValor()
+
         );
     }
 
 
     @Transactional(readOnly = true)
-    public List<TransacaoResponseDTO> historico(Cliente cliente){
+    public List<HistoricoDTO> historico(Cliente cliente) {
         Conta conta = contaRepository.findByCliente(cliente)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Conta"));
         List<Transacao> transacaoHistorico = transacaoRepository
                 .findByContaOrderByDataHoraTransacaoDesc(conta);
 
-        return transacaoHistorico.stream()
-                .map(t -> new TransacaoResponseDTO(
+        List<Pagamento> pagamentos = pagamentoRepository.findByClienteOrderByDataPagamentoDesc(cliente);
+
+        List<HistoricoDTO> historico = transacaoHistorico.stream()
+                .map(t -> new HistoricoDTO(
                         t.getId(),
-                        t.getTransacaoTipo(),
                         t.getDataHoraTransacao(),
-                        t.getValor()
-                ))
-                .toList();
+                        t.getValor(),
+                        t.getTransacaoTipo().toString(),
+                        null
+                )).toList();
+
+        pagamentos.forEach(
+                p ->
+                        historico.add(new HistoricoDTO(
+                                        p.getIdPedido(),
+                                        p.getDataPagamento(),
+                                        p.getValorTotal(),
+                                        "PAGAMENTO",
+                                        p.getCodigoPagamento()
+                                )
+                        ));
+        return historico;
     }
 
     @Transactional
@@ -98,14 +119,14 @@ public class TransacaoService {
         Conta origem = contaRepository.findByCliente(clienteLogado)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Conta"));
 
-        if(origem == null){
+        if (origem == null) {
             throw new OperacaoInvalidaException("Digite a conta de origem!");
         }
 
         Conta destino = contaRepository.findById(destinoId)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Conta de destino"));
 
-        if(destino == null){
+        if (destino == null) {
             throw new OperacaoInvalidaException("Digite a conta de destino!");
         }
 
@@ -126,7 +147,7 @@ public class TransacaoService {
         if (origem.getSaldo().compareTo(valor) < 0) {
             throw new SaldoInsuficienteException();
         }
-        if(!passwordEncoder.matches(senha, clienteLogado.getSenhaCliente())){
+        if (!passwordEncoder.matches(senha, clienteLogado.getSenhaCliente())) {
             throw new OperacaoInvalidaException("Senha incorreta!");
         }
 

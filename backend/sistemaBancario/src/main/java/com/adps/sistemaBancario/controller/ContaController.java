@@ -61,7 +61,7 @@ public class ContaController {
     }
 
     @GetMapping("/me/historico")
-    public List<TransacaoResponseDTO> historico(
+    public List<HistoricoDTO> historico(
             @AuthenticationPrincipal Cliente clienteLogado
     ) {
         return transacaoService.historico(clienteLogado);
