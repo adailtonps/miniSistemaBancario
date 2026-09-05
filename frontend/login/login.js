@@ -56,7 +56,7 @@ form.addEventListener("submit", async(event) =>{
         msg.style.color="green";
 
         setTimeout(() => {
-            window.location.href = "../frontend/telaInicial/telainicial.html";
+            window.location.href = "/telaInicial/telainicial.html";
         }, 1000);
     } catch (error){
         msg.textContent = error.message;
