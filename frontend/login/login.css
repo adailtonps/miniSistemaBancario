@@ -119,15 +119,13 @@ button:hover {
 
 
 
-.esqueceuSenha {
+.esqueciSenha {
     text-decoration: none;
-
     color: #1f3c88;
-
     font-style: italic;
 }
 
-.esqueceuSenha:hover {
+.esqueciSenha:hover {
     color: #000;
 }
 
