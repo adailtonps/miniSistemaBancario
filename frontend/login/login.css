@@ -6,11 +6,10 @@
 
 body {
     background-image: url("../imagens/fundobanco.png");
+    font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-
-    font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
 
     min-height: 100vh;
 
@@ -28,11 +27,9 @@ body {
     padding: 5px 5px 0 5px;
 
     display: flex;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
     gap: 16px;
-
-    width: min(90%, 500px);
 }
 
 .tituloLogin {
@@ -43,7 +40,7 @@ body {
     white-space: nowrap;
 }
 
-form {
+.form {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -51,7 +48,7 @@ form {
     gap: 12px;
 }
 
-section {
+.section {
     width: 90%;
     max-width: 500px;
     padding: 30px;
