@@ -129,7 +129,7 @@ button:hover {
     font-style: italic;
 }
 
-.esqueciSenha:hover {
+.esqueciSenha a:hover {
     color: #000;
 }
 
