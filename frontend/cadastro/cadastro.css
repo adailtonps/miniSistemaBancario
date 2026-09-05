@@ -6,8 +6,7 @@
 }
 
 body {
-  background-image: url(fundobanco.png);
-  font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
+  background-image: url("../imagens/fundobanco.png");  font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

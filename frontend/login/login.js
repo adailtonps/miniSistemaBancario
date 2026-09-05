@@ -1,5 +1,5 @@
 document.getElementById("cadastroTela").addEventListener("click", () =>{
-    window.location.href="index.html"
+    window.location.href = "../cadastro/cadastro.html";
 })
 
 const form = document.getElementById("formLogin");
@@ -56,7 +56,7 @@ form.addEventListener("submit", async(event) =>{
         msg.style.color="green";
 
         setTimeout(() => {
-            window.location.href = "telainicial.html"
+            window.location.href = "../telainicial/telainicial.html";
         }, 1000);
     } catch (error){
         msg.textContent = error.message;

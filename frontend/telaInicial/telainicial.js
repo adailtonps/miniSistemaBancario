@@ -37,7 +37,7 @@ async function handleResponse(response) {
         alert("Sua sessão expirou. Faça login novamente.");
 
         setTimeout(() => {
-            window.location.href = "login.html";
+            window.location.href = "../login/login.html";
         }, 1000);
 
         throw new Error("Sessão expirada. Faça login novamente!");
@@ -264,16 +264,15 @@ async function transferencia() {
 
 async function pagar() {
     const msg = document.getElementById("msgPagar");
-    const codigoPagamento = document.getElementById("idCodigo").value;
+    const codigoPagamento = document.getElementById("idCodigo")
+    const codigo = codigoPagamento.value;
 
-    if(!codigoPagamento.trim()){
-        msg.textContent = "Código inválido.";
+    if(!codigo){
+        msg.textContent = "Preencha todos os campos!";
         msg.style.color="red";
-
         setTimeout(() => {
             msg.textContent="";
         }, 4500);
-
         return;
     }
 
@@ -287,15 +286,15 @@ async function pagar() {
 
         msg.textContent="Pagamento realizado com sucesso!";
         msg.style.color="green";
-        codigoPagamento.value=""
+        codigoPagamento.value="";
 
         setTimeout(() => {
             msg.textContent="";
         }, 4500);
 
-        return;
-
         await carregarSaldo();
+        return;
+        
     } catch(erro){
         msg.textContent=erro.message;
         msg.style.color="red";
@@ -445,7 +444,7 @@ async function alterarDados() {
         msg.style.color = "green";
 
         if (email !== "") {
-            window.location.href = "login.html";
+            window.location.href = "../login/login.html";
         }
 
         setTimeout(() => {
@@ -578,7 +577,7 @@ document.getElementById("btnLogout")
     .addEventListener("click", async () => {
         await apiFetch(endpoints.logout, { method: "POST" });
         localStorage.removeItem("token");
-        window.location.href = "login.html";
+        window.location.href = "../login/login.html";
     });
 
 

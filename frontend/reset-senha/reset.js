@@ -28,7 +28,7 @@ async function resetarSenha() {
         }
 
         alert("Senha alterada com sucesso!");
-        window.location.href = "login.html";
+        window.location.href = "../login/login.html";
 
     } catch (erro) {
         alert("Erro ao conectar com o servidor.");
