@@ -1,19 +1,18 @@
 
 * {
-  margin: 0; /*remove margens padrao do navegador e padding tb */
+  margin: 0; 
   padding: 0;
-  box-sizing: border-box; /*usar sempre no começo*/
+  box-sizing: border-box; 
 }
 
 body {
-  background-image: url("../imagens/fundobanco.png");  font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 
 
-  min-height: 100vh;/*vai ter no minimo a altura da tela*/
-  display: flex; /*ativa o flexbox, e os outros codigos basicamente centraliza o card*/
+  min-height: 100vh;
+  display: flex; 
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -27,7 +26,7 @@ body {
 
   padding: 5px 5px 0px 5px;
   display: flex;
-  flex-direction: column;/*faz os itens ficarem em coluna, um embaixo do outro*/
+  flex-direction: column;
   align-items: center;
   gap: 16px;
 }
