@@ -120,6 +120,10 @@ button:hover {
 
 
 .esqueciSenha {
+    margin-top: 0;
+}
+
+.esqueciSenha a{
     text-decoration: none;
     color: #1f3c88;
     font-style: italic;
