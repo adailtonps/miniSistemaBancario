@@ -1,65 +1,89 @@
-document.getElementById("cadastroTela").addEventListener("click", () =>{
+document.getElementById("cadastroTela").addEventListener("click", () => {
     window.location.href = "../index.html";
-})
+});
+
 
 const form = document.getElementById("formLogin");
 const msg = document.getElementById("msg");
 
+
 async function apiFetch(url, options = {}) {
+
     return fetch(url, {
         ...options,
-        headers:{
-            "Content-Type":"application/json",
+
+        headers: {
+            "Content-Type": "application/json",
             ...(options.headers || {})
         }
-    })
+    });
 }
 
-/*form.addEventListener("click", async(event) => {
-    event.preventDefault();
-    msg.textContent="Carregando..."
-})*/
 
-form.addEventListener("submit", async(event) =>{
+form.addEventListener("submit", async (event) => {
+
     event.preventDefault();
-    
+
     const dados = {
         email: form.email.value,
-        senha:form.senha.value
+        senha: form.senha.value
     };
 
-    try{
-        const response = await apiFetch("https://minisistemabancario.onrender.com/auth/login", {
-            method: "POST",
-            body: JSON.stringify(dados)
-        });
+    try {
 
-        let resultado=null;
+        const response = await apiFetch(
+            "https://minisistemabancario.onrender.com/auth/login",
+            {
+                method: "POST",
+                body: JSON.stringify(dados)
+            }
+        );
+
+        let resultado = null;
         let mensagem = "";
 
+        if (
+            response.headers
+                .get("content-type")
+                ?.includes("application/json")
+        ) {
 
-        if(response.headers.get("content-type")?.includes("application/json")){
             resultado = await response.json();
-            mensagem = resultado.mensagem || mensagem;
+
+            mensagem = resultado.mensagem || "";
+
         } else {
-            mensagem=await response.text();
+
+            mensagem = await response.text();
+
         }
 
-
-        if(!response.ok){
-            throw new Error(mensagem || "Erro ao realizar login!");
+        if (!response.ok) {
+            throw new Error(
+                mensagem || "Erro ao realizar login!"
+            );
         }
 
-        localStorage.setItem("token",resultado.token)
+        localStorage.setItem(
+            "token",
+            resultado.token
+        );
 
-        msg.textContent = "Login realizado com sucesso!"
-        msg.style.color="green";
+        msg.textContent = "Login realizado com sucesso!";
+        msg.style.color = "green";
 
         setTimeout(() => {
-            window.location.href = "/telaInicial/telainicial.html";
+
+            window.location.href =
+                "/telaInicial/telainicial.html";
+
         }, 1000);
-    } catch (error){
+
+    } catch (error) {
+
         msg.textContent = error.message;
-        msg.style.color="red";
+        msg.style.color = "red";
+
     }
+
 });
