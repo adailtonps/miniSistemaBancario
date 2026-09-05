@@ -6,10 +6,11 @@
 
 body {
     background-image: url("../imagens/fundobanco.png");
-    font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+
+    font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
 
     min-height: 100vh;
 
@@ -27,9 +28,12 @@ body {
     padding: 5px 5px 0 5px;
 
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
     gap: 16px;
+
+    width: 90%;
+    max-width: 500px;
 }
 
 .tituloLogin {
@@ -40,15 +44,17 @@ body {
     white-space: nowrap;
 }
 
-.form {
+form {
     width: 100%;
+
     display: flex;
     flex-direction: column;
     align-items: center;
+
     gap: 12px;
 }
 
-.section {
+section {
     width: 90%;
     max-width: 500px;
     padding: 30px;
@@ -57,39 +63,51 @@ body {
 #msg {
     width: 100%;
     min-height: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+
     text-align: center;
 }
 
 input {
     width: 80%;
     height: 38px;
+
     border-radius: 12px;
     border: 1px solid black;
+
     padding: 0 12px;
+
     transition: 0.3s;
 }
 
 input:focus {
     outline: none;
     border-color: #1f3c88;
+
     box-shadow: 0 0 5px rgba(31, 60, 136, 0.4);
 }
 
 .botoes {
     width: 80%;
+
     display: flex;
     gap: 10px;
+
     margin-top: 8px;
 }
 
 button {
     flex: 1;
+
     height: 38px;
+
     border-radius: 10px;
+
     background-color: #1f3c88;
     color: white;
+
     border: none;
+
     cursor: pointer;
 }
 
@@ -100,6 +118,7 @@ button:hover {
 .esqueceuSenha {
     text-decoration: none;
     color: #1f3c88;
+
     font-style: italic;
 }
 
@@ -108,8 +127,10 @@ button:hover {
 }
 
 .img {
-    width: 170px;
-    margin-top: 15px auto 0;
+    width: 180px;
+
+    margin: 15px auto 0;
+
     border-radius: 20px;
 }
 
@@ -118,15 +139,19 @@ footer {
     font-style: italic;
 }
 
-/* Mobile */
+
 @media (max-width: 768px) {
+
     section {
+        width: 90%;
+        max-width: 500px;
+
         flex-direction: column;
         align-items: center;
     }
 
     .img {
         width: 150px;
-        margin-left: 20px;
+        margin: 15px auto 0;
     }
 }
