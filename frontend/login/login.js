@@ -1,5 +1,5 @@
 document.getElementById("cadastroTela").addEventListener("click", () =>{
-    window.location.href = "../cadastro/cadastro.html";
+    window.location.href = "../index.html";
 })
 
 const form = document.getElementById("formLogin");
