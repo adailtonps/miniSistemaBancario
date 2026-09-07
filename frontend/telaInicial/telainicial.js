@@ -1,5 +1,3 @@
-// CONFIGS & ENDPOINTS
-
 const URL_API = "https://minisistemabancario.onrender.com";
 
 const endpoints = {
@@ -16,8 +14,6 @@ const endpoints = {
     pagar: URL_API + "/pagamento/realizar",
     logout: URL_API + "/auth/logout"
 };
-
-// AUTH / FETCH
 
 async function apiFetch(url, options = {}) {
     const token = localStorage.getItem("token");
@@ -57,30 +53,66 @@ async function handleResponse(response) {
 
         throw new Error(mensagemErro || "Erro desconhecido!");
     }
-    if(!texto){
+
+    if (!texto) {
         return null;
     }
-    try{
+
+    try {
         return JSON.parse(texto);
-    } catch{
+    } catch {
         return texto;
     }
 }
 
-// STATE
-
 let saldoAtual = 0;
 
-// UI / SECTIONS
+const sidebar = document.getElementById("sidebar");
 
 function mostrarSecao(id) {
-    document.querySelectorAll(".secao")
-        .forEach(secao => secao.style.display = "none");
+    document.querySelectorAll(".secao").forEach(secao => {
+        secao.style.display = "none";
+    });
 
-    document.getElementById(id).style.display = "block";
+    document.getElementById("dashboard").style.display = "none";
+
+    const secao = document.getElementById(id);
+
+    if (!secao) {
+        return;
+    }
+
+    if (
+        id === "saque" ||
+        id === "deposito" ||
+        id === "transferencia" ||
+        id === "pagar"
+    ) {
+        secao.style.display = "grid";
+    } else {
+        secao.style.display = "flex";
+    }
+
+    if (
+        id === "saque" ||
+        id === "deposito" ||
+        id === "transferencia" ||
+        id === "pagar"
+    ) {
+        carregarUltimasOperacoes();
+    }
 }
 
-// ACCOUNT
+function mostrarDashboard() {
+    document.querySelectorAll(".secao").forEach(secao => {
+        secao.style.display = "none";
+    });
+
+    document.getElementById("dashboard").style.display = "grid";
+
+    minhaConta();
+    carregarUltimasOperacoes();
+}
 
 async function minhaConta() {
     const msg = document.getElementById("msgConta");
@@ -90,11 +122,34 @@ async function minhaConta() {
             await apiFetch(endpoints.minha_conta)
         );
 
-        document.getElementById("msgConta").textContent =
-            `Id: ${dados.id} | Status: ${dados.StatusConta} | Saldo: R$ ${Number(dados.Saldo).toFixed(2)} | Email: ${dados.emailCliente} | Nome: ${dados.nomeCliente}`;
+        saldoAtual = Number(dados.Saldo);
+
+        document.getElementById("boasVindas").textContent =
+            `Olá, ${dados.nomeCliente}! 👋`;
+
+        document.getElementById("idConta").textContent =
+            dados.id;
+
+        document.getElementById("valorSaldoConta").textContent =
+            `R$ ${saldoAtual.toFixed(2)}`;
+
+        document.getElementById("nomeCliente").textContent =
+            dados.nomeCliente;
+
+        document.getElementById("emailCliente").textContent =
+            dados.emailCliente;
+
+        document.getElementById("statusConta").textContent =
+            dados.StatusConta;
 
     } catch (erro) {
-        msg.textContent = "Erro ao carregar conta: " + erro.message;
+        if (!msg) {
+            return;
+        }
+
+        msg.textContent =
+            "Erro ao carregar conta: " + erro.message;
+
         msg.style.color = "red";
 
         setTimeout(() => {
@@ -102,8 +157,6 @@ async function minhaConta() {
         }, 4500);
     }
 }
-
-// BALANCE
 
 async function carregarSaldo() {
     try {
@@ -113,39 +166,50 @@ async function carregarSaldo() {
 
         saldoAtual = Number(dados.saldo ?? dados);
 
-        document.getElementById("valorSaldo").textContent =
-            "R$ " + saldoAtual.toFixed(2);
+        return saldoAtual;
 
     } catch (erro) {
-        alert("Erro ao carregar saldo: " + erro.message);
+        console.error("Erro ao carregar saldo:", erro);
+        throw erro;
     }
 }
 
-// TRANSACTIONS
-
 async function sacar() {
     const msg = document.getElementById("msgSaque");
-    const valor = parseFloat(document.getElementById("valorSaque").value);
+
+    const valor = parseFloat(
+        document.getElementById("valorSaque").value
+    );
 
     if (!valor || valor <= 0) {
-        msg.textContent = "O valor da operação tem que ser maior que zero!";
-        msg.style.color = "red";
-        setTimeout(() => {
-            msg.textContent = "";
-        }, 4500);
-        return
-    }
+        msg.textContent =
+            "O valor da operação tem que ser maior que zero!";
 
-    if (valor > saldoAtual) {
-        msg.textContent = "Saldo insuficiente!";
         msg.style.color = "red";
+
         setTimeout(() => {
             msg.textContent = "";
         }, 4500);
-        return
+
+        return;
     }
 
     try {
+        await carregarSaldo();
+
+        if (valor > saldoAtual) {
+            msg.textContent =
+                `Saldo insuficiente! Seu saldo atual é R$ ${saldoAtual.toFixed(2)}.`;
+
+            msg.style.color = "red";
+
+            setTimeout(() => {
+                msg.textContent = "";
+            }, 4500);
+
+            return;
+        }
+
         await handleResponse(
             await apiFetch(endpoints.saque, {
                 method: "POST",
@@ -153,11 +217,16 @@ async function sacar() {
             })
         );
 
-        msg.textContent = "Valor sacado com sucesso!";
-        msg.style.color="green"
+        msg.textContent =
+            "Valor sacado com sucesso!";
+
+        msg.style.color = "green";
+
         document.getElementById("valorSaque").value = "";
 
         await carregarSaldo();
+        await minhaConta();
+        await carregarUltimasOperacoes();
 
         setTimeout(() => {
             msg.textContent = "";
@@ -166,6 +235,7 @@ async function sacar() {
     } catch (erro) {
         msg.textContent = erro.message;
         msg.style.color = "red";
+
         setTimeout(() => {
             msg.textContent = "";
         }, 4500);
@@ -174,15 +244,22 @@ async function sacar() {
 
 async function depositar() {
     const msg = document.getElementById("msgDeposito");
-    const valor = parseFloat(document.getElementById("valorDeposito").value)
+
+    const valor = parseFloat(
+        document.getElementById("valorDeposito").value
+    );
 
     if (!valor || valor <= 0) {
-        msg.textContent = "O valor da operação tem que ser maior que zero!";
+        msg.textContent =
+            "O valor da operação tem que ser maior que zero!";
+
         msg.style.color = "red";
+
         setTimeout(() => {
             msg.textContent = "";
         }, 4500);
-        return
+
+        return;
     }
 
     try {
@@ -193,12 +270,16 @@ async function depositar() {
             })
         );
 
-        msg.textContent = "Valor depositado com sucesso!";
+        msg.textContent =
+            "Valor depositado com sucesso!";
+
         msg.style.color = "green";
 
         document.getElementById("valorDeposito").value = "";
 
         await carregarSaldo();
+        await minhaConta();
+        await carregarUltimasOperacoes();
 
         setTimeout(() => {
             msg.textContent = "";
@@ -207,6 +288,7 @@ async function depositar() {
     } catch (erro) {
         msg.textContent = erro.message;
         msg.style.color = "red";
+
         setTimeout(() => {
             msg.textContent = "";
         }, 4500);
@@ -214,15 +296,26 @@ async function depositar() {
 }
 
 async function transferencia() {
-    const msg = document.getElementById("msgTransferencia");
+    const msg =
+        document.getElementById("msgTransferencia");
 
-    const destinoId = Number(document.getElementById("idDestino").value);
-    const valor = parseFloat(document.getElementById("valorTransferencia").value);
-    const senha = document.getElementById("senhaTransferir").value;
+    const destinoId = Number(
+        document.getElementById("idDestino").value
+    );
+
+    const valor = parseFloat(
+        document.getElementById("valorTransferencia").value
+    );
+
+    const senha =
+        document.getElementById("senhaTransferir").value;
 
     if (!destinoId || !valor || valor <= 0 || !senha) {
-        msg.textContent = "Preencha os campos corretamente!";
+        msg.textContent =
+            "Preencha os campos corretamente!";
+
         msg.style.color = "red";
+
         setTimeout(() => {
             msg.textContent = "";
         }, 4500);
@@ -235,25 +328,32 @@ async function transferencia() {
             await apiFetch(endpoints.transferencia, {
                 method: "POST",
                 body: JSON.stringify({
-                    destinoId: Number(destinoId),
-                    valor: Number(valor),
+                    destinoId: destinoId,
+                    valor: valor,
                     senha: senha
                 })
             })
         );
 
-        msg.textContent = "Transferência realizada com sucesso!";
+        msg.textContent =
+            "Transferência realizada com sucesso!";
+
         msg.style.color = "green";
-    
+
+        document.getElementById("idDestino").value = "";
+        document.getElementById("valorTransferencia").value = "";
+        document.getElementById("senhaTransferir").value = "";
+
+        await carregarSaldo();
+        await minhaConta();
+        await carregarUltimasOperacoes();
 
         setTimeout(() => {
             msg.textContent = "";
         }, 4500);
 
-        await carregarSaldo();
-
     } catch (erro) {
-        msg.textContent=erro.message;
+        msg.textContent = erro.message;
         msg.style.color = "red";
 
         setTimeout(() => {
@@ -264,188 +364,46 @@ async function transferencia() {
 
 async function pagar() {
     const msg = document.getElementById("msgPagar");
-    const codigoPagamento = document.getElementById("idCodigo")
-    const codigo = codigoPagamento.value;
 
-    if(!codigo){
-        msg.textContent = "Preencha todos os campos!";
-        msg.style.color="red";
+    const codigoPagamento =
+        document.getElementById("idCodigo");
+
+    const codigo =
+        codigoPagamento.value.trim();
+
+    if (!codigo) {
+        msg.textContent =
+            "Preencha o código do pagamento!";
+
+        msg.style.color = "red";
+
         setTimeout(() => {
-            msg.textContent="";
+            msg.textContent = "";
         }, 4500);
+
         return;
     }
 
-    try{
+    try {
         await handleResponse(
             await apiFetch(endpoints.pagar, {
                 method: "POST",
-                body: JSON.stringify({codigoPagamento})
+                body: JSON.stringify({
+                    codigoPagamento: codigo
+                })
             })
         );
 
-        msg.textContent="Pagamento realizado com sucesso!";
-        msg.style.color="green";
-        codigoPagamento.value="";
+        msg.textContent =
+            "Pagamento realizado com sucesso!";
 
-        setTimeout(() => {
-            msg.textContent="";
-        }, 4500);
-
-        await carregarSaldo();
-        return;
-        
-    } catch(erro){
-        msg.textContent=erro.message;
-        msg.style.color="red";
-
-        setTimeout(() => {
-            msg.textContent="";
-        }, 4500);
-    }
-}
-
-// ACCOUNT MANAGEMENT
-
-async function gerenciarConta() {
-    const div = document.getElementById("msg");
-
-    div.innerHTML = `
-        <button id="btnStatusConta">Status da Conta</button>
-        <button id="btnAtualizar">Atualizar Dados</button>
-        <button id="btnHistorico">Histórico</button>
-        <button id="btnDeletar">Apagar Conta</button>
-    `;
-
-    document.getElementById("btnStatusConta").addEventListener("click", carregarStatus);
-    document.getElementById("btnAtualizar").addEventListener("click", mostrarFormularioAtualizacao);
-    document.getElementById("btnHistorico").addEventListener("click", historicoTransferencias);
-    document.getElementById("btnDeletar").addEventListener("click", apagarConta);
-}
-
-async function carregarStatus() {
-    try {
-        const dados = await handleResponse(
-            await apiFetch(endpoints.minha_conta)
-        );
-
-        const msg = document.getElementById("msg");
-
-        msg.innerHTML = `
-            <h3>Status da Conta</h3>
-            <p><strong>Status:</strong> ${dados.StatusConta === "ATIVADA" ? "Ativada" : "Desativada"}</p>
-            <button id="btnAtivar">Ativar</button>
-            <button id="btnDesativar">Desativar</button>
-            <p id="msgAtivar"></p>
-        `;
-
-        document.getElementById("btnAtivar")
-            .addEventListener("click", () => alterarStatus(true));
-
-        document.getElementById("btnDesativar")
-            .addEventListener("click", () => alterarStatus(false));
-
-    } catch (erro) {
-        msg.textContent = erro.message;
-        msg.style.color = "red";
-
-        setTimeout(() => {
-            msg.textContent = "";
-        }, 4500);
-    }
-}
-
-async function alterarStatus(ativar) {
-    const msg = document.getElementById("msgAtivar");
-    const url = ativar ? endpoints.ativar : endpoints.desativar;
-
-    try {
-        const resposta = await handleResponse(
-            await apiFetch(url, { method: "PUT" })
-        );
-
-        const textoPadrao = ativar
-            ? "Conta ativada com sucesso!"
-            : "Conta desativada com sucesso!";
-
-        msg.textContent = resposta?.mensagem || textoPadrao;
-        msg.style.color = ativar ? "green" : "green"
-
-        setTimeout(() => {
-            msg.textContent = "";
-        }, 4500);
-
-        setTimeout(() =>{
-            carregarStatus();
-        }, 4500)
-    } catch (erro) {
-        msg.textContent = erro.message;
-        msg.style.color = "red";
-        setTimeout(() =>{
-            msg.textContent=""
-        },4500)
-    }
-}
-
-// UPDATE DATA
-
-function mostrarFormularioAtualizacao() {
-    const div = document.getElementById("msg");
-
-    div.innerHTML = `
-        <h3>Atualizar Dados</h3>
-        <input type="text" id="novoNome" placeholder="Novo nome">
-        <input type="email" id="novoEmail" placeholder="Novo email">
-        <input type="password" id="senhaUser" placeholder="Digite sua senha">
-        <button id="btnSalvarAtualizacao">Salvar</button>
-        <p id="msgAtualizar"></p>
-        <p>
-            ATENÇÃO: Caso atualize o email, você será redirecionado para a tela de login, entre com o email atualizado!<br>
-            ⚠ Para alterar senha, use "Esqueci minha senha" na tela de login.
-        </p>
-    `;
-
-    document.getElementById("btnSalvarAtualizacao")
-        .addEventListener("click", alterarDados);
-}
-
-async function alterarDados() {
-    const msg = document.getElementById("msgAtualizar");
-
-    const nome = document.getElementById("novoNome").value.trim();
-    const email = document.getElementById("novoEmail").value.trim();
-    const senha = document.getElementById("senhaUser").value;
-
-    if (!nome && !email){
-        msg.textContent = "Preencha pelo menos um campo!";
-        msg.style.color = "red";
-        setTimeout(()=>{
-            msg.textContent=""
-        },4500)
-        return
-    }
-    if (!senha){
-        msg.textContent = "Preencha a senha!";
-        msg.style.color = "red";
-        setTimeout(() =>{
-            msg.textContent=""
-        },4500)
-        return
-    }
-    try {
-        const resposta = await handleResponse(
-            await apiFetch(endpoints.atualizar, {
-                method: "PATCH",
-                body: JSON.stringify({ nome: nome, email: email, senha: senha })
-            })
-        );
-
-        msg.textContent = "Informações atualizadas com sucesso!";
         msg.style.color = "green";
 
-        if (email !== "") {
-            window.location.href = "../login/login.html";
-        }
+        codigoPagamento.value = "";
+
+        await carregarSaldo();
+        await minhaConta();
+        await carregarUltimasOperacoes();
 
         setTimeout(() => {
             msg.textContent = "";
@@ -457,16 +415,248 @@ async function alterarDados() {
 
         setTimeout(() => {
             msg.textContent = "";
-        }, 3000);
+        }, 4500);
     }
 }
 
-// HISTORY
+async function carregarUltimasOperacoes() {
+    try {
+        const dados = await handleResponse(
+            await apiFetch(endpoints.historico)
+        );
+
+        const historico =
+            Array.isArray(dados) ? dados : [];
+
+        const ordenado = [...historico]
+            .filter(item => item && item.data)
+            .sort((a, b) => {
+                return new Date(b.data) - new Date(a.data);
+            });
+
+        const ultimas =
+            ordenado.slice(0, 3);
+
+        mostrarUltimasMovimentacoes(ultimas);
+
+        const saques = ordenado
+            .filter(item => {
+                const tipo =
+                    String(item.tipo || "").toUpperCase();
+
+                return tipo.includes("SAQUE");
+            })
+            .slice(0, 4);
+
+        const depositos = ordenado
+            .filter(item => {
+                const tipo =
+                    String(item.tipo || "").toUpperCase();
+
+                return tipo.includes("DEPOSITO");
+            })
+            .slice(0, 4);
+
+        const transferencias = ordenado
+            .filter(item => {
+                const tipo =
+                    String(item.tipo || "").toUpperCase();
+
+                return (
+                    tipo.includes("TRANSFERENCIA") ||
+                    tipo.includes("TRANSFER")
+                );
+            })
+            .slice(0, 4);
+
+        const pagamentos = ordenado
+            .filter(item => {
+                const tipo =
+                    String(item.tipo || "").toUpperCase();
+
+                return tipo.includes("PAGAMENTO");
+            })
+            .slice(0, 4);
+
+        mostrarOperacoes(
+            "listarSaques",
+            saques,
+            "saque"
+        );
+
+        mostrarOperacoes(
+            "listarDepositos",
+            depositos,
+            "depósito"
+        );
+
+        mostrarOperacoes(
+            "listarTransferencias",
+            transferencias,
+            "transferência"
+        );
+
+        mostrarOperacoes(
+            "listarPagamentos",
+            pagamentos,
+            "pagamento"
+        );
+
+    } catch (erro) {
+        console.error(
+            "Erro ao carregar operações recentes:",
+            erro
+        );
+    }
+}
+
+function mostrarUltimasMovimentacoes(operacoes) {
+    const elemento =
+        document.getElementById("listarMovimentacoes");
+
+    if (!elemento) {
+        return;
+    }
+
+    if (!operacoes.length) {
+        elemento.innerHTML =
+            "<p>Nenhuma movimentação encontrada.</p>";
+
+        return;
+    }
+
+    elemento.innerHTML =
+        operacoes.map(operacao => {
+
+            const tipo =
+                String(
+                    operacao.tipo || ""
+                ).toUpperCase();
+
+            let nomeTipo =
+                operacao.tipo || "Movimentação";
+
+            if (tipo.includes("SAQUE")) {
+                nomeTipo = "Saque";
+            } else if (tipo.includes("DEPOSITO")) {
+                nomeTipo = "Depósito";
+            } else if (
+                tipo.includes("TRANSFERENCIA") ||
+                tipo.includes("TRANSFER")
+            ) {
+                nomeTipo = "Transferência";
+            } else if (tipo.includes("PAGAMENTO")) {
+                nomeTipo = "Pagamento";
+            }
+
+            return `
+                <div class="item-historico">
+                    <p>
+                        <strong>${nomeTipo}</strong>
+                    </p>
+
+                    <p>
+                        <strong>Valor:</strong>
+                        R$ ${Number(operacao.valor).toFixed(2)}
+                    </p>
+
+                    <p>
+                        <strong>Data:</strong>
+                        ${formatarData(operacao.data)}
+                    </p>
+                </div>
+            `;
+        }).join("");
+}
+
+function mostrarOperacoes(
+    elementoId,
+    operacoes,
+    nomeOperacao
+) {
+    const elemento =
+        document.getElementById(elementoId);
+
+    if (!elemento) {
+        return;
+    }
+
+    if (!operacoes.length) {
+        elemento.innerHTML = `
+            <p>Nenhum ${nomeOperacao} realizado ainda.</p>
+        `;
+
+        return;
+    }
+
+    elemento.innerHTML =
+        operacoes.map(operacao => {
+
+            const tipo =
+                String(
+                    operacao.tipo || ""
+                ).toUpperCase();
+
+            let nomeTipo =
+                nomeOperacao;
+
+            if (tipo.includes("TRANSFERENCIA")) {
+                nomeTipo = "Transferência";
+            } else if (tipo.includes("TRANSFER")) {
+                nomeTipo = "Transferência";
+            } else if (tipo.includes("SAQUE")) {
+                nomeTipo = "Saque";
+            } else if (tipo.includes("DEPOSITO")) {
+                nomeTipo = "Depósito";
+            } else if (tipo.includes("PAGAMENTO")) {
+                nomeTipo = "Pagamento";
+            }
+
+            return `
+                <div class="item-operacao">
+
+                    <p>
+                        <strong>${nomeTipo}</strong>
+                    </p>
+
+                    <p>
+                        <strong>Valor:</strong>
+                        R$ ${Number(operacao.valor).toFixed(2)}
+                    </p>
+
+                    <p>
+                        <strong>Data:</strong>
+                        ${formatarData(operacao.data)}
+                    </p>
+
+                    ${
+                        operacao.codigoPagamento
+                            ? `
+                                <p>
+                                    <strong>Código:</strong>
+                                    ${operacao.codigoPagamento}
+                                </p>
+                            `
+                            : ""
+                    }
+
+                </div>
+            `;
+        }).join("");
+}
 
 function formatarData(dataISO) {
-    if (!dataISO) return "Ainda não realizado!";
+    if (!dataISO) {
+        return "Ainda não realizado!";
+    }
 
-    const data = new Date(dataISO);
+    const valor = String(dataISO).trim();
+
+    const data = new Date(
+        /(?:Z|[+-]\d{2}:\d{2})$/.test(valor)
+            ? valor
+            : valor + "Z"
+    );
 
     return data.toLocaleString("pt-BR", {
         dateStyle: "short",
@@ -475,140 +665,501 @@ function formatarData(dataISO) {
     });
 }
 
-async function historicoTransferencias() {
+function gerenciarConta() {
+    const btnStatusConta =
+        document.getElementById("btnStatusConta");
+
+    const btnAtualizar =
+        document.getElementById("btnAtualizar");
+
+    const btnHistorico =
+        document.getElementById("btnHistorico");
+
+    const btnDeletar =
+        document.getElementById("btnDeletar");
+
+    if (btnStatusConta) {
+        btnStatusConta.onclick = carregarStatus;
+    }
+
+    if (btnAtualizar) {
+        btnAtualizar.onclick =
+            mostrarFormularioAtualizacao;
+    }
+
+    if (btnHistorico) {
+        btnHistorico.onclick =
+            historicoTransferencias;
+    }
+
+    if (btnDeletar) {
+        btnDeletar.onclick =
+            apagarConta;
+    }
+}
+
+async function carregarStatus() {
+    const div =
+        document.getElementById("conteudoGerenciar");
+
+    if (!div) {
+        return;
+    }
+
     try {
-        const dados = await handleResponse(
-            await apiFetch(endpoints.historico)
-        );
+        const dados =
+            await handleResponse(
+                await apiFetch(endpoints.minha_conta)
+            );
 
-        if (!dados || dados.length === 0) {
-            return document.getElementById("msg").innerHTML =
-                "<p>Nenhuma movimentação encontrada.</p>";
-        }
+        div.innerHTML = `
+            <div class="subcard-gerenciar">
 
-        let html = "<h3>Histórico de Transações</h3>";
+                <h3>Status da Conta</h3>
 
-        dados.forEach(historico => {
-            html += `
-                <div class="item-historico">
-                    <p><strong>ID Transação:</strong> ${historico.id}</p>
-                    <p><strong>Tipo:</strong> ${historico.tipo}</p>
-                    <p><strong>Data e Hora:</strong> ${formatarData(historico.data)}</p>
-                    <p><strong>Valor:</strong> R$ ${Number(historico.valor).toFixed(2)}</p>
+                <p>
+                    <strong>Status:</strong>
                     ${
-                        historico.tipo === "PAGAMENTO"
-                            ? `<p><strong>Código do pagamento:</strong> ${historico.codigoPagamento}</p>`
-                            : ""
+                        dados.StatusConta === "ATIVADA"
+                            ? "Ativada"
+                            : "Desativada"
                     }
-                </div>`;
-        });
+                </p>
 
-        console.log(html)
-        document.getElementById("msg").innerHTML = html;
+                <div class="botoes-status">
+
+                    <button id="btnAtivar">
+                        Ativar
+                    </button>
+
+                    <button id="btnDesativar">
+                        Desativar
+                    </button>
+
+                </div>
+
+                <p id="msgAtivar"></p>
+
+            </div>
+        `;
+
+        document.getElementById("btnAtivar")
+            .onclick = () => alterarStatus(true);
+
+        document.getElementById("btnDesativar")
+            .onclick = () => alterarStatus(false);
+
+    } catch (erro) {
+
+        div.innerHTML = `
+            <p class="mensagem-erro">
+                ${erro.message}
+            </p>
+        `;
+    }
+}
+
+async function alterarStatus(ativar) {
+    const msg =
+        document.getElementById("msgAtivar");
+
+    const url =
+        ativar
+            ? endpoints.ativar
+            : endpoints.desativar;
+
+    try {
+        const resposta =
+            await handleResponse(
+                await apiFetch(url, {
+                    method: "PUT"
+                })
+            );
+
+        msg.textContent =
+            resposta?.mensagem ||
+            (
+                ativar
+                    ? "Conta ativada com sucesso!"
+                    : "Conta desativada com sucesso!"
+            );
+
+        msg.style.color = "green";
+
+        await minhaConta();
+
+        setTimeout(() => {
+            carregarStatus();
+        }, 1500);
 
     } catch (erro) {
         msg.textContent = erro.message;
         msg.style.color = "red";
-
-        setTimeout(() => {
-            msg.textContent = "";
-        }, 4500);
     }
 }
 
-// DELETE ACCOUNT
+function mostrarFormularioAtualizacao() {
+    const div =
+        document.getElementById("conteudoGerenciar");
 
-async function apagarConta() {
-    const msg = document.getElementById("msg");
+    if (!div) {
+        return;
+    }
 
-    msg.innerHTML = `
-        <h3>Apagar a Conta</h3>
-        <h4>⚠️ Só pode apagar se o status estiver desativado e saldo zerado!</h4>
-        <input type="email" id="email" placeholder="Email"><br>
-        <input type="password" id="senha" placeholder="Senha"><br>
-        <button id="confirmarDelete">Apagar</button>
-        <p id="msgApagar"></p>
+    div.innerHTML = `
+        <div class="subcard-gerenciar">
+
+            <h3>Atualizar Dados</h3>
+
+            <div class="form-gerenciar">
+
+                <input
+                    type="text"
+                    id="novoNome"
+                    placeholder="Novo nome"
+                >
+
+                <input
+                    type="email"
+                    id="novoEmail"
+                    placeholder="Novo email"
+                >
+
+                <input
+                    type="password"
+                    id="senhaUser"
+                    placeholder="Digite sua senha"
+                >
+
+                <button id="btnSalvarAtualizacao">
+                    Salvar alterações
+                </button>
+
+            </div>
+
+            <p id="msgAtualizar"></p>
+
+            <p class="aviso-gerenciar">
+                Caso atualize o email, você será
+                redirecionado para a tela de login.
+                Para alterar a senha, use
+                "Esqueci minha senha" na tela de login.
+            </p>
+
+        </div>
     `;
 
-    const msgApagar = document.getElementById("msgApagar");
-
-    document.getElementById("confirmarDelete")
-        .addEventListener("click", async () => {
-
-            const email = document.getElementById("email").value;
-            const senha = document.getElementById("senha").value;
-
-            if (!email || !senha) {
-                msgApagar.textContent = "Preencha todos os campos!";
-                msgApagar.style.color = "red";
-                setTimeout(() => {
-                    msgApagar.textContent = "";
-                }, 4500);
-                return
-            }
-
-
-            try {
-                await handleResponse(
-                    await apiFetch(endpoints.apagar, {
-                        method: "DELETE",
-                        body: JSON.stringify({ email, senha })
-                    })
-                );
-
-                msgApagar.textContent = "Conta apagada com sucesso!";
-                msg.style.color = "green";
-
-                window.location.href = "login.html";
-
-            } catch (erro) {
-                msgApagar.textContent = erro.message;
-                msgApagar.style.color = "red";
-                setTimeout(() => {
-                    msg.textContent = "";
-                }, 4500);
-            }
-        });
+    document.getElementById(
+        "btnSalvarAtualizacao"
+    ).onclick = alterarDados;
 }
 
-// LOGOUT
+async function alterarDados() {
+    const msg =
+        document.getElementById("msgAtualizar");
+
+    const nome =
+        document.getElementById("novoNome")
+            .value.trim();
+
+    const email =
+        document.getElementById("novoEmail")
+            .value.trim();
+
+    const senha =
+        document.getElementById("senhaUser")
+            .value;
+
+    if (!nome && !email) {
+        msg.textContent =
+            "Preencha pelo menos um campo!";
+
+        msg.style.color = "red";
+        return;
+    }
+
+    if (!senha) {
+        msg.textContent =
+            "Preencha a senha!";
+
+        msg.style.color = "red";
+        return;
+    }
+
+    try {
+        await handleResponse(
+            await apiFetch(endpoints.atualizar, {
+                method: "PATCH",
+                body: JSON.stringify({
+                    nome: nome,
+                    email: email,
+                    senha: senha
+                })
+            })
+        );
+
+        msg.textContent =
+            "Informações atualizadas com sucesso!";
+
+        msg.style.color = "green";
+
+        if (email !== "") {
+            setTimeout(() => {
+                window.location.href =
+                    "../login/login.html";
+            }, 1000);
+        } else {
+            await minhaConta();
+        }
+
+    } catch (erro) {
+        msg.textContent = erro.message;
+        msg.style.color = "red";
+    }
+}
+
+async function historicoTransferencias() {
+    const div =
+        document.getElementById("conteudoGerenciar");
+
+    if (!div) {
+        return;
+    }
+
+    try {
+        const dados =
+            await handleResponse(
+                await apiFetch(endpoints.historico)
+            );
+
+        if (!dados || !dados.length) {
+            div.innerHTML = `
+                <div class="subcard-gerenciar">
+                    <h3>Histórico</h3>
+                    <p>Nenhuma movimentação encontrada.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+        const historico =
+            [...dados].sort((a, b) => {
+                return new Date(b.data) -
+                    new Date(a.data);
+            });
+
+        let html = `
+            <div class="subcard-gerenciar">
+
+                <h3>Histórico de Transações</h3>
+        `;
+
+        historico.forEach(item => {
+
+            html += `
+                <div class="item-historico">
+
+                    <p>
+                        <strong>ID:</strong>
+                        ${item.id}
+                    </p>
+
+                    <p>
+                        <strong>Tipo:</strong>
+                        ${item.tipo}
+                    </p>
+
+                    <p>
+                        <strong>Data:</strong>
+                        ${formatarData(item.data)}
+                    </p>
+
+                    <p>
+                        <strong>Valor:</strong>
+                        R$ ${Number(item.valor).toFixed(2)}
+                    </p>
+
+                    ${
+                        String(item.tipo)
+                            .toUpperCase()
+                            .includes("PAGAMENTO")
+                            ? `
+                                <p>
+                                    <strong>Código:</strong>
+                                    ${item.codigoPagamento}
+                                </p>
+                            `
+                            : ""
+                    }
+
+                </div>
+            `;
+        });
+
+        html += `
+            </div>
+        `;
+
+        div.innerHTML = html;
+
+    } catch (erro) {
+
+        div.innerHTML = `
+            <p class="mensagem-erro">
+                ${erro.message}
+            </p>
+        `;
+    }
+}
+
+async function apagarConta() {
+    const div =
+        document.getElementById("conteudoGerenciar");
+
+    if (!div) {
+        return;
+    }
+
+    div.innerHTML = `
+        <div class="subcard-gerenciar card-excluir">
+
+            <h3>Apagar Conta</h3>
+
+            <p class="aviso-exclusao">
+                ⚠️ A conta só pode ser apagada se estiver
+                desativada e com saldo zerado.
+            </p>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email"
+            >
+
+            <input
+                type="password"
+                id="senha"
+                placeholder="Senha"
+            >
+
+            <button id="confirmarDelete">
+                Apagar Conta
+            </button>
+
+            <p id="msgApagar"></p>
+
+        </div>
+    `;
+
+    const msgApagar =
+        document.getElementById("msgApagar");
+
+    document.getElementById(
+        "confirmarDelete"
+    ).onclick = async () => {
+
+        const email =
+            document.getElementById("email").value;
+
+        const senha =
+            document.getElementById("senha").value;
+
+        if (!email || !senha) {
+            msgApagar.textContent =
+                "Preencha todos os campos!";
+
+            msgApagar.style.color = "red";
+            return;
+        }
+
+        try {
+            await handleResponse(
+                await apiFetch(endpoints.apagar, {
+                    method: "DELETE",
+                    body: JSON.stringify({
+                        email,
+                        senha
+                    })
+                })
+            );
+
+            msgApagar.textContent =
+                "Conta apagada com sucesso!";
+
+            msgApagar.style.color = "green";
+
+            setTimeout(() => {
+                window.location.href =
+                    "../login/login.html";
+            }, 1000);
+
+        } catch (erro) {
+            msgApagar.textContent =
+                erro.message;
+
+            msgApagar.style.color = "red";
+        }
+    };
+}
 
 document.getElementById("btnLogout")
     .addEventListener("click", async () => {
-        await apiFetch(endpoints.logout, { method: "POST" });
-        localStorage.removeItem("token");
-        window.location.href = "../login/login.html";
+
+        try {
+            await apiFetch(
+                endpoints.logout,
+                {
+                    method: "POST"
+                }
+            );
+        } finally {
+            localStorage.removeItem("token");
+
+            window.location.href =
+                "../login/login.html";
+        }
     });
 
+document.getElementById("btnMenu")
+    .addEventListener("click", () => {
 
-// BUTTON EVENTS
+        sidebar.classList.toggle("escondida");
+    });
 
 document.getElementById("btnConta")
     .addEventListener("click", () => {
-        mostrarSecao("conta");
-        minhaConta();
-    });
 
-document.getElementById("btnsaldo")
-    .addEventListener("click", () => {
-        mostrarSecao("saldo");
-        carregarSaldo();
+        mostrarDashboard();
     });
 
 document.getElementById("btnsaque")
-    .addEventListener("click", () => mostrarSecao("saque"));
+    .addEventListener("click", () => {
 
-document.getElementById("btntransferencia")
-    .addEventListener("click", () => mostrarSecao("transferencia"));
+        mostrarSecao("saque");
+    });
 
 document.getElementById("btndeposito")
-    .addEventListener("click", () => mostrarSecao("deposito"));
+    .addEventListener("click", () => {
+
+        mostrarSecao("deposito");
+    });
+
+document.getElementById("btntransferencia")
+    .addEventListener("click", () => {
+
+        mostrarSecao("transferencia");
+    });
 
 document.getElementById("btnPagar")
-    .addEventListener("click", () => mostrarSecao("pagar"))
+    .addEventListener("click", () => {
+
+        mostrarSecao("pagar");
+    });
 
 document.getElementById("btngerenciarConta")
     .addEventListener("click", () => {
+
         mostrarSecao("gerenciarConta");
         gerenciarConta();
     });
@@ -620,7 +1171,23 @@ document.getElementById("confirmarSaque")
     .addEventListener("click", sacar);
 
 document.getElementById("confirmarPagamento")
-    .addEventListener("click",pagar);
+    .addEventListener("click", pagar);
 
 document.getElementById("confirmarTransferencia")
-    .addEventListener("click", transferencia);
+    .addEventListener(
+        "click",
+        transferencia
+    );
+
+document.querySelectorAll(".verTodas").forEach(botao => {
+    botao.addEventListener("click",function(event){
+    event.preventDefault();
+
+    mostrarSecao("gerenciarConta");
+    gerenciarConta()
+    historicoTransferencias();
+});
+});
+
+
+mostrarDashboard();

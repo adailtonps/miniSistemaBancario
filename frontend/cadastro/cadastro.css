@@ -109,8 +109,10 @@ button:hover {
 }
 
 footer {
-    margin-top: 12px;
+    margin-top: 15px;
     font-style: italic;
+    font-weight: bold;
+
 }
 
 /* Mobile */
