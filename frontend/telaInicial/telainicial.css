@@ -803,6 +803,11 @@ input:focus {
         color:white;
         text-shadow: 0 3px 8px rgba(0,0,0,1.0);
     }
+    #btnMenu:hover{
+        background-color: transparent;
+        color:white;
+        text-shadow: 0 3px 8px rgba(0,0,0,1.0);
+    }
 
     body:has(#sidebar.escondida) main {
         width: 100%;

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -13,4 +15,5 @@ import lombok.Setter;
 public class AtualizarStatusPagamentoDTO {
     private String idPedido;
     private StatusPagamento statusPagamento;
+    private LocalDateTime dataPagamento;
 }

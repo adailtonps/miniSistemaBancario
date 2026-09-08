@@ -10,6 +10,9 @@ backend/sistemaBancario/src/main/resources/application-local.properties
 target/
 *.class
 
+#estudos
+/estudos/
+
 # IDE
 .idea/
 *.iml

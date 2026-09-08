@@ -82,6 +82,7 @@ public class PagamentoService {
 
         dto.setIdPedido(pagamento.getIdPedido());
         dto.setStatusPagamento(StatusPagamento.PAGO);
+        dto.setDataPagamento(LocalDateTime.now());
 
         String apiKey = ecommerceApiKey;
 
