@@ -7,8 +7,6 @@ import com.adps.sistemaBancario.dto.PagamentoResponseDTO;
 import com.adps.sistemaBancario.exception.NegocioException;
 import com.adps.sistemaBancario.repository.PagamentoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,14 +18,14 @@ public class GerarPagamentoService {
     private final PagamentoRepository pagamentoRepository;
 
     public PagamentoResponseDTO criarPagamento(CriarPagamentoDTO criarPagamentoDTO) {
-        System.out.println("entrou no criar pagamento");
-
         Pagamento pagamento = new Pagamento();
 
         LocalDateTime dataHoraPagamento = LocalDateTime.now();
 
         pagamento.setIdPedido(criarPagamentoDTO.getIdPedido());
         pagamento.setValorTotal(criarPagamentoDTO.getValorTotal());
+        pagamento.setIdSolicitante(criarPagamentoDTO.getIdDoSolicitante());
+        pagamento.setNomeSolicitante(criarPagamentoDTO.getNomeDoSolicitante());
 
         if(criarPagamentoDTO.getIdPedido() == null || criarPagamentoDTO.getValorTotal() == null){
             throw new NegocioException("Erro ao criar Pagamento: Id e valor total do pedido são nulls!");

@@ -46,7 +46,6 @@ public class PagamentoService {
             throw new OperacaoInvalidaException("A conta está desativada!");
         }
 
-
         if(!pagamentoResponseDTO.getCodigoPagamento().startsWith("PAY-") ||
             pagamentoResponseDTO.getCodigoPagamento().length() != 18){
             throw new OperacaoInvalidaException("Código de pagamento inválido!");
@@ -72,7 +71,8 @@ public class PagamentoService {
         contaExist.setSaldo(contaExist.getSaldo().subtract(pagamento.getValorTotal()));
         pagamento.setStatusPagamento(StatusPagamento.PAGO);
         pagamento.setDataPagamento(LocalDateTime.now());
-        pagamento.setCliente(cliente);
+        pagamento.setCliente(existClient);
+        pagamento.setNomeCliente(existClient.getNome());
         pagamentoRepository.save(pagamento);
 
         contaRepository.save(contaExist);

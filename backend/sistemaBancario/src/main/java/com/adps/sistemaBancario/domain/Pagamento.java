@@ -34,6 +34,12 @@ public class Pagamento {
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
+    private String nomeCliente;
+
+    private String nomeSolicitante;
+
+    private String idSolicitante;
+
     private String idPedido;
 
     private LocalDateTime dataCriacao;

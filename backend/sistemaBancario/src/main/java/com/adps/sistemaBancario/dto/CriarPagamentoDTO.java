@@ -14,5 +14,6 @@ import java.math.BigDecimal;
 public class CriarPagamentoDTO {
         private String idPedido;
         private BigDecimal valorTotal;
-
+        private String nomeDoSolicitante;
+        private String idDoSolicitante;
 }

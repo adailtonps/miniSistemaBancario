@@ -10,6 +10,10 @@ public record HistoricoDTO(
         LocalDateTime data,
         BigDecimal valor,
         String tipo,
-        String codigoPagamento
+        String codigoPagamento,
+        String idDoSolicitante,
+        String nomeDoSolicitante,
+        Long idDoPagador,
+        String nomeDoPagador
 ) {
 }

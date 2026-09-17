@@ -99,6 +99,10 @@ public class TransacaoService {
                         t.getDataHoraTransacao(),
                         t.getValor(),
                         t.getTransacaoTipo().toString(),
+                        null,
+                        null,
+                        null,
+                        null,
                         null
                 )).collect(Collectors.toList());
 
@@ -109,7 +113,11 @@ public class TransacaoService {
                                         p.getDataPagamento(),
                                         p.getValorTotal(),
                                         "PAGAMENTO",
-                                        p.getCodigoPagamento()
+                                        p.getCodigoPagamento(),
+                                        p.getIdSolicitante(),
+                                        p.getNomeSolicitante(),
+                                        p.getCliente().getId(),
+                                        p.getCliente().getNome()
                                 )
                         ));
 
