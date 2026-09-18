@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
 
-import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -72,7 +71,7 @@ public class PagamentoService {
         pagamento.setStatusPagamento(StatusPagamento.PAGO);
         pagamento.setDataPagamento(LocalDateTime.now());
         pagamento.setCliente(existClient);
-        pagamento.setNomeCliente(existClient.getNome());
+        pagamento.setNomePagador(existClient.getNome());
         pagamentoRepository.save(pagamento);
 
         contaRepository.save(contaExist);

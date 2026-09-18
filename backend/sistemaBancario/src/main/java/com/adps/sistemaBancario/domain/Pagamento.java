@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -34,7 +33,7 @@ public class Pagamento {
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
-    private String nomeCliente;
+    private String nomePagador;
 
     private String nomeSolicitante;
 
