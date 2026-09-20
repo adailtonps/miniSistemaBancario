@@ -94,7 +94,7 @@ public class TransacoesSpecification {
           if(valor == null || valor.compareTo(BigDecimal.ZERO) == 0){
               return null;
           }
-          return cb.equal(cb.upper(root.get("valorTotal")), valor);
+          return cb.equal(root.get("valorTotal"), valor);
         };
     }
 }
