@@ -9,7 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/transacoes")
+@RequestMapping("/transferir")
 public class TransferenciaController{
     private final TransacaoService transacaoService;
 
@@ -17,7 +17,7 @@ public class TransferenciaController{
         this.transacaoService = transacaoService;
     }
 
-    @PostMapping("/transferencia")
+    @PostMapping()
     ResponseEntity<String> transferir (
             @AuthenticationPrincipal Cliente clienteLogado,
             @RequestBody TransferenciaDTO dto

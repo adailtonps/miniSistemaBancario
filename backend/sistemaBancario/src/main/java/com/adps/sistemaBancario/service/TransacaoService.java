@@ -1,13 +1,12 @@
 package com.adps.sistemaBancario.service;
 
 import com.adps.sistemaBancario.domain.*;
-import com.adps.sistemaBancario.dto.HistoricoDTO;
-import com.adps.sistemaBancario.dto.TransacaoResponseDTO;
-import com.adps.sistemaBancario.dto.PagamentoHistoricoDYO;
+import com.adps.sistemaBancario.dto.*;
 import com.adps.sistemaBancario.exception.*;
 import com.adps.sistemaBancario.repository.ContaRepository;
 import com.adps.sistemaBancario.repository.PagamentoRepository;
 import com.adps.sistemaBancario.repository.TransacaoRepository;
+import com.adps.sistemaBancario.specification.TransacoesSpecification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,46 +83,88 @@ public class TransacaoService {
     }
 
 
-    @Transactional(readOnly = true)
-    public List<HistoricoDTO> historico(Cliente cliente) {
-        Conta conta = contaRepository.findByCliente(cliente)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Conta"));
-        List<Transacao> transacaoHistorico = transacaoRepository
-                .findByContaOrderByDataHoraTransacaoDesc(conta);
+    public List<HistoricoDTO> listarTransacoes (TransacoesFiltroRequest transacoesFiltro, Cliente cliente) {
+        String tipo = transacoesFiltro.tipo();
 
-        List<Pagamento> pagamentos = pagamentoRepository.findByClienteOrderByDataPagamentoDesc(cliente);
+        List<HistoricoDTO> historico = new ArrayList<>();
 
-        List<HistoricoDTO> historico = transacaoHistorico.stream()
-                .map(t -> new HistoricoDTO(
-                        t.getId(),
-                        t.getDataHoraTransacao(),
-                        t.getValor(),
-                        t.getTransacaoTipo().toString(),
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
-                )).collect(Collectors.toList());
+        if("PAGAMENTO".equalsIgnoreCase(tipo)) {
+            List<Pagamento> pagamentos = pagamentoRepository.findAll(
+                    TransacoesSpecification.comFiltrosPagamento(transacoesFiltro, cliente)
+            );
+            historico = pagamentos.stream()
+                    .map(t -> new HistoricoDTO(
+                            t.getIdPedido(),
+                            t.getDataPagamento(),
+                            t.getValorTotal(),
+                            "PAGAMENTO",
+                            t.getCodigoPagamento(),
+                            t.getIdSolicitante(),
+                            t.getNomeSolicitante(),
+                            t.getCliente().getId(),
+                            t.getCliente().getNome()
+                    ))
+                    .toList();
 
-        pagamentos.forEach(
-                p ->
-                        historico.add(new HistoricoDTO(
-                                        p.getIdPedido(),
-                                        p.getDataPagamento(),
-                                        p.getValorTotal(),
-                                        "PAGAMENTO",
-                                        p.getCodigoPagamento(),
-                                        p.getIdSolicitante(),
-                                        p.getNomeSolicitante(),
-                                        p.getCliente().getId(),
-                                        p.getCliente().getNome()
-                                )
-                        ));
 
-                historico.sort(
-                        Comparator.comparing(HistoricoDTO::data).reversed()
-                );
+        } else if ("SAQUE".equalsIgnoreCase(tipo) ||
+                "DEPOSITO".equalsIgnoreCase(tipo) ||
+                "TRANSFERENCIA".equalsIgnoreCase(tipo)) {
+            List<Transacao> transacoes = transacaoRepository.findAll(
+                    TransacoesSpecification.comFiltros(transacoesFiltro,cliente)
+            );
+            historico = transacoes.stream()
+                    .map(t -> new HistoricoDTO(
+                            t.getId(),
+                            t.getDataHoraTransacao(),
+                            t.getValor(),
+                            t.getTransacaoTipo().toString(),
+                            null,
+                            null,
+                            null,
+                            null,
+                            null
+                    ))
+                    .toList();
+
+
+        }  else {
+            List<Pagamento> pagamentos = pagamentoRepository.findAll(
+                    TransacoesSpecification.comFiltrosPagamento(transacoesFiltro, cliente)
+            );
+            List<Transacao> transacoes = transacaoRepository.findAll(
+                    TransacoesSpecification.comFiltros(transacoesFiltro,  cliente)
+            );
+            List<HistoricoDTO> historicoPagamentos = pagamentos.stream()
+                    .map(p->new HistoricoDTO(
+                            p.getIdPedido(),
+                            p.getDataPagamento(),
+                            p.getValorTotal(),
+                            "PAGAMENTO",
+                            p.getCodigoPagamento(),
+                            p.getIdSolicitante(),
+                            p.getNomeSolicitante(),
+                            p.getCliente().getId(),
+                            p.getCliente().getNome()
+                    ))
+                    .toList();
+            List<HistoricoDTO> historicoTransacoes = transacoes.stream()
+                    .map(p->new HistoricoDTO(
+                            p.getId(),
+                            p.getDataHoraTransacao(),
+                            p.getValor(),
+                            p.getTransacaoTipo().toString(),                            null,
+                            null,
+                            null,
+                            null,
+                            null
+                    ))
+                    .toList();
+
+            historico.addAll(historicoTransacoes);
+            historico.addAll(historicoPagamentos);
+        }
+
         return historico;
     }
 

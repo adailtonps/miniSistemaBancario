@@ -1,7 +1,4 @@
 package com.adps.sistemaBancario.dto;
-
-import com.adps.sistemaBancario.domain.TransacaoTipo;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

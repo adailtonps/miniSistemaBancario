@@ -60,13 +60,6 @@ public class ContaController {
         return transacaoService.sacar(cliente, dto.getValor());
     }
 
-    @GetMapping("/me/historico")
-    public List<HistoricoDTO> historico(
-            @AuthenticationPrincipal Cliente clienteLogado
-    ) {
-        return transacaoService.historico(clienteLogado);
-    }
-
     @PutMapping("/me/desativar")
     public ResponseEntity<Map<String, String>> desativar(
             @AuthenticationPrincipal Cliente cliente
