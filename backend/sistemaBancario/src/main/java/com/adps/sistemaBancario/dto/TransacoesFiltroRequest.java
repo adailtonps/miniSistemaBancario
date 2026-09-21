@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record TransacoesFiltroRequest(
-        List<String> tipos,
+        List<String> tipo,
         LocalDateTime dataRealizada,
         BigDecimal valor
 ) {

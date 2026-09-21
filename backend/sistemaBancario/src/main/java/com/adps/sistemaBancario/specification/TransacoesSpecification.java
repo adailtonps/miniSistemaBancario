@@ -15,7 +15,7 @@ public class TransacoesSpecification {
     public static Specification<Transacao> comFiltros(TransacoesFiltroRequest filtro, Cliente cliente) {
         return Specification
                 .where(clienteContem(cliente))
-                .and(tipoContem(filtro.tipos()))
+                .and(tipoContem(filtro.tipo()))
                 .and(dataRealizadaContem(filtro.dataRealizada()))
                 .and(valorContem(filtro.valor()));
     }

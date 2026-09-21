@@ -82,7 +82,7 @@ public class TransacaoService {
 
 
     public List<HistoricoDTO> listarTransacoes(TransacoesFiltroRequest transacoesFiltro, Cliente cliente) {
-        List<String> tipos = transacoesFiltro.tipos();
+        List<String> tipos = transacoesFiltro.tipo();
 
         boolean temPagamento = tipos != null &&
                 tipos.stream().anyMatch(tipo -> "PAGAMENTO".equalsIgnoreCase(tipo));
