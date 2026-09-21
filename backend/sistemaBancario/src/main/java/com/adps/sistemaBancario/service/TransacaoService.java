@@ -13,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TransacaoService {
@@ -83,60 +81,30 @@ public class TransacaoService {
     }
 
 
-    public List<HistoricoDTO> listarTransacoes (TransacoesFiltroRequest transacoesFiltro, Cliente cliente) {
-        String tipo = transacoesFiltro.tipo();
+    public List<HistoricoDTO> listarTransacoes(TransacoesFiltroRequest transacoesFiltro, Cliente cliente) {
+        List<String> tipos = transacoesFiltro.tipos();
+
+        boolean temPagamento = tipos != null &&
+                tipos.stream().anyMatch(tipo -> "PAGAMENTO".equalsIgnoreCase(tipo));
+
+        boolean temTransacao = tipos != null &&
+                tipos.stream().anyMatch(tipo -> "TRANSFERENCIA".equalsIgnoreCase(tipo) ||
+                        "DEPOSITO".equalsIgnoreCase(tipo) || "SAQUE".equalsIgnoreCase(tipo));
+
+        boolean nenhumTipo = tipos == null || tipos.isEmpty();
 
         List<HistoricoDTO> historico = new ArrayList<>();
 
-        if("PAGAMENTO".equalsIgnoreCase(tipo)) {
-            List<Pagamento> pagamentos = pagamentoRepository.findAll(
-                    TransacoesSpecification.comFiltrosPagamento(transacoesFiltro, cliente)
-            );
-            historico = pagamentos.stream()
-                    .map(t -> new HistoricoDTO(
-                            t.getIdPedido(),
-                            t.getDataPagamento(),
-                            t.getValorTotal(),
-                            "PAGAMENTO",
-                            t.getCodigoPagamento(),
-                            t.getIdSolicitante(),
-                            t.getNomeSolicitante(),
-                            t.getCliente().getId(),
-                            t.getCliente().getNome()
-                    ))
-                    .toList();
 
-
-        } else if ("SAQUE".equalsIgnoreCase(tipo) ||
-                "DEPOSITO".equalsIgnoreCase(tipo) ||
-                "TRANSFERENCIA".equalsIgnoreCase(tipo)) {
-            List<Transacao> transacoes = transacaoRepository.findAll(
-                    TransacoesSpecification.comFiltros(transacoesFiltro,cliente)
-            );
-            historico = transacoes.stream()
-                    .map(t -> new HistoricoDTO(
-                            t.getId(),
-                            t.getDataHoraTransacao(),
-                            t.getValor(),
-                            t.getTransacaoTipo().toString(),
-                            null,
-                            null,
-                            null,
-                            null,
-                            null
-                    ))
-                    .toList();
-
-
-        }  else {
+        if (nenhumTipo) {
             List<Pagamento> pagamentos = pagamentoRepository.findAll(
                     TransacoesSpecification.comFiltrosPagamento(transacoesFiltro, cliente)
             );
             List<Transacao> transacoes = transacaoRepository.findAll(
-                    TransacoesSpecification.comFiltros(transacoesFiltro,  cliente)
+                    TransacoesSpecification.comFiltros(transacoesFiltro, cliente)
             );
             List<HistoricoDTO> historicoPagamentos = pagamentos.stream()
-                    .map(p->new HistoricoDTO(
+                    .map(p -> new HistoricoDTO(
                             p.getIdPedido(),
                             p.getDataPagamento(),
                             p.getValorTotal(),
@@ -149,11 +117,11 @@ public class TransacaoService {
                     ))
                     .toList();
             List<HistoricoDTO> historicoTransacoes = transacoes.stream()
-                    .map(p->new HistoricoDTO(
+                    .map(p -> new HistoricoDTO(
                             p.getId(),
                             p.getDataHoraTransacao(),
                             p.getValor(),
-                            p.getTransacaoTipo().toString(),                            null,
+                            p.getTransacaoTipo().toString(), null,
                             null,
                             null,
                             null,
@@ -163,6 +131,47 @@ public class TransacaoService {
 
             historico.addAll(historicoTransacoes);
             historico.addAll(historicoPagamentos);
+
+        } else {
+            if (temPagamento) {
+                List<Pagamento> pagamentos = pagamentoRepository.findAll(
+                        TransacoesSpecification.comFiltrosPagamento(transacoesFiltro, cliente)
+                );
+                historico.addAll(pagamentos.stream()
+                        .map(t -> new HistoricoDTO(
+                                t.getIdPedido(),
+                                t.getDataPagamento(),
+                                t.getValorTotal(),
+                                "PAGAMENTO",
+                                t.getCodigoPagamento(),
+                                t.getIdSolicitante(),
+                                t.getNomeSolicitante(),
+                                t.getCliente().getId(),
+                                t.getCliente().getNome()
+                        ))
+                        .toList());
+
+            }
+
+            if (temTransacao) {
+                List<Transacao> transacoes = transacaoRepository.findAll(
+                        TransacoesSpecification.comFiltros(transacoesFiltro, cliente)
+                );
+                historico.addAll(transacoes.stream()
+                        .map(t -> new HistoricoDTO(
+                                t.getId(),
+                                t.getDataHoraTransacao(),
+                                t.getValor(),
+                                t.getTransacaoTipo().toString(),
+                                null,
+                                null,
+                                null,
+                                null,
+                                null
+                        ))
+                        .toList());
+
+            }
         }
 
         return historico;

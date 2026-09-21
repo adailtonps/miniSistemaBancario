@@ -31,7 +31,7 @@ public class Transacao {
     private BigDecimal valor = BigDecimal.ZERO;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="tipo",nullable = false)
+    @Column(name="tipos",nullable = false)
     private TransacaoTipo transacaoTipo;
 
     private LocalDateTime dataHoraTransacao;

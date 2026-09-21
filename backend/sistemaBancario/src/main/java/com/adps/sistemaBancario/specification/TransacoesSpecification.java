@@ -9,12 +9,13 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TransacoesSpecification {
     public static Specification<Transacao> comFiltros(TransacoesFiltroRequest filtro, Cliente cliente) {
         return Specification
                 .where(clienteContem(cliente))
-                .and(tipoContem(filtro.tipo()))
+                .and(tipoContem(filtro.tipos()))
                 .and(dataRealizadaContem(filtro.dataRealizada()))
                 .and(valorContem(filtro.valor()));
     }
@@ -42,15 +43,17 @@ public class TransacoesSpecification {
         };
     }
 
-    private static Specification<Transacao> tipoContem(String tipo) {
+    private static Specification<Transacao> tipoContem(List<String> tipos) {
         return(root, query, cb) -> {
-          if(tipo == null || tipo.isBlank()){
+          if(tipos == null || tipos.isEmpty()){
               return null;
           }
 
-            TransacaoTipo tipoEnum = TransacaoTipo.valueOf(tipo.toUpperCase());
+            List<TransacaoTipo> tiposEnum = tipos.stream()
+                    .map(tipo -> TransacaoTipo.valueOf(tipo.toUpperCase()))
+                    .toList();
 
-          return cb.equal((root.get("transacaoTipo")), tipoEnum);
+          return root.get("transacaoTipo").in(tiposEnum);
         };
     }
 
