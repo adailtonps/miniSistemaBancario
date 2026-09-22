@@ -2,7 +2,7 @@ const form = document.getElementById("formCadastro");
 const msg = document.getElementById("msg");
 
 document.getElementById("jaTemConta").addEventListener("click", () => {
-    window.location.href = "../login/login.html";
+    window.location.href = "login/login.html";
 })
 
 form.addEventListener("submit", async(event) => {

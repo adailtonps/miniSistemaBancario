@@ -75,7 +75,7 @@ form.addEventListener("submit", async (event) => {
         setTimeout(() => {
 
             window.location.href =
-                "/telaInicial/telainicial.html";
+                "../telaInicial/telainicial.html";
 
         }, 1000);
 

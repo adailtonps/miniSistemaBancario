@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Inicial - APS - Sistema Bancário</title>
     <link rel="stylesheet" href="telainicial.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" </head>
 
 <body>
 
@@ -31,345 +30,386 @@
         <button id="btnMenu">☰</button>
         <section id="dashboard">
 
-        <div id="cardBoasVindas" class="card-dashboard">
-            <h1 id="boasVindas"></h1>
-            <p>Bem-vindo ao APS Banco.</p>
+            <div id="cardBoasVindas" class="card-dashboard">
+                <h1 id="boasVindas"></h1>
+                <p>Bem-vindo ao APS Banco.</p>
+            </div>
+
+            <div id="conta" class="card-dashboard">
+                <h1>Minha Conta</h1>
+
+                <div class="dados-conta">
+                    <div>
+                        <span>Saldo disponível</span>
+                        <strong id="valorSaldoConta">R$ 0,00</strong>
+                    </div>
+
+                    <div>
+                        <span>ID da conta</span>
+                        <strong id="idConta"></strong>
+                    </div>
+                </div>
+
+                <div class="dados-pessoais">
+                    <div>
+                        <span>Nome</span>
+                        <strong id="nomeCliente"></strong>
+                    </div>
+
+                    <div>
+                        <span>Email</span>
+                        <strong id="emailCliente"></strong>
+                    </div>
+                </div>
+
+                <div class="dados-conta">
+                    <div>
+                        <span>Agência</span>
+                        <strong>0001</strong>
+                    </div>
+
+                    <div>
+                        <span>Status da conta</span>
+                        <strong id="statusConta"></strong>
+                    </div>
+                </div>
+
+                <p id="msgConta"></p>
+            </div>
+
+            <div id="movimentacoes" class="card-dashboard">
+                <div class="titulo-movimentacoes">
+                    <h2>Últimas movimentações</h2>
+                    <button id="verTodas" class="verTodas">Ver todas → </button>
+                </div>
+
+                <div id="listarMovimentacoes">
+                    <p>Carregando movimentações...</p>
+                </div>
+            </div>
+        </section>
+
+        <div id="saque" class="secao" style="display: none;">
+
+            <div class="card-operacao">
+
+                <h2>Realizar saque</h2>
+
+                <p class="descricao-operacao">
+                    Informe o valor que deseja retirar da sua conta.
+                </p>
+
+                <label for="valorSaque">Valor do saque</label>
+
+                <input type="number" id="valorSaque" placeholder="Digite o valor" min="0.01" step="0.01" required>
+
+                <button id="confirmarSaque">Sacar</button>
+
+                <p id="msgSaque"></p>
+
+            </div>
+
+
+            <div class="card-operacao">
+
+                <div class="titulo-operacao">
+
+                    <h2>Últimos saques</h2>
+
+                    <button id="verTodas" class="verTodas">
+                        Ver todos →
+                    </button>
+
+                </div>
+
+                <div id="listarSaques">
+                    <p>Carregando saques...</p>
+                </div>
+
+            </div>
+
         </div>
 
-        <div id="conta" class="card-dashboard">
-            <h1>Minha Conta</h1>
 
-            <div class="dados-conta">
-                <div>
-                    <span>Saldo disponível</span>
-                    <strong id="valorSaldoConta">R$ 0,00</strong>
-                </div>
+        <div id="deposito" class="secao" style="display: none;">
 
-                <div>
-                    <span>ID da conta</span>
-                    <strong id="idConta"></strong>
-                </div>
+            <div class="card-operacao">
+
+                <h2>Realizar depósito</h2>
+
+                <p class="descricao-operacao">
+                    Informe o valor que deseja adicionar à sua conta.
+                </p>
+
+                <label for="valorDeposito">Valor do depósito</label>
+
+                <input type="number" id="valorDeposito" placeholder="Digite o valor" min="0.01" step="0.01" required>
+
+                <button id="confirmarDeposito">
+                    Depositar
+                </button>
+
+                <p id="msgDeposito"></p>
+
             </div>
 
-            <div class="dados-pessoais">
-                <div>
-                    <span>Nome</span>
-                    <strong id="nomeCliente"></strong>
+
+            <div class="card-operacao">
+
+                <div class="titulo-operacao">
+
+                    <h2>Últimos depósitos</h2>
+
+                    <button id="verTodas" class="verTodas">
+                        Ver todos →
+                    </button>
+
                 </div>
 
-                <div>
-                    <span>Email</span>
-                    <strong id="emailCliente"></strong>
-                </div>
-            </div>
-
-            <div class="dados-conta">
-                <div>
-                    <span>Agência</span>
-                    <strong>0001</strong>
+                <div id="listarDepositos">
+                    <p>Carregando depósitos...</p>
                 </div>
 
-                <div>
-                    <span>Status da conta</span>
-                    <strong id="statusConta"></strong>
-                </div>
             </div>
-
-            <p id="msgConta"></p>
-        </div>
-
-        <div id="movimentacoes" class="card-dashboard">
-            <div class="titulo-movimentacoes">
-                <h2>Últimas movimentações</h2>
-                <button id="verTodas" class="verTodas">Ver todas → </button>
-            </div>
-
-            <div id="listarMovimentacoes">
-                <p>Carregando movimentações...</p>
-            </div>
-        </div>
-    </section>
-
-    <div id="saque" class="secao" style="display: none;">
-
-        <div class="card-operacao">
-
-            <h2>Realizar saque</h2>
-
-            <p class="descricao-operacao">
-                Informe o valor que deseja retirar da sua conta.
-            </p>
-
-            <label for="valorSaque">Valor do saque</label>
-
-            <input
-                type="number"
-                id="valorSaque"
-                placeholder="Digite o valor"
-                min="0.01"
-                step="0.01"
-                required
-            >
-
-            <button id="confirmarSaque">Sacar</button>
-
-            <p id="msgSaque"></p>
 
         </div>
 
 
-        <div class="card-operacao">
+        <div id="transferencia" class="secao" style="display: none;">
 
-            <div class="titulo-operacao">
+            <div class="card-operacao">
 
-                <h2>Últimos saques</h2>
+                <h2>Realizar transferência</h2>
 
-                <button id="verTodas" class="verTodas">
-                    Ver todos →
+                <p class="descricao-operacao">
+                    Preencha os dados da conta que receberá a transferência.
+                </p>
+
+                <label for="idDestino">ID da conta de destino</label>
+
+                <input type="number" id="idDestino" placeholder="Digite o ID da conta" required>
+
+                <label for="valorTransferencia">Valor da transferência</label>
+
+                <input type="number" id="valorTransferencia" placeholder="Digite o valor" min="0.01" step="0.01"
+                    required>
+
+                <label for="senhaTransferir">Sua senha</label>
+
+                <input type="password" id="senhaTransferir" placeholder="Digite sua senha" required>
+
+                <button id="confirmarTransferencia">
+                    Transferir
+                </button>
+
+                <p id="msgTransferencia"></p>
+
+            </div>
+
+
+            <div class="card-operacao">
+
+                <div class="titulo-operacao">
+
+                    <h2>Últimas transferências</h2>
+
+                    <button id="verTodas" class="verTodas">
+                        Ver todas →
+                    </button>
+
+                </div>
+
+                <div id="listarTransferencias">
+                    <p>Carregando transferências...</p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div id="pagar" class="secao" style="display: none;">
+
+            <div class="card-operacao">
+
+                <h2>Realizar pagamento</h2>
+
+                <p class="descricao-operacao">
+                    Informe o código do pagamento que deseja realizar.
+                </p>
+
+                <label for="idCodigo">Código do pagamento</label>
+
+                <input type="text" id="idCodigo" placeholder="Digite o código" required>
+
+                <button id="confirmarPagamento">
+                    Pagar
+                </button>
+
+                <p id="msgPagar"></p>
+
+            </div>
+
+
+            <div class="card-operacao">
+
+                <div class="titulo-operacao">
+
+                    <h2>Últimos pagamentos</h2>
+
+                    <button id="verTodas" class="verTodas">
+                        Ver todos →
+                    </button>
+
+                </div>
+
+                <div id="listarPagamentos">
+                    <p>Carregando pagamentos...</p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div id="gerenciarConta" class="secao" style="display: none;">
+
+            <div class="cabecalho-secao">
+                <h2>Gerenciar conta</h2>
+
+                <p>
+                    Gerencie os dados e as configurações da sua conta.
+                </p>
+            </div>
+
+            <div id="opcoesConta" class="grid-gerenciamento">
+
+                <button id="btnStatusConta" class="card-gerenciamento">
+                    <span class="icone-gerenciamento">◉</span>
+
+                    <strong>Status da conta</strong>
+
+                    <small>
+                        Ative ou desative sua conta
+                    </small>
+                </button>
+
+                <button id="btnAtualizar" class="card-gerenciamento">
+                    <span class="icone-gerenciamento">✎</span>
+
+                    <strong>Atualizar dados</strong>
+
+                    <small>
+                        Altere seu nome ou email
+                    </small>
+                </button>
+
+                <div id="btnHistorico" class="card-gerenciamento card-historico">
+
+                    <div class="cabecalho-historico">
+                        <span class="icone-gerenciamento">☷</span>
+
+                        <strong>Histórico</strong>
+
+                        <small>
+                            Consulte suas movimentações
+                        </small>
+                    </div>
+
+                    <form id="formHistorico">
+
+                        <div class="filtros-historico">
+
+                            <div class="grupo-filtro">
+                                <span class="titulo-filtro">TIPO DA OPERAÇÃO</span>
+
+                                <label>
+                                    <input type="checkbox" id="opcaoPagamento" value="PAGAMENTO">
+                                    PAGAMENTOS
+                                </label>
+
+                                <label>
+                                    <input type="checkbox" id="opcaoSaque" value="SAQUE">
+                                    SAQUES
+                                </label>
+
+                                <label>
+                                    <input type="checkbox" id="opcaoDepositos" value="DEPOSITO">
+                                    DEPÓSITOS
+                                </label>
+
+                                <label>
+                                    <input type="checkbox" id="opcaoTransferencias">
+                                    TRANSFERÊNCIAS
+                                </label>
+
+                                <div class="subOpcoes" id="subOpcoesTransferencia" style="display: none;">
+
+                                    <label>
+                                        <input type="checkbox" id="opcaoTransferenciaSaida" value="TRANSFERENCIA_SAIDA">
+                                        TRANSFERÊNCIAS DE SAÍDA
+                                    </label>
+
+                                    <label>
+                                        <input type="checkbox" id="opcaoTransferenciaEntrada"
+                                            value="TRANSFERENCIA_ENTRADA">
+                                        TRANSFERÊNCIAS DE ENTRADA
+                                    </label>
+
+                                </div>
+                            </div>
+
+
+                            <div class="grupo-filtro">
+                                <span class="titulo-filtro">DATA DA OPERAÇÃO</span>
+
+                                <input type="date" id="dataHistorico">
+                            </div>
+
+
+                            <div class="grupo-filtro">
+                                <span class="titulo-filtro">VALOR DA OPERAÇÃO</span>
+
+                                <input type="number" id="valorHistorico" step="0.01" min="0"
+                                    placeholder="Digite o valor">
+                            </div>
+
+                        </div>
+
+
+                        <div class="acoes-historico">
+
+                            <button type="submit" id="btnConsultar">
+                                CONSULTAR
+                            </button>
+
+                            <button type="reset" id="btnLimpar">
+                                LIMPAR FILTROS
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <button id="btnDeletar" class="card-gerenciamento card-perigo">
+                    <span class="icone-gerenciamento">⚠</span>
+
+                    <strong>Apagar conta</strong>
+
+                    <small>
+                        Excluir permanentemente sua conta
+                    </small>
                 </button>
 
             </div>
 
-            <div id="listarSaques">
-                <p>Carregando saques...</p>
-            </div>
+            <div id="conteudoGerenciar"></div>
 
         </div>
 
-    </div>
-
-
-    <div id="deposito" class="secao" style="display: none;">
-
-        <div class="card-operacao">
-
-            <h2>Realizar depósito</h2>
-
-            <p class="descricao-operacao">
-                Informe o valor que deseja adicionar à sua conta.
-            </p>
-
-            <label for="valorDeposito">Valor do depósito</label>
-
-            <input
-                type="number"
-                id="valorDeposito"
-                placeholder="Digite o valor"
-                min="0.01"
-                step="0.01"
-                required
-            >
-
-            <button id="confirmarDeposito">
-                Depositar
-            </button>
-
-            <p id="msgDeposito"></p>
-
-        </div>
-
-
-        <div class="card-operacao">
-
-            <div class="titulo-operacao">
-
-                <h2>Últimos depósitos</h2>
-
-                <button id="verTodas" class="verTodas">
-                    Ver todos →
-                </button>
-
-            </div>
-
-            <div id="listarDepositos">
-                <p>Carregando depósitos...</p>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div id="transferencia" class="secao" style="display: none;">
-
-        <div class="card-operacao">
-
-            <h2>Realizar transferência</h2>
-
-            <p class="descricao-operacao">
-                Preencha os dados da conta que receberá a transferência.
-            </p>
-
-            <label for="idDestino">ID da conta de destino</label>
-
-            <input
-                type="number"
-                id="idDestino"
-                placeholder="Digite o ID da conta"
-                required
-            >
-
-            <label for="valorTransferencia">Valor da transferência</label>
-
-            <input
-                type="number"
-                id="valorTransferencia"
-                placeholder="Digite o valor"
-                min="0.01"
-                step="0.01"
-                required
-            >
-
-            <label for="senhaTransferir">Sua senha</label>
-
-            <input
-                type="password"
-                id="senhaTransferir"
-                placeholder="Digite sua senha"
-                required
-            >
-
-            <button id="confirmarTransferencia">
-                Transferir
-            </button>
-
-            <p id="msgTransferencia"></p>
-
-        </div>
-
-
-        <div class="card-operacao">
-
-            <div class="titulo-operacao">
-
-                <h2>Últimas transferências</h2>
-
-                <button id="verTodas" class="verTodas">
-                    Ver todas →
-                </button>
-
-            </div>
-
-            <div id="listarTransferencias">
-                <p>Carregando transferências...</p>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div id="pagar" class="secao" style="display: none;">
-
-        <div class="card-operacao">
-
-            <h2>Realizar pagamento</h2>
-
-            <p class="descricao-operacao">
-                Informe o código do pagamento que deseja realizar.
-            </p>
-
-            <label for="idCodigo">Código do pagamento</label>
-
-            <input
-                type="text"
-                id="idCodigo"
-                placeholder="Digite o código"
-                required
-            >
-
-            <button id="confirmarPagamento">
-                Pagar
-            </button>
-
-            <p id="msgPagar"></p>
-
-        </div>
-
-
-        <div class="card-operacao">
-
-            <div class="titulo-operacao">
-
-                <h2>Últimos pagamentos</h2>
-
-                <button id="verTodas" class="verTodas">
-                    Ver todos →
-                </button>
-
-            </div>
-
-            <div id="listarPagamentos">
-                <p>Carregando pagamentos...</p>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div id="gerenciarConta" class="secao" style="display: none;">
-
-    <div class="cabecalho-secao">
-        <h2>Gerenciar conta</h2>
-
-        <p>
-            Gerencie os dados e as configurações da sua conta.
-        </p>
-    </div>
-
-    <div id="opcoesConta" class="grid-gerenciamento">
-
-        <button id="btnStatusConta" class="card-gerenciamento">
-            <span class="icone-gerenciamento">◉</span>
-
-            <strong>Status da conta</strong>
-
-            <small>
-                Ative ou desative sua conta
-            </small>
-        </button>
-
-        <button id="btnAtualizar" class="card-gerenciamento">
-            <span class="icone-gerenciamento">✎</span>
-
-            <strong>Atualizar dados</strong>
-
-            <small>
-                Altere seu nome ou email
-            </small>
-        </button>
-
-        <button id="btnHistorico" class="card-gerenciamento">
-            <span class="icone-gerenciamento">☷</span>
-
-            <strong>Histórico</strong>
-
-            <small>
-                Consulte suas movimentações
-            </small>
-        </button>
-
-        <button
-            id="btnDeletar"
-            class="card-gerenciamento card-perigo"
-        >
-            <span class="icone-gerenciamento">⚠</span>
-
-            <strong>Apagar conta</strong>
-
-            <small>
-                Excluir permanentemente sua conta
-            </small>
-        </button>
-
-    </div>
-
-    <div id="conteudoGerenciar"></div>
-
-</div>
-
-</main>
+    </main>
     <script src="telainicial.js"></script>
 </body>
 

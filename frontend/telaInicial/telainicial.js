@@ -5,7 +5,7 @@ const endpoints = {
     saldo: URL_API + "/conta/me/saldo",
     ativar: URL_API + "/conta/me/ativar",
     desativar: URL_API + "/conta/me/desativar",
-    historico: URL_API + "/conta/me/historico",
+    historico: URL_API + "/historico",
     atualizar: URL_API + "/clientes/me",
     apagar: URL_API + "/conta/me",
     saque: URL_API + "/conta/me/saque",
@@ -92,18 +92,11 @@ function mostrarSecao(id) {
     } else {
         secao.style.display = "flex";
     }
-
-    if (
-        id === "saque" ||
-        id === "deposito" ||
-        id === "transferencia" ||
-        id === "pagar"
-    ) {
-        carregarUltimasOperacoes();
-    }
 }
 
 function mostrarDashboard() {
+    limparFiltrosHistorico();
+
     document.querySelectorAll(".secao").forEach(secao => {
         secao.style.display = "none";
     });
@@ -541,11 +534,20 @@ function mostrarUltimasMovimentacoes(operacoes) {
             } else if (tipo.includes("DEPOSITO")) {
                 nomeTipo = "Depósito";
             } else if (
-                tipo.includes("TRANSFERENCIA") ||
-                tipo.includes("TRANSFER")
+                tipo.includes("TRANSFERENCIA_SAIDA")
+            ) {
+                nomeTipo = "Transferência de saída";
+            } else if (
+                tipo.includes("TRANSFERENCIA_ENTRADA")
+            ) {
+                nomeTipo = "Transferência de entrada";
+            } else if (
+                tipo.includes("TRANSFERENCIA")
             ) {
                 nomeTipo = "Transferência";
-            } else if (tipo.includes("PAGAMENTO")) {
+            } else if (
+                tipo.includes("PAGAMENTO")
+            ) {
                 nomeTipo = "Pagamento";
             }
 
@@ -600,8 +602,12 @@ function mostrarOperacoes(
             let nomeTipo =
                 nomeOperacao;
 
-            if (tipo.includes("TRANSFERENCIA")) {
-                nomeTipo = "Transferência";
+            if (tipo.includes("TRANSFERENCIA_SAIDA")) {
+                nomeTipo = "Transferência de saída";
+            } else if (
+                tipo.includes("TRANSFERENCIA_ENTRADA")
+            ) {
+                nomeTipo = "Transferência de entrada";
             } else if (tipo.includes("TRANSFER")) {
                 nomeTipo = "Transferência";
             } else if (tipo.includes("SAQUE")) {
@@ -629,16 +635,25 @@ function mostrarOperacoes(
                         ${formatarData(operacao.data)}
                     </p>
 
-                    ${
-                        operacao.codigoPagamento
-                            ? `
-                                <p>
-                                    <strong>Código:</strong>
-                                    ${operacao.codigoPagamento}
-                                </p>
-                            `
-                            : ""
-                    }
+                    ${tipo.includes("PAGAMENTO")
+                    ? `
+                        <p>
+                            <strong>Nome de quem gerou o código:</strong>
+                            ${operacao.nomeDoSolicitante ?? "Não informado"}
+                        </p>
+
+                        <p>
+                            <strong>Id de quem gerou o código:</strong>
+                            ${operacao.idDoSolicitante ?? "Não informado"}
+                        </p>
+
+                        <p>
+                            <strong>Código:</strong>
+                            ${operacao.codigoPagamento ?? "Não informado"}
+                        </p>
+                    `
+                    : ""
+                }
 
                 </div>
             `;
@@ -665,6 +680,14 @@ function formatarData(dataISO) {
     });
 }
 
+function limparConteudoGerenciar() {
+    const div = document.getElementById("conteudoGerenciar");
+
+    if (div) {
+        div.innerHTML = "";
+    }
+}
+
 function gerenciarConta() {
     const btnStatusConta =
         document.getElementById("btnStatusConta");
@@ -679,23 +702,61 @@ function gerenciarConta() {
         document.getElementById("btnDeletar");
 
     if (btnStatusConta) {
-        btnStatusConta.onclick = carregarStatus;
+        btnStatusConta.onclick = () => {
+            limparFiltrosHistorico();
+            limparConteudoGerenciar();
+            carregarStatus();
+        };
     }
 
     if (btnAtualizar) {
-        btnAtualizar.onclick =
-            mostrarFormularioAtualizacao;
+        btnAtualizar.onclick = () => {
+            limparFiltrosHistorico();
+            limparConteudoGerenciar();
+            mostrarFormularioAtualizacao();
+        };
     }
 
     if (btnHistorico) {
-        btnHistorico.onclick =
-            historicoTransferencias;
+        btnHistorico.onclick = () => {
+            limparConteudoGerenciar();
+            mostrarFiltrosHistorico();
+        };
     }
 
     if (btnDeletar) {
-        btnDeletar.onclick =
-            apagarConta;
+        btnDeletar.onclick = () => {
+            limparFiltrosHistorico();
+            limparConteudoGerenciar();
+            apagarConta();
+        };
     }
+}
+
+const opcaoTransferencias =
+    document.getElementById("opcaoTransferencias");
+
+const subOpcoesTransferencia =
+    document.getElementById("subOpcoesTransferencia");
+
+const opcaoTransferenciaSaida =
+    document.getElementById("opcaoTransferenciaSaida");
+
+const opcaoTransferenciaEntrada =
+    document.getElementById("opcaoTransferenciaEntrada");
+
+if (opcaoTransferencias) {
+    opcaoTransferencias.addEventListener("change", () => {
+
+        if (opcaoTransferencias.checked) {
+            subOpcoesTransferencia.style.display = "block";
+        } else {
+            subOpcoesTransferencia.style.display = "none";
+
+            opcaoTransferenciaSaida.checked = false;
+            opcaoTransferenciaEntrada.checked = false;
+        }
+    });
 }
 
 async function carregarStatus() {
@@ -719,11 +780,10 @@ async function carregarStatus() {
 
                 <p>
                     <strong>Status:</strong>
-                    ${
-                        dados.StatusConta === "ATIVADA"
-                            ? "Ativada"
-                            : "Desativada"
-                    }
+                    ${dados.StatusConta === "ATIVADA"
+                ? "Ativada"
+                : "Desativada"
+            }
                 </p>
 
                 <div class="botoes-status">
@@ -926,13 +986,133 @@ async function historicoTransferencias() {
         return;
     }
 
-    try {
-        const dados =
+    const data =
+        document.getElementById("dataHistorico");
+
+    const valor =
+        document.getElementById("valorHistorico");
+
+    const tipos = [];
+
+    if (
+        document.getElementById("opcaoPagamento")?.checked
+    ) {
+        tipos.push("PAGAMENTO");
+    }
+
+    if (
+        document.getElementById("opcaoSaque")?.checked
+    ) {
+        tipos.push("SAQUE");
+    }
+
+    if (
+        document.getElementById("opcaoDepositos")?.checked
+    ) {
+        tipos.push("DEPOSITO");
+    }
+
+    if (
+        document.getElementById("opcaoTransferenciaSaida")?.checked
+    ) {
+        tipos.push("TRANSFERENCIA_SAIDA");
+    }
+
+    if (
+        document.getElementById("opcaoTransferenciaEntrada")?.checked
+    ) {
+        tipos.push("TRANSFERENCIA_ENTRADA");
+    }
+
+    const buscarHistoricoPorTipo = async (tipo) => {
+        const params = new URLSearchParams();
+
+        params.append("tipo", tipo);
+
+        if (data?.value) {
+            params.append(
+                "dataRealizada",
+                `${data.value}T00:00:00`
+            );
+        }
+
+        if (valor?.value) {
+            params.append("valor", valor.value);
+        }
+
+        const url =
+            `${endpoints.historico}?${params.toString()}`;
+
+        const resposta =
             await handleResponse(
-                await apiFetch(endpoints.historico)
+                await apiFetch(url)
             );
 
-        if (!dados || !dados.length) {
+        return Array.isArray(resposta)
+            ? resposta
+            : [];
+    };
+
+    try {
+        let historico = [];
+
+        if (tipos.length === 0) {
+            const params = new URLSearchParams();
+
+            if (data?.value) {
+                params.append(
+                    "dataRealizada",
+                    `${data.value}T00:00:00`
+                );
+            }
+
+            if (valor?.value) {
+                params.append("valor", valor.value);
+            }
+
+            const url =
+                params.toString()
+                    ? `${endpoints.historico}?${params.toString()}`
+                    : endpoints.historico;
+
+            const resposta =
+                await handleResponse(
+                    await apiFetch(url)
+                );
+
+            historico =
+                Array.isArray(resposta)
+                    ? resposta
+                    : [];
+
+        } else {
+            const resultados =
+                await Promise.all(
+                    tipos.map(tipo =>
+                        buscarHistoricoPorTipo(tipo)
+                    )
+                );
+
+            historico =
+                resultados.flat();
+        }
+
+        const historicoUnico =
+            Array.from(
+                new Map(
+                    historico.map(item => [
+                        `${item.id}-${item.tipo}-${item.data}`,
+                        item
+                    ])
+                ).values()
+            );
+
+        historicoUnico.sort((a, b) => {
+            return new Date(b.data) -
+                new Date(a.data);
+        });
+
+        if (!historicoUnico.length) {
             div.innerHTML = `
                 <div class="subcard-gerenciar">
                     <h3>Histórico</h3>
@@ -943,31 +1123,51 @@ async function historicoTransferencias() {
             return;
         }
 
-        const historico =
-            [...dados].sort((a, b) => {
-                return new Date(b.data) -
-                    new Date(a.data);
-            });
-
         let html = `
             <div class="subcard-gerenciar">
 
                 <h3>Histórico de Transações</h3>
         `;
 
-        historico.forEach(item => {
+        historicoUnico.forEach(item => {
+
+            const tipo =
+                String(item.tipo || "").toUpperCase();
+
+            let nomeTipo =
+                item.tipo || "Movimentação";
+
+            if (tipo.includes("PAGAMENTO")) {
+                nomeTipo = "Pagamento";
+            } else if (tipo.includes("SAQUE")) {
+                nomeTipo = "Saque";
+            } else if (tipo.includes("DEPOSITO")) {
+                nomeTipo = "Depósito";
+            } else if (
+                tipo.includes("TRANSFERENCIA_SAIDA")
+            ) {
+                nomeTipo = "Transferência de saída";
+            } else if (
+                tipo.includes("TRANSFERENCIA_ENTRADA")
+            ) {
+                nomeTipo = "Transferência de entrada";
+            } else if (
+                tipo.includes("TRANSFERENCIA")
+            ) {
+                nomeTipo = "Transferência";
+            }
 
             html += `
                 <div class="item-historico">
 
                     <p>
                         <strong>ID:</strong>
-                        ${item.id}
+                        ${item.id ?? "Não informado"}
                     </p>
 
                     <p>
                         <strong>Tipo:</strong>
-                        ${item.tipo}
+                        ${nomeTipo}
                     </p>
 
                     <p>
@@ -980,18 +1180,26 @@ async function historicoTransferencias() {
                         R$ ${Number(item.valor).toFixed(2)}
                     </p>
 
-                    ${
-                        String(item.tipo)
-                            .toUpperCase()
-                            .includes("PAGAMENTO")
-                            ? `
-                                <p>
-                                    <strong>Código:</strong>
-                                    ${item.codigoPagamento}
-                                </p>
-                            `
-                            : ""
-                    }
+                    ${tipo.includes("PAGAMENTO")
+                    ? `
+                        <p>
+                            <strong>Código:</strong>
+                            ${item.codigoPagamento ?? "Não informado"}
+                        </p>
+
+                        <p>
+                            <strong>Nome de quem gerou o código:</strong>
+                            ${item.nomeDoSolicitante ?? "Não informado"}
+                        </p>
+
+                        <p>
+                            <strong>Id de quem gerou o código:</strong>
+                            ${item.idDoSolicitante ?? "Não informado"}
+                        </p>
+
+                    `
+                    : ""
+                }
 
                 </div>
             `;
@@ -1121,45 +1329,62 @@ document.getElementById("btnLogout")
         }
     });
 
+function limparFiltrosHistorico() {
+    const formHistorico =
+        document.getElementById("formHistorico");
+
+    if (formHistorico) {
+        formHistorico.style.display = "none";
+    }
+}
+
+function mostrarFiltrosHistorico() {
+    const formHistorico =
+        document.getElementById("formHistorico");
+
+    if (formHistorico) {
+        formHistorico.style.display = "block";
+    }
+}
+
 document.getElementById("btnMenu")
     .addEventListener("click", () => {
-
         sidebar.classList.toggle("escondida");
     });
 
 document.getElementById("btnConta")
     .addEventListener("click", () => {
-
+        limparFiltrosHistorico();
         mostrarDashboard();
     });
 
 document.getElementById("btnsaque")
     .addEventListener("click", () => {
-
+        limparFiltrosHistorico();
         mostrarSecao("saque");
     });
 
 document.getElementById("btndeposito")
     .addEventListener("click", () => {
-
+        limparFiltrosHistorico();
         mostrarSecao("deposito");
     });
 
 document.getElementById("btntransferencia")
     .addEventListener("click", () => {
-
+        limparFiltrosHistorico();
         mostrarSecao("transferencia");
     });
 
 document.getElementById("btnPagar")
     .addEventListener("click", () => {
-
+        limparFiltrosHistorico();
         mostrarSecao("pagar");
     });
 
 document.getElementById("btngerenciarConta")
     .addEventListener("click", () => {
-
+        limparFiltrosHistorico();
         mostrarSecao("gerenciarConta");
         gerenciarConta();
     });
@@ -1173,21 +1398,36 @@ document.getElementById("confirmarSaque")
 document.getElementById("confirmarPagamento")
     .addEventListener("click", pagar);
 
+document.getElementById("formHistorico")
+    .addEventListener("submit", event => {
+        event.preventDefault();
+        historicoTransferencias();
+    });
+
 document.getElementById("confirmarTransferencia")
     .addEventListener(
         "click",
         transferencia
     );
 
-document.querySelectorAll(".verTodas").forEach(botao => {
-    botao.addEventListener("click",function(event){
-    event.preventDefault();
+document.querySelectorAll(".verTodas")
+    .forEach(botao => {
 
-    mostrarSecao("gerenciarConta");
-    gerenciarConta()
-    historicoTransferencias();
-});
-});
+        botao.addEventListener("click", function (event) {
+            event.preventDefault();
 
+            limparFiltrosHistorico();
+
+            mostrarSecao("gerenciarConta");
+            gerenciarConta();
+
+            const btnHistorico =
+                document.getElementById("btnHistorico");
+
+            if (btnHistorico) {
+                btnHistorico.click();
+            }
+        });
+    });
 
 mostrarDashboard();
