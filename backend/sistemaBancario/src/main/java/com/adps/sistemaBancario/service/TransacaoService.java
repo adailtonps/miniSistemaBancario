@@ -88,7 +88,8 @@ public class TransacaoService {
                 tipos.stream().anyMatch(tipo -> "PAGAMENTO".equalsIgnoreCase(tipo));
 
         boolean temTransacao = tipos != null &&
-                tipos.stream().anyMatch(tipo -> "TRANSFERENCIA".equalsIgnoreCase(tipo) ||
+                tipos.stream().anyMatch(tipo -> "TRANSFERENCIA_SAIDA".equalsIgnoreCase(tipo) || "TRANSFERENCIA_ENTRADA".equalsIgnoreCase(tipo)
+                        || "TRANSFERENCIA".equalsIgnoreCase(tipo) ||
                         "DEPOSITO".equalsIgnoreCase(tipo) || "SAQUE".equalsIgnoreCase(tipo));
 
         boolean nenhumTipo = tipos == null || tipos.isEmpty();
