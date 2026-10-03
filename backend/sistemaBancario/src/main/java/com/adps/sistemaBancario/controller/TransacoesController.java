@@ -19,7 +19,7 @@ import java.util.List;
 public class TransacoesController {
     private final TransacaoService transacaoService;
 
-    @GetMapping()
+    @GetMapping
     public List<HistoricoDTO> listarTransacoes(TransacoesFiltroRequest filtro, @AuthenticationPrincipal Cliente clienteLogado){
         return transacaoService.listarTransacoes(filtro, clienteLogado);
     }

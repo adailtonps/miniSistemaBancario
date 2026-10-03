@@ -132,8 +132,12 @@ public class TransacaoService {
                             null,
                             null,
                             null,
-                            p.getContaOrigem().getId_conta(),
-                            p.getContaDestino().getId_conta()
+                            p.getContaOrigem() != null
+                                    ? p.getContaOrigem().getId_conta()
+                                    : null,
+                            p.getContaDestino() != null
+                                    ? p.getContaDestino().getId_conta()
+                                    : null
                     ))
                     .toList();
 
@@ -179,8 +183,12 @@ public class TransacaoService {
                                 null,
                                 null,
                                 null,
-                                t.getContaOrigem().getId_conta(),
-                                t.getContaDestino().getId_conta()
+                                t.getContaOrigem() != null
+                                        ? t.getContaOrigem().getId_conta()
+                                        : null,
+                                t.getContaDestino() != null
+                                        ? t.getContaDestino().getId_conta()
+                                        : null
                         ))
                         .toList());
 
