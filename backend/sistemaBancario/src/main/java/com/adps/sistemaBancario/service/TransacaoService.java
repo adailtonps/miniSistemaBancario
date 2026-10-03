@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,6 +83,7 @@ public class TransacaoService {
 
 
     public List<HistoricoDTO> listarTransacoes(TransacoesFiltroRequest transacoesFiltro, Cliente cliente) {
+
         List<String> tipos = transacoesFiltro.tipo();
 
         boolean temPagamento = tipos != null &&
@@ -114,7 +116,9 @@ public class TransacaoService {
                             p.getIdSolicitante(),
                             p.getNomeSolicitante(),
                             p.getCliente().getId(),
-                            p.getCliente().getNome()
+                            p.getCliente().getNome(),
+                            null,
+                            null
                     ))
                     .toList();
             List<HistoricoDTO> historicoTransacoes = transacoes.stream()
@@ -122,11 +126,14 @@ public class TransacaoService {
                             p.getId(),
                             p.getDataHoraTransacao(),
                             p.getValor(),
-                            p.getTransacaoTipo().toString(), null,
+                            p.getTransacaoTipo().toString(),
                             null,
                             null,
                             null,
-                            null
+                            null,
+                            null,
+                            p.getContaOrigem().getId_conta(),
+                            p.getContaDestino().getId_conta()
                     ))
                     .toList();
 
@@ -148,7 +155,10 @@ public class TransacaoService {
                                 t.getIdSolicitante(),
                                 t.getNomeSolicitante(),
                                 t.getCliente().getId(),
-                                t.getCliente().getNome()
+                                t.getCliente().getNome(),
+                                null,
+                                null
+
                         ))
                         .toList());
 
@@ -168,7 +178,9 @@ public class TransacaoService {
                                 null,
                                 null,
                                 null,
-                                null
+                                null,
+                                t.getContaOrigem().getId_conta(),
+                                t.getContaDestino().getId_conta()
                         ))
                         .toList());
 
@@ -221,7 +233,7 @@ public class TransacaoService {
         contaRepository.save(origem);
         contaRepository.save(destino);
 
-        transacaoRepository.save(new Transacao(origem, valor, TransacaoTipo.TRANSFERENCIA_SAIDA));
-        transacaoRepository.save(new Transacao(destino, valor, TransacaoTipo.TRANSFERENCIA_ENTRADA));
+        transacaoRepository.save(new Transacao(origem, destino, valor, TransacaoTipo.TRANSFERENCIA_SAIDA, LocalDateTime.now()));
+        transacaoRepository.save(new Transacao(origem, destino, valor, TransacaoTipo.TRANSFERENCIA_ENTRADA, LocalDateTime.now()));
     }
 }

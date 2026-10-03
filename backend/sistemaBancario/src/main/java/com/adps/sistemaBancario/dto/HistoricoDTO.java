@@ -1,4 +1,5 @@
 package com.adps.sistemaBancario.dto;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -11,6 +12,8 @@ public record HistoricoDTO(
         String idDoSolicitante,
         String nomeDoSolicitante,
         Long idDoPagador,
-        String nomeDoPagador
+        String nomeDoPagador,
+        Long contaOrigem,
+        Long contaDestino
 ) {
 }
