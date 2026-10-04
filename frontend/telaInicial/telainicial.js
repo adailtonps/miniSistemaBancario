@@ -10,7 +10,7 @@ const endpoints = {
     apagar: URL_API + "/conta/me",
     saque: URL_API + "/conta/me/saque",
     deposito: URL_API + "/conta/me/deposito",
-    transferencia: URL_API + "/transacoes/transferencia",
+    transferencia: URL_API + "/transferir",
     pagar: URL_API + "/pagamento/realizar",
     logout: URL_API + "/auth/logout"
 };
