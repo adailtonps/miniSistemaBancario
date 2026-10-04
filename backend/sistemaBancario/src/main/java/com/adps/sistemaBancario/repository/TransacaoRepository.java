@@ -15,7 +15,6 @@ import java.util.List;
 
 @Repository
 public interface TransacaoRepository extends JpaRepository<Transacao, Integer>, JpaSpecificationExecutor<Transacao> {
-    List<Transacao> findByContaOrderByDataHoraTransacaoDesc(Conta conta);
     void deleteByConta(Conta conta);
 
 }

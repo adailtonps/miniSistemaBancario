@@ -107,8 +107,14 @@ public class ClienteService {
         if (conta.getStatusConta() == StatusConta.ATIVADA) {
             throw new NegocioException("Cliente possui conta ativa!");
         }
-        transacaoRepository.deleteByConta(conta);
-        contaRepository.delete(conta);
-        clienteRepository.delete(clienteLogado);
+
+        conta.setStatusConta(StatusConta.DELETADA);
+
+        clienteLogado.setEmail(null);
+        clienteLogado.setNome(null);
+        clienteLogado.setSenhaCliente(null);
+
+        contaRepository.save(conta);
+        clienteRepository.save(clienteLogado);
     }
 }

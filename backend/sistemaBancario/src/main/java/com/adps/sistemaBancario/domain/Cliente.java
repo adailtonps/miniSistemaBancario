@@ -21,7 +21,7 @@ public class Cliente {
         @JsonIgnore
         private Conta conta;
 
-        @Column(unique = true, nullable = false)
+        @Column(unique = true)
         private String email;
 
         @JsonIgnore
