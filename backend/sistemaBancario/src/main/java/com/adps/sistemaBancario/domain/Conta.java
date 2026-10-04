@@ -36,10 +36,6 @@ public class Conta {
         this.statusConta = StatusConta.ATIVADA;
     }
 
-    @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Transacao> historico = new ArrayList<>();
-
 
     public void debitar(BigDecimal valor){
         this.saldo = this.saldo.subtract(valor);
@@ -51,14 +47,6 @@ public class Conta {
 
     public StatusConta getStatusConta() {
         return statusConta;
-    }
-
-    public List<Transacao> getHistorico() {
-        return historico;
-    }
-
-    public void setHistorico(List<Transacao> historico) {
-        this.historico = historico;
     }
 
     public void setStatusConta(StatusConta statusConta) {
