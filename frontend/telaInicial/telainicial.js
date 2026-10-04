@@ -566,6 +566,22 @@ function mostrarUltimasMovimentacoes(operacoes) {
                         <strong>Data:</strong>
                         ${formatarData(operacao.data)}
                     </p>
+
+                    ${tipo.includes("TRANSFERENCIA_ENTRADA") || tipo.includes("TRANSFERENCIA_SAIDA")
+                        ? `
+                        <p>
+                            <strong>Id de quem enviou: </strong>
+                            ${operacao.contaOrigem}
+                         </p>
+
+                         <p>
+                            <strong>Id de quem recebeu: </strong>
+                            ${operacao.contaDestino}
+                         </p>   
+                        `
+                        : ""    
+                    }
+
                 </div>
             `;
         }).join("");
@@ -618,6 +634,7 @@ function mostrarOperacoes(
                 nomeTipo = "Pagamento";
             }
 
+
             return `
                 <div class="item-operacao">
 
@@ -634,6 +651,21 @@ function mostrarOperacoes(
                         <strong>Data:</strong>
                         ${formatarData(operacao.data)}
                     </p>
+
+                    ${tipo.includes("TRANSFERENCIA_ENTRADA") || tipo.includes("TRANSFERENCIA_SAIDA")
+                        ? `
+                        <p>
+                            <strong>Id de quem enviou: </strong>
+                            ${operacao.contaOrigem}
+                         </p>
+
+                         <p>
+                            <strong>Id de quem recebeu: </strong>
+                            ${operacao.contaDestino}
+                         </p>   
+                        `
+                        : ""    
+                    }
 
                     ${tipo.includes("PAGAMENTO")
                     ? `
@@ -1179,6 +1211,21 @@ async function historicoTransferencias() {
                         <strong>Valor:</strong>
                         R$ ${Number(item.valor).toFixed(2)}
                     </p>
+
+                    ${tipo.includes("TRANSFERENCIA_ENTRADA") || tipo.includes("TRANSFERENCIA_SAIDA")
+                        ? `
+                        <p>
+                            <strong>Id de quem enviou: </strong>
+                            ${item.contaOrigem}
+                         </p>
+
+                         <p>
+                            <strong>Id de quem recebeu: </strong>
+                            ${item.contaDestino}
+                         </p>   
+                        `
+                        : ""    
+                    }
 
                     ${tipo.includes("PAGAMENTO")
                     ? `
