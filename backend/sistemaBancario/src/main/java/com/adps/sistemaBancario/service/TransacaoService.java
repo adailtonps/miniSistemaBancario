@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class TransacaoService {
         }
         conta.debitar(valor);
         contaRepository.save(conta);
-        Transacao transacao = new Transacao(valor, TransacaoTipo.SAQUE, LocalDateTime.now());
+        Transacao transacao = new Transacao(valor, TransacaoTipo.SAQUE, LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         Transacao saqueFeito = transacaoRepository.save(transacao);
 
         return new TransacaoResponseDTO(
@@ -69,7 +70,7 @@ public class TransacaoService {
 
         conta.creditar(valor);
         contaRepository.save(conta);
-        Transacao transacao = new Transacao(valor, TransacaoTipo.DEPOSITO, LocalDateTime.now());
+        Transacao transacao = new Transacao(valor, TransacaoTipo.DEPOSITO, LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         Transacao transacaoFeita = transacaoRepository.save(transacao);
 
         return new TransacaoResponseDTO(
@@ -241,7 +242,7 @@ public class TransacaoService {
         contaRepository.save(origem);
         contaRepository.save(destino);
 
-        transacaoRepository.save(new Transacao(origem, destino, valor, TransacaoTipo.TRANSFERENCIA_SAIDA, LocalDateTime.now()));
-        transacaoRepository.save(new Transacao(origem, destino, valor, TransacaoTipo.TRANSFERENCIA_ENTRADA, LocalDateTime.now()));
+        transacaoRepository.save(new Transacao(origem, destino, valor, TransacaoTipo.TRANSFERENCIA_SAIDA, LocalDateTime.now(ZoneId.of("America/Sao_Paulo"))));
+        transacaoRepository.save(new Transacao(origem, destino, valor, TransacaoTipo.TRANSFERENCIA_ENTRADA, LocalDateTime.now(ZoneId.of("America/Sao_Paulo"))));
     }
 }
