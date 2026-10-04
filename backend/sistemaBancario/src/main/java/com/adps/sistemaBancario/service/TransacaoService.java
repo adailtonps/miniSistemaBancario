@@ -225,6 +225,11 @@ public class TransacaoService {
             throw new ContaInativaException();
         }
 
+        if (origem.getStatusConta() == StatusConta.DELETADA ||
+                destino.getStatusConta() == StatusConta.DELETADA) {
+            throw new ContaDeletadaException();
+        }
+
         if (valor.compareTo(BigDecimal.ZERO) <= 0) {
             throw new ValorInvalidoException();
         }
