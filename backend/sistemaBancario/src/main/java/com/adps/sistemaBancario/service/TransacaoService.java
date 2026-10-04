@@ -5,6 +5,7 @@ import com.adps.sistemaBancario.dto.*;
 import com.adps.sistemaBancario.exception.*;
 import com.adps.sistemaBancario.repository.ContaRepository;
 import com.adps.sistemaBancario.repository.PagamentoRepository;
+import com.adps.sistemaBancario.repository.TransacaoRepository;
 import com.adps.sistemaBancario.specification.TransacoesSpecification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

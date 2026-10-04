@@ -8,6 +8,7 @@ import com.adps.sistemaBancario.dto.ClienteAtualizarDto;
 import com.adps.sistemaBancario.exception.NegocioException;
 import com.adps.sistemaBancario.repository.ClienteRepository;
 import com.adps.sistemaBancario.repository.ContaRepository;
+import com.adps.sistemaBancario.repository.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
