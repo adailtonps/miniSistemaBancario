@@ -37,8 +37,13 @@ public class TransacoesSpecification {
 
     private static Specification<Transacao> clienteContem(Cliente cliente) {
         return (root, query, cb) -> {
-            return cb.equal(
-                    root.get("conta").get("cliente").get("id"),cliente.getId()
+
+            var origem = root.get("contaOrigem").get("cliente").get("id");
+            var destino = root.get("contaDestino").get("cliente").get("id");
+
+            return cb.or(
+                    cb.equal(origem, cliente.getId()),
+                    cb.equal(destino, cliente.getId())
             );
         };
     }

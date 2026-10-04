@@ -38,12 +38,6 @@ public class Transacao {
     @JoinColumn(name="conta_destino_id")
     private Conta contaDestino;
 
-    @ManyToOne
-    @JsonIgnore
-    private Conta conta;
-
-
-
 
     @Column(nullable = false)
     private BigDecimal valor = BigDecimal.ZERO;
@@ -64,30 +58,9 @@ public class Transacao {
         this.dataHoraTransacao = dataHoraTransacao;
     }
 
-    public Transacao(Conta conta, BigDecimal valor, TransacaoTipo transacaoTipo) {
-        this.conta = conta;
+    public Transacao(BigDecimal valor, TransacaoTipo transacaoTipo, LocalDateTime dataHoraTransacao) {
         this.valor = valor;
         this.transacaoTipo = transacaoTipo;
+        this.dataHoraTransacao = dataHoraTransacao;
     }
-
-    public String getId() {
-        return id;
-    }
-
-    public Conta getConta() {
-        return contaOrigem;
-    }
-
-    public LocalDateTime getDataHoraTransacao() {
-        return dataHoraTransacao;
-    }
-
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public TransacaoTipo getTransacaoTipo() {
-        return transacaoTipo;
-    }
-
 }

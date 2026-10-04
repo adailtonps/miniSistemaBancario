@@ -45,7 +45,7 @@ public class TransacaoService {
         }
         conta.debitar(valor);
         contaRepository.save(conta);
-        Transacao transacao = new Transacao(conta, valor, TransacaoTipo.SAQUE);
+        Transacao transacao = new Transacao(valor, TransacaoTipo.SAQUE, LocalDateTime.now());
         Transacao saqueFeito = transacaoRepository.save(transacao);
 
         return new TransacaoResponseDTO(
@@ -69,7 +69,7 @@ public class TransacaoService {
 
         conta.creditar(valor);
         contaRepository.save(conta);
-        Transacao transacao = new Transacao(conta, valor, TransacaoTipo.DEPOSITO);
+        Transacao transacao = new Transacao(valor, TransacaoTipo.DEPOSITO, LocalDateTime.now());
         Transacao transacaoFeita = transacaoRepository.save(transacao);
 
         return new TransacaoResponseDTO(
