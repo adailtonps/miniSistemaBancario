@@ -15,6 +15,5 @@ import java.util.List;
 
 @Repository
 public interface TransacaoRepository extends JpaRepository<Transacao, Integer>, JpaSpecificationExecutor<Transacao> {
-    void deleteByConta(Conta conta);
 
 }
