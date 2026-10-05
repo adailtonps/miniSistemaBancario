@@ -82,8 +82,26 @@ public class TransacaoService {
         );
     }
 
+    private String definirTipoHistorico(Transacao transacao, Conta contaCliente){
+        if(transacao.getTransacaoTipo() != TransacaoTipo.TRANSFERENCIA){
+            return transacao.getTransacaoTipo().toString();
+        }
+
+        if(transacao.getContaOrigem().getId_conta().equals(contaCliente.getId_conta())){
+            return "TRANSFERENCIA_SAIDA";
+        }
+
+        if(transacao.getContaDestino().getId_conta().equals(contaCliente.getId_conta())){
+            return "TRANSFERENCIA_ENTRADA";
+        }
+
+        return "TRANSFERENCIA";
+    }
 
     public List<HistoricoDTO> listarTransacoes(TransacoesFiltroRequest transacoesFiltro, Cliente cliente) {
+
+        Conta contaCliente = contaRepository.findByCliente(cliente)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Conta"));
 
         List<String> tipos = transacoesFiltro.tipo();
 
@@ -127,7 +145,7 @@ public class TransacaoService {
                             p.getId(),
                             p.getDataHoraTransacao(),
                             p.getValor(),
-                            p.getTransacaoTipo().toString(),
+                            definirTipoHistorico(p, contaCliente),
                             null,
                             null,
                             null,
@@ -178,7 +196,7 @@ public class TransacaoService {
                                 t.getId(),
                                 t.getDataHoraTransacao(),
                                 t.getValor(),
-                                t.getTransacaoTipo().toString(),
+                                definirTipoHistorico(t, contaCliente),
                                 null,
                                 null,
                                 null,
@@ -247,7 +265,6 @@ public class TransacaoService {
         contaRepository.save(origem);
         contaRepository.save(destino);
 
-        transacaoRepository.save(new Transacao(origem, destino, valor, TransacaoTipo.TRANSFERENCIA_SAIDA, LocalDateTime.now(ZoneId.of("America/Sao_Paulo"))));
-        transacaoRepository.save(new Transacao(origem, destino, valor, TransacaoTipo.TRANSFERENCIA_ENTRADA, LocalDateTime.now(ZoneId.of("America/Sao_Paulo"))));
+        transacaoRepository.save(new Transacao(origem, destino, valor, TransacaoTipo.TRANSFERENCIA, LocalDateTime.now(ZoneId.of("America/Sao_Paulo"))));
     }
 }
