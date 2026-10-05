@@ -15,7 +15,7 @@ public class TransacoesSpecification {
     public static Specification<Transacao> comFiltros(TransacoesFiltroRequest filtro, Cliente cliente) {
         return Specification
                 .where(clienteContem(cliente))
-                .and(tipoContem(filtro.tipo()))
+                .and(tipoContem(filtro.tipo(), cliente))
                 .and(dataRealizadaContem(filtro.dataRealizada()))
                 .and(valorContem(filtro.valor()));
     }
@@ -48,17 +48,28 @@ public class TransacoesSpecification {
         };
     }
 
-    private static Specification<Transacao> tipoContem(List<String> tipos) {
-        return(root, query, cb) -> {
-          if(tipos == null || tipos.isEmpty()){
-              return null;
-          }
-
+    private static Specification<Transacao> tipoContem(List<String> tipos, Cliente cliente) {
+        return (root, query, cb) -> {
+            if (tipos == null || tipos.isEmpty()) {
+                return null;
+            }
+            if (tipos.contains("TRANSFERENCIA_ENTRADA")) {
+                return cb.equal(
+                        root.get("contaDestino").get("cliente").get("id"),
+                        cliente.getId()
+                );
+            }
+            if (tipos.contains("TRANSFERENCIA_SAIDA")) {
+                return cb.equal(
+                        root.get("contaOrigem").get("cliente").get("id"),
+                        cliente.getId()
+                );
+            }
             List<TransacaoTipo> tiposEnum = tipos.stream()
                     .map(tipo -> TransacaoTipo.valueOf(tipo.toUpperCase()))
                     .toList();
 
-          return root.get("transacaoTipo").in(tiposEnum);
+            return root.get("transacaoTipo").in(tiposEnum);
         };
     }
 
@@ -76,11 +87,11 @@ public class TransacoesSpecification {
     }
 
     private static Specification<Transacao> valorContem(BigDecimal valor) {
-        return(root, query, cb) -> {
-          if(valor == null || valor.compareTo(BigDecimal.ZERO) == 0){
-              return null;
-          }
-          return cb.equal((root.get("valor")),valor);
+        return (root, query, cb) -> {
+            if (valor == null || valor.compareTo(BigDecimal.ZERO) == 0) {
+                return null;
+            }
+            return cb.equal((root.get("valor")), valor);
         };
     }
 
