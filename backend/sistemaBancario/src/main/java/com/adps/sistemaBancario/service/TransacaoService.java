@@ -105,6 +105,23 @@ public class TransacaoService {
 
         List<String> tipos = transacoesFiltro.tipo();
 
+        List<String> tiposTransacao = tipos == null
+                ? null
+                : tipos.stream()
+                     .filter(tipo ->
+                             "TRANSFERENCIA".equalsIgnoreCase(tipo) ||
+                             "TRANSFERENCIA_SAIDA".equalsIgnoreCase(tipo) ||
+                             "TRANSFERENCIA_ENTRADA".equalsIgnoreCase(tipo) ||
+                             "DEPOSITO".equalsIgnoreCase(tipo) ||
+                             "SAQUE".equalsIgnoreCase(tipo))
+                .toList();
+
+        TransacoesFiltroRequest filtroTransacao = new TransacoesFiltroRequest(
+                tiposTransacao,
+                transacoesFiltro.dataRealizada(),
+                transacoesFiltro.valor()
+        );
+
         boolean temPagamento = tipos != null &&
                 tipos.stream().anyMatch(tipo -> "PAGAMENTO".equalsIgnoreCase(tipo));
 
@@ -123,7 +140,7 @@ public class TransacaoService {
                     TransacoesSpecification.comFiltrosPagamento(transacoesFiltro, cliente)
             );
             List<Transacao> transacoes = transacaoRepository.findAll(
-                    TransacoesSpecification.comFiltros(transacoesFiltro, cliente)
+                    TransacoesSpecification.comFiltros(filtroTransacao, cliente)
             );
             List<HistoricoDTO> historicoPagamentos = pagamentos.stream()
                     .map(p -> new HistoricoDTO(
@@ -189,7 +206,7 @@ public class TransacaoService {
 
             if (temTransacao) {
                 List<Transacao> transacoes = transacaoRepository.findAll(
-                        TransacoesSpecification.comFiltros(transacoesFiltro, cliente)
+                        TransacoesSpecification.comFiltros(filtroTransacao, cliente)
                 );
                 historico.addAll(transacoes.stream()
                         .map(t -> new HistoricoDTO(

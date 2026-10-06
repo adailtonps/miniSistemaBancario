@@ -17,6 +17,5 @@ import java.util.Optional;
 public interface PagamentoRepository extends JpaRepository<Pagamento, String>, JpaSpecificationExecutor<Pagamento> {
     Optional<Pagamento> findByCodigoPagamento(String codigoPagamento);
     List<Pagamento> findByStatusPagamento(StatusPagamento statusPagamento);
-    List<Pagamento> findByClienteOrderByDataPagamentoDesc(Cliente cliente);
 
 }
