@@ -46,7 +46,7 @@ public class TransacaoService {
         }
         conta.debitar(valor);
         contaRepository.save(conta);
-        Transacao transacao = new Transacao(valor, TransacaoTipo.SAQUE, LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        Transacao transacao = new Transacao(conta, null, valor, TransacaoTipo.SAQUE, LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         Transacao saqueFeito = transacaoRepository.save(transacao);
 
         return new TransacaoResponseDTO(
@@ -70,7 +70,7 @@ public class TransacaoService {
 
         conta.creditar(valor);
         contaRepository.save(conta);
-        Transacao transacao = new Transacao(valor, TransacaoTipo.DEPOSITO, LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        Transacao transacao = new Transacao(conta, null, valor, TransacaoTipo.DEPOSITO, LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         Transacao transacaoFeita = transacaoRepository.save(transacao);
 
         return new TransacaoResponseDTO(
