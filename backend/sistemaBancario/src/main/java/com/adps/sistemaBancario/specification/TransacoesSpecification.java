@@ -5,6 +5,7 @@ import com.adps.sistemaBancario.domain.Pagamento;
 import com.adps.sistemaBancario.domain.Transacao;
 import com.adps.sistemaBancario.domain.TransacaoTipo;
 import com.adps.sistemaBancario.dto.TransacoesFiltroRequest;
+import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
@@ -38,12 +39,15 @@ public class TransacoesSpecification {
     private static Specification<Transacao> clienteContem(Cliente cliente) {
         return (root, query, cb) -> {
 
-            var origem = root.get("contaOrigem").get("cliente").get("id");
-            var destino = root.get("contaDestino").get("cliente").get("id");
+            var origem = root.join("contaOrigem", JoinType.LEFT);
+            var destino = root.join("contaDestino",JoinType.LEFT);
+
+            var clienteOrigem = origem.join("cliente",JoinType.LEFT);
+            var clienteDestino = destino.join("cliente", JoinType.LEFT);
 
             return cb.or(
-                    cb.equal(origem, cliente.getId()),
-                    cb.equal(destino, cliente.getId())
+                    cb.equal(clienteOrigem.get("id"), cliente.getId()),
+                    cb.equal(clienteDestino.get("id"), cliente.getId())
             );
         };
     }
