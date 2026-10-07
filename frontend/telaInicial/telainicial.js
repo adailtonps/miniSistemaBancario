@@ -1059,22 +1059,22 @@ async function historicoTransferencias() {
         tipos.push("DEPOSITO");
     }
 
-    if(
-        document.getElementById("opcaoTransferencias")?.checked
-    ) {
-        tipos.push("TRANSFERENCIA");
-    }
+    const opcaoTransferencias = document.getElementById("opcaoTransferencias")?.checked;
+    const opcaoTransferenciaSaida = document.getElementById("opcaoTransferenciaSaida")?.checked;
+    const opcaoTransferenciaEntrada = document.getElementById("opcaoTransferenciaEntrada")?.checked;
 
-    if (
-        document.getElementById("opcaoTransferenciaSaida")?.checked
-    ) {
-        tipos.push("TRANSFERENCIA_SAIDA");
-    }
+    if(opcaoTransferencias){
+        if(opcaoTransferenciaSaida){
+            tipos.push("TRANSFERENCIA_SAIDA");
+        }
 
-    if (
-        document.getElementById("opcaoTransferenciaEntrada")?.checked
-    ) {
-        tipos.push("TRANSFERENCIA_ENTRADA");
+        if(opcaoTransferenciaEntrada){
+            tipos.push("TRANSFERENCIAS_ENTRADA");
+        }
+
+        if(!opcaoTransferenciaEntrada && !opcaoTransferenciaSaida){
+            tipos.push("TRANSFERENCIA");
+        }
     }
 
     const buscarHistoricoPorTipo = async (tipo) => {
