@@ -6,10 +6,12 @@ import com.adps.sistemaBancario.domain.Transacao;
 import com.adps.sistemaBancario.domain.TransacaoTipo;
 import com.adps.sistemaBancario.dto.TransacoesFiltroRequest;
 import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TransacoesSpecification {
@@ -57,23 +59,44 @@ public class TransacoesSpecification {
             if (tipos == null || tipos.isEmpty()) {
                 return null;
             }
-            if (tipos.contains("TRANSFERENCIA_ENTRADA")) {
-                return cb.equal(
-                        root.get("contaDestino").get("cliente").get("id"),
-                        cliente.getId()
-                );
-            }
-            if (tipos.contains("TRANSFERENCIA_SAIDA")) {
-                return cb.equal(
-                        root.get("contaOrigem").get("cliente").get("id"),
-                        cliente.getId()
-                );
-            }
-            List<TransacaoTipo> tiposEnum = tipos.stream()
-                    .map(tipo -> TransacaoTipo.valueOf(tipo.toUpperCase()))
-                    .toList();
 
-            return root.get("transacaoTipo").in(tiposEnum);
+            List<jakarta.persistence.criteria.Predicate> filtros = new ArrayList<>();
+
+            for (String tipo : tipos) {
+                if ("TRANSFERENCIA_ENTRADA".equalsIgnoreCase(tipo)) {
+                    filtros.add(
+                            cb.and(
+                                    cb.equal(
+                                            root.get("transacaoTipo"),
+                                            TransacaoTipo.TRANSFERENCIA
+                                    ),
+                                    cb.equal(
+                                            root.get("contaDestino").get("cliente").get("id"),
+                                            cliente.getId()
+                                    )
+                            )
+                    );
+                } else if ("TRANSFERENCIA_SAIDA".equalsIgnoreCase(tipo)) {
+                    filtros.add(
+                            cb.and(
+                                    cb.equal(
+                                            root.get("contaOrigem").get("cliente").get("id"),
+                                            cliente.getId()
+                                    )
+                            )
+                    );
+                } else {
+                    TransacaoTipo tipoEnum = TransacaoTipo.valueOf(tipo.toUpperCase());
+
+                    filtros.add(
+                            cb.equal(
+                                    root.get("transacaoTipo"),
+                                    tipoEnum
+                            )
+                    );
+                }
+            }
+            return cb.or(filtros.toArray(new jakarta.persistence.criteria.Predicate[0]));
         };
     }
 
