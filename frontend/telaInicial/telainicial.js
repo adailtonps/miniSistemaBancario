@@ -567,7 +567,7 @@ function mostrarUltimasMovimentacoes(operacoes) {
                         ${formatarData(operacao.data)}
                     </p>
 
-                    ${tipo.includes("TRANSFERENCIA_ENTRADA") || tipo.includes("TRANSFERENCIA_SAIDA")
+                    ${tipo.includes("TRANSFERENCIA_ENTRADA")
                         ? `
                         <p>
                             <strong>Id de quem enviou: </strong>
@@ -575,15 +575,30 @@ function mostrarUltimasMovimentacoes(operacoes) {
                          </p>
 
                          <p>
+                            <strong>Id de quem recebeu (Você): </strong>
+                            ${operacao.contaDestino}
+                         </p>
+                         `
+                         : ""
+                    }   
+                                                
+                    ${tipo.includes("TRANSFERENCIA_SAIDA")
+                        ? `
+                        <p>
+                            <strong>Id de quem enviou (Você): </strong>
+                            ${operacao.contaOrigem} 
+                        </p> 
+                        
+                        <p> 
                             <strong>Id de quem recebeu: </strong>
                             ${operacao.contaDestino}
-                         </p>   
+                        </p>
                         `
-                        : ""    
+                        : ""
                     }
 
                 </div>
-            `;
+                    }`
         }).join("");
 }
 
@@ -1042,6 +1057,12 @@ async function historicoTransferencias() {
         document.getElementById("opcaoDepositos")?.checked
     ) {
         tipos.push("DEPOSITO");
+    }
+
+    if(
+        document.getElementById("opcaoTransferencias")?.checked
+    ) {
+        tipos.push("TRANSFERENCIA");
     }
 
     if (
