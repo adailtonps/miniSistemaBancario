@@ -137,7 +137,7 @@ public class TransacaoService {
 
         if (nenhumTipo) {
             List<Pagamento> pagamentos = pagamentoRepository.findAll(
-                    TransacoesSpecification.comFiltrosPagamento(transacoesFiltro, cliente)
+                    TransacoesSpecification.comFiltrosPagamento(filtroTransacao, cliente)
             );
             List<Transacao> transacoes = transacaoRepository.findAll(
                     TransacoesSpecification.comFiltros(filtroTransacao, cliente)
@@ -183,7 +183,7 @@ public class TransacaoService {
         } else {
             if (temPagamento) {
                 List<Pagamento> pagamentos = pagamentoRepository.findAll(
-                        TransacoesSpecification.comFiltrosPagamento(transacoesFiltro, cliente)
+                        TransacoesSpecification.comFiltrosPagamento(filtroTransacao, cliente)
                 );
                 historico.addAll(pagamentos.stream()
                         .map(t -> new HistoricoDTO(
