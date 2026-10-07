@@ -14,6 +14,6 @@ import java.util.List;
 
 
 @Repository
-public interface TransacaoRepository extends JpaRepository<Transacao, Integer>, JpaSpecificationExecutor<Transacao> {
+public interface TransacaoRepository extends JpaRepository<Transacao, String>, JpaSpecificationExecutor<Transacao> {
 
 }

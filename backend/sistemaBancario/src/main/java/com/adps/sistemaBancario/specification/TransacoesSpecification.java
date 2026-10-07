@@ -80,6 +80,10 @@ public class TransacoesSpecification {
                     filtros.add(
                             cb.and(
                                     cb.equal(
+                                            root.get("transacaoTipo"),
+                                            TransacaoTipo.TRANSFERENCIA
+                                    ),
+                                    cb.equal(
                                             root.get("contaOrigem").get("cliente").get("id"),
                                             cliente.getId()
                                     )
