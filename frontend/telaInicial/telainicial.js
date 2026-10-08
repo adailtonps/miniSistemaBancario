@@ -1140,16 +1140,20 @@ async function historicoTransferencias() {
 
                     console.log("TIPOS SELECIONADOS:", tipos);
 
+
         } else {
             const resultados =
                 await Promise.all(
                     tipos.map(tipo =>
                         buscarHistoricoPorTipo(tipo)
                     )
+                    
                 );
 
             historico =
                 resultados.flat();
+                console.log("BUSCANDO TIPO:", tipo);
+                        console.log("URL:", url);
         }
 
         const historicoUnico =
