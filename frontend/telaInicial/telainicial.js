@@ -1138,6 +1138,8 @@ async function historicoTransferencias() {
                     ? resposta
                     : [];
 
+                    console.log("TIPOS SELECIONADOS:", tipos);
+
         } else {
             const resultados =
                 await Promise.all(
