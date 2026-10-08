@@ -595,10 +595,10 @@ function mostrarUltimasMovimentacoes(operacoes) {
                         </p>
                         `
                         : ""
-                    }
 
-                </div>
-                    }`
+                    }
+                    </div>
+                    `
         }).join("");
 }
 
@@ -1069,7 +1069,7 @@ async function historicoTransferencias() {
         }
 
         if(opcaoTransferenciaEntrada){
-            tipos.push("TRANSFERENCIAS_ENTRADA");
+            tipos.push("TRANSFERENCIA_ENTRADA");
         }
 
         if(!opcaoTransferenciaEntrada && !opcaoTransferenciaSaida){
