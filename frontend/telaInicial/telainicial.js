@@ -1215,7 +1215,7 @@ async function historicoTransferencias() {
                 nomeTipo = "Transferência";
             }
             console.log("Tipo:", tipo);
-console.log("Nome do tipo:", nomeTipo);
+            console.log("Nome do tipo:", nomeTipo);
 
             html += `
                 <div class="item-historico">
@@ -1294,6 +1294,7 @@ console.log("Nome do tipo:", nomeTipo);
             ${erro.message}
         </p>
     `;
+    }
 }
 
 async function apagarConta() {
