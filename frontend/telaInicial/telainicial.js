@@ -1155,7 +1155,6 @@ async function historicoTransferencias() {
                 
         }
 
-        console.log("Histórico recebido:", historicoUnico);
         const historicoUnico =
             Array.from(
                 new Map(
@@ -1165,6 +1164,8 @@ async function historicoTransferencias() {
                     ])
                 ).values()
             );
+                    console.log("Histórico recebido:", historicoUnico);
+
             console.log("Tipo da transação:", tipo);
 
         historicoUnico.sort((a, b) => {
