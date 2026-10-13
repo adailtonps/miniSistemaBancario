@@ -1214,8 +1214,6 @@ async function historicoTransferencias() {
             ) {
                 nomeTipo = "Transferência";
             }
-            console.log("Tipo:", tipo);
-            console.log("Nome do tipo:", nomeTipo);
 
             html += `
                 <div class="item-historico">
@@ -1287,13 +1285,12 @@ async function historicoTransferencias() {
         div.innerHTML = html;
 
     } catch (erro) {
-    console.error("Erro ao carregar histórico:", erro);
 
-    div.innerHTML = `
-        <p class="mensagem-erro">
-            ${erro.message}
-        </p>
-    `;
+        div.innerHTML = `
+            <p class="mensagem-erro">
+                ${erro.message}
+            </p>
+        `;
     }
 }
 
