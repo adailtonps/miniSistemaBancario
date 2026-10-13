@@ -1026,6 +1026,7 @@ async function alterarDados() {
 }
 
 async function historicoTransferencias() {
+    console.log("Entrou em historicoTransferencias");
     const div =
         document.getElementById("conteudoGerenciar");
 
@@ -1138,7 +1139,6 @@ async function historicoTransferencias() {
                     ? resposta
                     : [];
 
-                    console.log("TIPOS SELECIONADOS:", tipos);
 
 
         } else {
@@ -1152,10 +1152,10 @@ async function historicoTransferencias() {
 
             historico =
                 resultados.flat();
-                console.log("BUSCANDO TIPO:", tipo);
-                        console.log("URL:", url);
+                
         }
 
+        console.log("Histórico recebido:", historicoUnico);
         const historicoUnico =
             Array.from(
                 new Map(
@@ -1165,6 +1165,7 @@ async function historicoTransferencias() {
                     ])
                 ).values()
             );
+            console.log("Tipo da transação:", tipo);
 
         historicoUnico.sort((a, b) => {
             return new Date(b.data) -
