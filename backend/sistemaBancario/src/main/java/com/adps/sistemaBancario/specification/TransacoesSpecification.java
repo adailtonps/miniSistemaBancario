@@ -113,7 +113,10 @@ public class TransacoesSpecification {
           LocalDateTime inicio = dataRealizada.toLocalDate().atStartOfDay();
           LocalDateTime fim = inicio.plusDays(1);
 
-          return cb.between((root.get("dataHoraTransacao")),inicio,fim);
+          return cb.and(
+                  cb.greaterThanOrEqualTo(root.get("dataHoraTransacao"),inicio),
+                  cb.lessThan(root.get("dataHoraTransacao"),fim)
+          );
         };
     }
 
@@ -135,7 +138,10 @@ public class TransacoesSpecification {
             LocalDateTime inicio = dataRealizada.toLocalDate().atStartOfDay();
             LocalDateTime fim = inicio.plusDays(1);
 
-          return cb.between((root.get("dataPagamento")), inicio, fim);
+            return cb.and(
+                    cb.greaterThanOrEqualTo(root.get("dataPagamento"),inicio),
+                    cb.lessThan(root.get("dataPagamento"),fim)
+            );
         };
     }
 
