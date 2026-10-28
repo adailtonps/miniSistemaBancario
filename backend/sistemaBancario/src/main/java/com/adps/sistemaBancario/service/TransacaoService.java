@@ -70,8 +70,21 @@ public class TransacaoService {
 
         conta.creditar(valor);
         contaRepository.save(conta);
-        Transacao transacao = new Transacao(conta, null, valor, TransacaoTipo.DEPOSITO, LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        LocalDateTime dataAtual = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
+
+        System.out.println("Data gerada pelo Java: " + dataAtual);
+
+        Transacao transacao = new Transacao(
+                conta,
+                null,
+                valor,
+                TransacaoTipo.DEPOSITO,
+                dataAtual
+        );
+
         Transacao transacaoFeita = transacaoRepository.save(transacao);
+
+        System.out.println("Data retornada pelo Hibernate: " + transacaoFeita.getDataHoraTransacao());
 
         return new TransacaoResponseDTO(
                 transacaoFeita.getId(),
