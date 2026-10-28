@@ -716,8 +716,8 @@ function formatarData(dataISO) {
 
     const data = new Date(
         /(?:Z|[+-]\d{2}:\d{2})$/.test(valor)
-            ? valor
-            : valor + "Z"
+            ? new Date(valor)
+            : new Date(valor.slice(0, 10) + "T" + valor.slice(11) + "-03:00")
     );
 
     return data.toLocaleString("pt-BR", {
