@@ -568,7 +568,7 @@ function mostrarUltimasMovimentacoes(operacoes) {
                     </p>
 
                     ${tipo.includes("TRANSFERENCIA_ENTRADA")
-                        ? `
+                    ? `
                         <p>
                             <strong>Id de quem enviou: </strong>
                             ${operacao.contaOrigem}
@@ -579,11 +579,11 @@ function mostrarUltimasMovimentacoes(operacoes) {
                             ${operacao.contaDestino}
                          </p>
                          `
-                         : ""
-                    }   
+                    : ""
+                }   
                                                 
                     ${tipo.includes("TRANSFERENCIA_SAIDA")
-                        ? `
+                    ? `
                         <p>
                             <strong>Id de quem enviou (Você): </strong>
                             ${operacao.contaOrigem} 
@@ -594,9 +594,9 @@ function mostrarUltimasMovimentacoes(operacoes) {
                             ${operacao.contaDestino}
                         </p>
                         `
-                        : ""
+                    : ""
 
-                    }
+                }
                     </div>
                     `
         }).join("");
@@ -668,7 +668,7 @@ function mostrarOperacoes(
                     </p>
 
                     ${tipo.includes("TRANSFERENCIA_ENTRADA") || tipo.includes("TRANSFERENCIA_SAIDA")
-                        ? `
+                    ? `
                         <p>
                             <strong>Id de quem enviou: </strong>
                             ${operacao.contaOrigem}
@@ -679,8 +679,8 @@ function mostrarOperacoes(
                             ${operacao.contaDestino}
                          </p>   
                         `
-                        : ""    
-                    }
+                    : ""
+                }
 
                     ${tipo.includes("PAGAMENTO")
                     ? `
@@ -710,21 +710,14 @@ function mostrarOperacoes(
 function formatarData(dataISO) {
     if (!dataISO) {
         return "Ainda não realizado!";
+
     }
-
     const valor = String(dataISO).trim();
-
-    const data = new Date(
-        /(?:Z|[+-]\d{2}:\d{2})$/.test(valor)
-            ? new Date(valor)
-            : new Date(valor.slice(0, 10) + "T" + valor.slice(11) + "-03:00")
-    );
-
-    return data.toLocaleString("pt-BR", {
-        dateStyle: "short",
-        timeStyle: "medium",
-        timeZone: "America/Sao_Paulo"
-    });
+    const data = /(?:Z|[+-]\d{2}:\d{2})$/.test(valor)
+        ? new Date(valor)
+        : new Date(valor.slice(0, 10) + "T" + valor.slice(11) + "-03:00");
+    return data.toLocaleString("pt-BR",
+        { dateStyle: "short", timeStyle: "medium", timeZone: "America/Sao_Paulo" });
 }
 
 function limparConteudoGerenciar() {
@@ -1063,16 +1056,16 @@ async function historicoTransferencias() {
     const opcaoTransferenciaSaida = document.getElementById("opcaoTransferenciaSaida")?.checked;
     const opcaoTransferenciaEntrada = document.getElementById("opcaoTransferenciaEntrada")?.checked;
 
-    if(opcaoTransferencias){
-        if(opcaoTransferenciaSaida){
+    if (opcaoTransferencias) {
+        if (opcaoTransferenciaSaida) {
             tipos.push("TRANSFERENCIA_SAIDA");
         }
 
-        if(opcaoTransferenciaEntrada){
+        if (opcaoTransferenciaEntrada) {
             tipos.push("TRANSFERENCIA_ENTRADA");
         }
 
-        if(!opcaoTransferenciaEntrada && !opcaoTransferenciaSaida){
+        if (!opcaoTransferenciaEntrada && !opcaoTransferenciaSaida) {
             tipos.push("TRANSFERENCIA");
         }
     }
@@ -1146,12 +1139,12 @@ async function historicoTransferencias() {
                     tipos.map(tipo =>
                         buscarHistoricoPorTipo(tipo)
                     )
-                    
+
                 );
 
             historico =
                 resultados.flat();
-                
+
         }
 
         const historicoUnico =
@@ -1163,7 +1156,7 @@ async function historicoTransferencias() {
                     ])
                 ).values()
             );
-        
+
 
         historicoUnico.sort((a, b) => {
             return new Date(b.data) -
@@ -1239,7 +1232,7 @@ async function historicoTransferencias() {
                     </p>
 
                     ${tipo.includes("TRANSFERENCIA_ENTRADA") || tipo.includes("TRANSFERENCIA_SAIDA")
-                        ? `
+                    ? `
                         <p>
                             <strong>Id de quem enviou: </strong>
                             ${item.contaOrigem}
@@ -1250,8 +1243,8 @@ async function historicoTransferencias() {
                             ${item.contaDestino}
                          </p>   
                         `
-                        : ""    
-                    }
+                    : ""
+                }
 
                     ${tipo.includes("PAGAMENTO")
                     ? `
