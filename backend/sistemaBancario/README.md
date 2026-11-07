@@ -1,195 +1,274 @@
-# sistemaBancario  
-## Endpoints disponíveis:  
-## URL = https://minisistemabancario.onrender.com  
-## Criar um conta  
-POST /auth/cadastro   
-Responsável por criar uma nova conta  
-## Body  
-{   
-  "email": "usuario@gmail.com",   
-  "nome": "Usuario",  
-  "senha": "usuario123A@"  
-}  
-## Resposta  
-{  
-    "id": 3,  
-    "nome": "Usuario",  
-    "email": "usuario@gmail.com"  
-}  
+# Backend — Mini Sistema Bancário
 
+Backend da aplicação **Mini Sistema Bancário**, desenvolvido com Java e Spring Boot, responsável pelas regras de negócio, autenticação, gerenciamento de contas, transações e pagamentos.
 
-## Login  
-POST /auth/login  
-Responsável por fazer login  
-## Body  
-{   
-  "email": "usuario@gmail.com",  
-  "senha": "usuario123A@"  
-}  
-## Resposta  
-{  
-    "token": "eyJhbGciOiJIUzI1NiJ9.exemplo.token.jwt",  
-    "mensagem": "Login realizado com sucesso!"  
+## Tecnologias
+
+- Java 17
+- Spring Boot 3.3.2
+- Spring Security
+- JWT
+- BCrypt
+- Spring Data JPA / Hibernate
+- PostgreSQL
+- Maven
+- Docker
+- REST API
+
+## URL
+
+**Produção:**
+
+`https://minisistemabancario.onrender.com`
+
+## Autenticação
+
+A API utiliza **JWT (JSON Web Token)** para autenticação.
+
+Após realizar o login, o token deve ser enviado nas requisições protegidas:
+
+```http
+Authorization: Bearer <token>
+```
+
+As senhas dos usuários são armazenadas utilizando **BCrypt**.
+
+### Login
+
+```http
+POST /auth/login
+```
+
+Retorna um JWT para autenticar o usuário.
+
+### Cadastro
+
+```http
+POST /auth/cadastro
+```
+
+Retorna os dados básicos do cliente criado.
+
+---
+
+# Endpoints
+
+## Autenticação
+
+### `POST /auth/cadastro`
+
+Cria um novo cliente e sua conta bancária.
+
+**Retorna:** dados do cliente criado.
+
+```json
+{
+  "id": 3,
+  "nome": "Usuario",
+  "email": "usuario@gmail.com"
 }
-## Como usar o token  
-Para acessar endpoints protegidos, copie o token gerado dento das aspas e cole no Authorization:    
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.exemplo.token.jwt   
+```
 
+### `POST /auth/login`
 
-## Minha Conta  
-GET /conta/minha-conta  
-Responsável por mostrar os dados da conta  
-## Não é necessário enviar infos no body nesse endpoint  
-## Resposta  
-{   
-    "id": 3,  
-    "StatusConta": "ATIVADA",  
-    "Saldo": 0.00,  
-    "emailCliente": "usuario@gmail.com",  
-    "nomeCliente": "Usuario"  
-}  
+Realiza o login do cliente.
 
+**Retorna:** token JWT e mensagem de sucesso.
 
-# Saldo  
-GET /conta/me/saldo  
-Responsável por mostrar o saldo da conta   
-## Não é necessário enviar infos no body nesse endpoint  
-## Resposta   
-{   
-    "saldo": 0.00   
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9...",
+  "mensagem": "Login realizado com sucesso!"
 }
+```
 
+### `POST /auth/esqueci-senha`
 
-## Depósito  
-POST /conta/me/deposito  
-Responsável por fazer depósitos na conta  
-## Body
-{   
-  "valor":200    
-}   
-## Resposta
-{  
-    "idTransacao": 1,  
-    "valor": 200,  
-    "transacaoTipo": "DEPOSITO",  
-    "dataHoraTransacao": "2026-04-30T00:06:40.373371432"  
+Inicia o processo de recuperação de senha.
+
+**Retorna:** mensagem relacionada ao envio/início da recuperação de senha.
+
+---
+
+## Cliente
+
+### `PATCH /clientes/me`
+
+Atualiza os dados do cliente autenticado.
+
+**Retorna:** dados atualizados do cliente.
+
+```json
+{
+  "id": 3,
+  "nome": "Novo Nome",
+  "email": "novo@email.com"
 }
+```
 
+---
 
-## Saque  
-POST /conta/me/saque  
-Responsável por fazer saques na conta  
-## Body  
-{  
-  "valor":100   
-}   
-## Resposta
-{  
-    "idTransacao": 2,  
-    "valor": 100,  
-    "transacaoTipo": "SAQUE",  
-    "dataHoraTransacao": "2026-04-30T00:08:25.781652"  
-}  
+## Conta
 
+### `GET /conta/minha-conta`
 
-## Histórico  
-GET /conta/me/historico  
-Responsável por mostrar todo o histórico de saques, depósitos e transferências da conta   
-## Não é necessário enviar infos no body  
-## Resposta  
-    {  
-        "idTransacao": 2,  
-        "valor": 100.00,  
-        "transacaoTipo": "SAQUE",  
-        "dataHoraTransacao": "2026-04-30T00:08:25.781652"  
-    },  
-    {  
-        "idTransacao": 1,  
-        "valor": 200.00,  
-        "transacaoTipo": "DEPOSITO",  
-        "dataHoraTransacao": "2026-04-30T00:06:40.373371"  
-    }  
+Consulta os dados da conta do cliente autenticado.
 
+**Retorna:** informações da conta, cliente, saldo e status.
 
-
-## Atualizar dados (nome ou email)  
-PATCH /clientes/me  
-Responsável por atualizar os dados do cliente  
-## Body (somente o dado que deseja atualizar: email ou nome, se quiser pode atualizar os dois)  
-## SE ATUALIZAR O EMAIL, É NECESSÁRIO FAZER LOGIN NOVAMENTE COM O NOVO EMAIL ->  POST /auth/login  
-{  
-    "email":"user@gmail.com",  
-    "nome":"user",  
-    "senha":"usuario123A@"  
+```json
+{
+  "id": 3,
+  "StatusConta": "ATIVADA",
+  "Saldo": 0.00,
+  "emailCliente": "usuario@gmail.com",
+  "nomeCliente": "Usuario"
 }
-## Resposta
-{  
-    "id": 3,  
-    "nome": "user",  
-    "email": "user@gmail.com"  
+```
+
+### `GET /conta/me/saldo`
+
+Consulta o saldo da conta.
+
+**Retorna:**
+
+```json
+{
+  "saldo": 0.00
 }
+```
 
+### `POST /conta/me/deposito`
 
-## Transferências  
-POST /transacoes/transferencia  
-Responsável por realizar transferências para outra conta  
-É necessário ter outra conta criada no sistema  
-## Body  
-{  
-    "destinoId":2,  
-    "valor":20,  
-    "senha":"usuario123A@"  
+Realiza um depósito na conta.
+
+**Retorna:** dados da transação realizada.
+
+```json
+{
+  "idTransacao": 1,
+  "valor": 200,
+  "transacaoTipo": "DEPOSITO",
+  "dataHoraTransacao": "2026-04-30T00:06:40.373371432"
 }
-## Resposta   
-Transferência realizada com sucesso!  
+```
 
+### `POST /conta/me/saque`
 
-## Desativar a conta
-PUT /conta/me/desativar  
-Responsável por desativar a conta  
-É necessário ter o saldo zerado para conseguir desativar  
-## Não é necessário infos no body para esse endpoint  
-## Resposta  
-{  
-    "mensagem": "Conta Desativada com sucesso!"    
+Realiza um saque.
+
+**Retorna:** dados da transação realizada.
+
+```json
+{
+  "idTransacao": 2,
+  "valor": 100,
+  "transacaoTipo": "SAQUE",
+  "dataHoraTransacao": "2026-04-30T00:08:25.781652"
 }
+```
 
+### `PUT /conta/me/desativar`
 
-# Ativar a conta
-PUT /conta/me/ativar  
-Responsável por ativar a conta  
-## Não é necessário infos no body para esse endpoint  
-## Resposta   
-{  
-    "mensagem": "Conta Ativada com sucesso!"  
+Desativa a conta do cliente.
+
+**Retorna:**
+
+```json
+{
+  "mensagem": "Conta Desativada com sucesso!"
 }
+```
 
+### `PUT /conta/me/ativar`
 
-## Reset da senha
-POST /auth/esqueci-senha  
-Responsável por gerar o link de reset da senha  
-Um link será gerado após a requisição, copie o link e cole no navegador, e insira a nova senha    
-Você será redirecionado para a tela de login do sistema, entre com a nova senha, ou pode continuar fazendo as requisições no postman ou no insomnia, mas agora usando a nova senha.  
-## Body  
-{   
-  "email":"user@gmail.com"  
-}  
-## Resposta   
-https://mini-sistema-bancario.vercel.app//reset-senha.html?exemplo.com  
+Ativa novamente a conta.
 
+**Retorna:**
 
-## Apagar a conta  
-DELETE /conta/me  
-Responsável por apagar a conta  
-É necessário ter a conta desativada e saldo zerado para apagar a conta  
-## Body  
-{   
-    "email":"user@gmail.com",  
-    "senha":"adailton123A@"  
+```json
+{
+  "mensagem": "Conta Ativada com sucesso!"
 }
-## Resposta  
-{   
-    "mensagem": "Cliente apagado com sucesso!"  
+```
+
+### `DELETE /conta/me`
+
+Exclui o cliente e sua conta.
+
+**Retorna:**
+
+```json
+{
+  "mensagem": "Cliente apagado com sucesso!"
 }
+```
 
+---
 
+## Histórico
+
+### `GET /historico`
+
+Consulta o histórico de transações do cliente autenticado.
+
+**Retorna:** lista de transações, podendo utilizar filtros.
+
+```json
+[
+  {
+    "idTransacao": 2,
+    "valor": 100.00,
+    "transacaoTipo": "SAQUE",
+    "dataHoraTransacao": "2026-04-30T00:08:25.781652"
+  },
+  {
+    "idTransacao": 1,
+    "valor": 200.00,
+    "transacaoTipo": "DEPOSITO",
+    "dataHoraTransacao": "2026-04-30T00:06:40.373371"
+  }
+]
+```
+
+---
+
+## Transferência
+
+### `POST /transferir`
+
+Realiza uma transferência para outra conta.
+
+**Retorna:**
+
+```text
+Transferência realizada com sucesso!
+```
+
+---
+
+## Pagamentos
+
+### `POST /pagamento/gerar`
+
+Gera um pagamento para integração com o sistema de e-commerce.
+
+**Autenticação:** API Key através do header `X-Service-Key`.
+
+**Retorna:** dados do pagamento gerado, incluindo código, valor, pedido e status.
+
+### `POST /pagamento/realizar`
+
+Realiza o pagamento utilizando um pagamento previamente gerado.
+
+**Autenticação:** JWT.
+
+**Retorna:** `200 OK` após a realização do pagamento.
+
+---
+
+## Integração com o E-commerce
+
+O backend também possui integração com o sistema de e-commerce para atualização do status dos pagamentos.
+
+Após um pagamento ser concluído ou cancelado, o sistema pode realizar um **callback para o e-commerce**, atualizando o status do pedido.
